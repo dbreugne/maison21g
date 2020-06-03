@@ -1,4 +1,5 @@
-from odoo import models,fields,api
+from odoo import models, fields, api
+
 
 class PartnerXlsx(models.AbstractModel):
     _name = 'report.excel_pos_report.pos_order_xlsx'
@@ -8,7 +9,7 @@ class PartnerXlsx(models.AbstractModel):
         start_date = data['date_start']
         end_date = data['date_end']
 
-        pos_orders = self.env['pos.order'].search([('date_order','>=',start_date),('date_order','<=',end_date)])
+        pos_orders = self.env['pos.order'].search([('date_order', '>=', start_date), ('date_order', '<=', end_date)])
 
         # One sheet by partner
         sheet = workbook.add_worksheet()
@@ -49,37 +50,35 @@ class PartnerXlsx(models.AbstractModel):
         # sheet.write('P9', 'Payment Type', table_head)
         sheet.write('P9', 'Origin of Customer', table_head)
         sheet.write('Q9', 'Payment Type', table_head)
-        num =10
-        sl =1
+        num = 10
+        sl = 1
         for order in pos_orders:
-            sheet.write('B'+str(num), sl, table_head)
+            sheet.write('B' + str(num), sl, table_head)
             sheet.write('C' + str(num), order.name, cell_format)
             sheet.write('D' + str(num), order.date_order if order.date_order else ' ', cell_format)
-            sheet.write('E'+str(num), order.partner_id.email if order.partner_id.email else ' ', cell_format)
+            sheet.write('E' + str(num), order.partner_id.email if order.partner_id.email else ' ', cell_format)
             sheet.write('F' + str(num), order.partner_id.name if order.partner_id else ' ', cell_format)
-
+            pro_payment_cur = ''
+            pro_payment_cur_type = ''
             for pro_payment in order.payment_ids:
-                pro_payment_cur=pro_payment.currency_id.name
-                pro_payment_cur_type=pro_payment.payment_method_id.name
+                pro_payment_cur = pro_payment.currency_id.name
+                pro_payment_cur_type = pro_payment.payment_method_id.name
             for pro in order.lines:
-                sheet.write('G' + str(num),pro.product_id.product_tmpl_id.name, cell_format)
+                sheet.write('G' + str(num), pro.product_id.product_tmpl_id.name, cell_format)
                 sheet.write('H' + str(num), pro.qty, cell_format)
-                sheet.write('I' + str(num),pro.product_id.categ_id.name, cell_format)
+                sheet.write('I' + str(num), pro.product_id.categ_id.name, cell_format)
                 sheet.write('J' + str(num), pro.price_unit, cell_format)
                 sheet.write('K' + str(num), pro.tax_ids_after_fiscal_position.name, cell_format)
                 sheet.write('L' + str(num), pro.price_subtotal, cell_format)
                 sheet.write('M' + str(num), pro.discount, cell_format)
                 sheet.write('N' + str(num), pro.price_subtotal, cell_format)
 
-
                 # sheet.write('P' + str(num), pro_payment_cur, cell_format)
-                num = num+1
+                num = num + 1
             # sheet.write('Q' + str(num), order.note if order.note else ' ', cell_format)
             sheet.write('O' + str(num), pro_payment_cur, cell_format)
             sheet.write('P' + str(num), order.note if order.note else ' ', cell_format)
             sheet.write('Q' + str(num), pro_payment_cur_type, cell_format)
-            num=num+2
-            sl= sl+1
+            num = num + 2
+            sl = sl + 1
         workbook.close()
-
-
