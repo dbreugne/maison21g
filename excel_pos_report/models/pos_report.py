@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class PartnerXlsx(models.AbstractModel):
@@ -32,6 +33,7 @@ class PartnerXlsx(models.AbstractModel):
         sheet.merge_range('G6:H6', data['date_end'], txt)
 
         sl = 1
+        xls_date_format = workbook.add_format({'num_format': 'dd-mm-yy hh:mm'})
 
         sheet.write('B9', 'Number', table_head)
         sheet.write('C9', 'Order ID', table_head)
@@ -55,7 +57,7 @@ class PartnerXlsx(models.AbstractModel):
         for order in pos_orders:
             sheet.write('B' + str(num), sl, table_head)
             sheet.write('C' + str(num), order.name, cell_format)
-            sheet.write('D' + str(num), order.date_order if order.date_order else ' ', cell_format)
+            sheet.write('D' + str(num), order.date_order.strftime(DEFAULT_SERVER_DATETIME_FORMAT) if order.date_order else ' ', txt)
             sheet.write('E' + str(num), order.partner_id.email if order.partner_id.email else ' ', cell_format)
             sheet.write('F' + str(num), order.partner_id.name if order.partner_id else ' ', cell_format)
             pro_payment_cur = ''
