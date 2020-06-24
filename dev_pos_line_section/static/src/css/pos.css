@@ -1,0 +1,15 @@
+/*The OrderList List Screen */
+#pop_wildcard{
+	height:205px;
+}
+
+.custom_section{
+	background: rgba(58, 146, 240, 0.53);
+	-webkit-transition: background 250ms ease-in-out;
+	-moz-transition: background 250ms ease-in-out;
+	transition: background 250ms ease-in-out;
+	cursor: default;
+}
+.pos-receipt .section-name {
+    font-size: 125%;
+}
