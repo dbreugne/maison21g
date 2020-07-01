@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <report
+            id="sale_order_xlsx"
+            model="sale.order"
+            string="Print to XLSX"
+            report_type="xlsx"
+            name="zt_sales_report.sale_order_xlsx"
+            file="sale_order_date_wize_report"
+            attachment_use="False"
+    />
+
+    <report id="crm_order_xlsx"
+            model="crm.lead"
+            string="CRM Details"
+            report_type="xlsx"
+            name="zt_sales_report.crm_order_xlsx"
+            file="crm_order_date_wize_report"
+            attachment_use="False"
+    />
+
+
+</odoo>
