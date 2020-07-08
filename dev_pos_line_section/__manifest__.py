@@ -11,8 +11,8 @@
         Print receipt based on section.
     """,
     'summary': 'Add Section in POS Cart.',
-    'author': '', 
-    'website': '',
+    'author': 'De ',
+    'website': 'http://www.de.com',
     'depends': ['point_of_sale'],
     'data': [
         'data/data.xml',
@@ -24,5 +24,5 @@
     'installable': True,
     'application': True,
     'auto_install': False,
+    'uninstall_hook': 'uninstall_hook',
 }
-

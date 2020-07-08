@@ -1,5 +1,4 @@
 
-
 from collections import defaultdict
 from datetime import timedelta
 
@@ -25,7 +24,7 @@ class dev_pos_order_line(models.Model):
     def write(self, values):
         if 'display_type' in values and self.filtered(lambda line: line.display_type != values.get('display_type')):
             raise UserError(_("You cannot change the type of a pos line. Instead you should delete the current line and create a new line of the proper type."))
-        return super(SaleOrderTemplateLine, self).write(values)
+        return super(dev_pos_order_line, self).write(values)
 
 class PosConfig(models.Model):
     _inherit = 'pos.config'
