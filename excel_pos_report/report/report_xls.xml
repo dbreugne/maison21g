@@ -8,6 +8,7 @@
     name="excel_pos_report.pos_order_xlsx"
     file="pos_order_date_wize_report"
     attachment_use="False"
+    menu="False"
 />
 
 
