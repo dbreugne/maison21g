@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <act_window id="validate_multi_do"
+                name="Valdate Orders"
+                binding_model="stock.picking"
+                res_model="multi.do.wiz"
+                binding_views="list"
+                view_mode="form"
+                target="new"
+
+    />
+
+</odoo>
