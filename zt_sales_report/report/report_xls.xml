@@ -8,6 +8,7 @@
             name="zt_sales_report.sale_order_xlsx"
             file="sale_order_date_wize_report"
             attachment_use="False"
+            menu="False"
     />
 
     <report id="crm_order_xlsx"
@@ -17,6 +18,7 @@
             name="zt_sales_report.crm_order_xlsx"
             file="crm_order_date_wize_report"
             attachment_use="False"
+            menu="False"
     />
 
 
