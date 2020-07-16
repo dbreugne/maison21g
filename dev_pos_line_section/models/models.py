@@ -19,8 +19,8 @@ class dev_pos_order_line(models.Model):
         if values.get('display_type', self.default_get(['display_type'])['display_type']):
             values.update(product_id=False, price_unit=0, qty=0)
         return super(dev_pos_order_line, self).create(values)
-
-    #     @api.multi
+    
+#     @api.multi
     def write(self, values):
         if 'display_type' in values and self.filtered(lambda line: line.display_type != values.get('display_type')):
             raise UserError(_("You cannot change the type of a pos line. Instead you should delete the current line and create a new line of the proper type."))
@@ -31,15 +31,15 @@ class PosConfig(models.Model):
 
     iface_widcard = fields.Boolean(string='Section')
     wildcard_product_id = fields.Many2one('product.product', string='Section Product', domain="[('available_in_pos', '=', True), ('is_widcard', '=', True)]")
-
+    
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
-
+    
     is_widcard = fields.Boolean(string="Used as Section")
 
 class Product(models.Model):
     _inherit = 'product.product'
-
+    
     is_widcard = fields.Boolean(string="Used as Section")
 
     @api.model
