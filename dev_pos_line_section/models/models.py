@@ -151,21 +151,21 @@ class PosSession(models.Model):
 				# if order.partner_id:
 				# 	order.partner_id._increase_rank('customer_rank')
 
-            MoveLine = self.env['account.move.line'].with_context(check_move_validity=False)
+        MoveLine = self.env['account.move.line'].with_context(check_move_validity=False)
 
-            data.update({
-                'taxes':                               taxes,
-                'sales':                               sales,
-                'stock_expense':                       stock_expense,
-                'split_receivables':                   split_receivables,
-                'combine_receivables':                 combine_receivables,
-                'split_receivables_cash':              split_receivables_cash,
-                'combine_receivables_cash':            combine_receivables_cash,
-                'invoice_receivables':                 invoice_receivables,
-                'stock_output':                        stock_output,
-                'order_account_move_receivable_lines': order_account_move_receivable_lines,
-                'MoveLine':                            MoveLine
-            })
-            return data
+        data.update({
+            'taxes':                               taxes,
+            'sales':                               sales,
+            'stock_expense':                       stock_expense,
+            'split_receivables':                   split_receivables,
+            'combine_receivables':                 combine_receivables,
+            'split_receivables_cash':              split_receivables_cash,
+            'combine_receivables_cash':            combine_receivables_cash,
+            'invoice_receivables':                 invoice_receivables,
+            'stock_output':                        stock_output,
+            'order_account_move_receivable_lines': order_account_move_receivable_lines,
+            'MoveLine':                            MoveLine
+        })
+        return data
 		
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
