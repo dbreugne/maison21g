@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <report
+            id="purchase_order_xlsx"
+            model="purchase.order"
+            string="Print to XLSX"
+            report_type="xlsx"
+            name="zt_po_report.purchase_order_xlsx"
+            file="zt_po_report.purchase_order_xlsx"
+            attachment_use="False"
+            menu="False"
+    />
+
+
+</odoo>
