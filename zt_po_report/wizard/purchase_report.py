@@ -51,12 +51,13 @@ class PurchaseOrderXls(models.AbstractModel):
         sl = 1
         for order in purchase_orders:
             sheet.write('B' + str(num), sl, table_head)
-            sheet.write('C' + str(num), order.name, cell_format)
-            sheet.write('D' + str(num), order.date_order.strftime(DEFAULT_SERVER_DATETIME_FORMAT) if order.date_order else ' ', cell_format)
-            sheet.write('E' + str(num), order.partner_id.name if order.partner_id.name else ' ', cell_format)
-            sheet.write('F' + str(num), order.partner_ref if order.partner_id else ' ', cell_format)
             for pro in order.order_line:
-                # package = pro.product_id.search([()], limit=1).name
+                sheet.write('C' + str(num), order.name, cell_format)
+                sheet.write('D' + str(num),
+                            order.date_order.strftime(DEFAULT_SERVER_DATETIME_FORMAT) if order.date_order else ' ',
+                            cell_format)
+                sheet.write('E' + str(num), order.partner_id.name if order.partner_id.name else ' ', cell_format)
+                sheet.write('F' + str(num), order.partner_ref if order.partner_id else ' ', cell_format)
                 package_ids=pro.product_id.packaging_ids
                 balance_qty=pro.product_qty-pro.qty_received
                 sheet.write('G' + str(num), pro.product_id.product_tmpl_id.name, cell_format)
@@ -66,16 +67,11 @@ class PurchaseOrderXls(models.AbstractModel):
                 sheet.write('K' + str(num), balance_qty, cell_format)
                 sheet.write('L' + str(num), pro.product_uom.name, cell_format)
                 sheet.write('M' + str(num), package_ids[:1].name if package_ids[:1].name else '', cell_format)
-
+                sheet.write('N' + str(num), order.x_studio_supplier_etd, cell_format)
+                sheet.write('O' + str(num), order.x_studio_tracking_info, cell_format)
+                sheet.write('P' + str(num), order.x_studio_eta, cell_format)
+                sheet.write('Q' + str(num), order.invoice_status, cell_format)
                 num = num + 1
-            sheet.write('N' + str(num), order.x_studio_supplier_etd, cell_format)
-            sheet.write('O' + str(num), order.x_studio_tracking_info, cell_format)
-            sheet.write('P' + str(num), order.x_studio_eta, cell_format)
-            sheet.write('Q' + str(num), order.invoice_status, cell_format)
-            # sheet.write('Q' + str(num),
-            #             dict(order._fields['state'].selection).get(order.state) if order.state else ' ',
-            #             cell_format)
-            #
             num = num + 2
             sl = sl + 1
         workbook.close()
