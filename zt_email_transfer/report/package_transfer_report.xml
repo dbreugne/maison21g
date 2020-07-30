@@ -14,6 +14,31 @@
             <t t-call="web.external_layout">
                 <t t-foreach="docs" t-as="doc">
                     <h2 class="text-center" style="text-transform:uppercase">Transfer REPORT</h2>
+                    <div>
+              <div class="row mt32 mb32" id="informations">
+                  <div class="col-auto mw-100 mb-2">
+                    <strong>Transfer ID: </strong>
+                    <span t-field="doc.name" style="margin-right:20px" />
+                      </div><br></br>
+                   <div class="col-auto mw-100 mb-2">
+                    <strong>Source Location: </strong>
+                    <span t-field="doc.location_id.name" />
+                   </div>
+
+                  <div class="col-auto mw-100 mb-2">
+                    <strong>Destination Location: </strong>
+                    <span t-field="doc.location_dest_id.name" />
+                      </div>
+                  <div class="col-auto mw-100 mb-2">
+                    <strong>Scheduled Date: </strong>
+                    <span t-field="doc.date_done" />
+                  </div>
+                  <div class="col-auto mw-100 mb-2">
+                    <strong>Type of Delivery: </strong>
+                    <span t-field="doc.x_studio_type_of_delivery"/>
+                  </div>
+                </div>
+            </div><br/>
                     <table class="table table-condensed table-striped table-bordered" name="invoice_line_table" style="width:100%">
                         <thead>
                             <tr style="font-weight:bold;background-color: #eeeeee;">
