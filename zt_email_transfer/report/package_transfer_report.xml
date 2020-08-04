@@ -33,10 +33,10 @@
                                 <strong>Scheduled Date: </strong>
                                 <span t-field="doc.date_done" />
                             </div>
-<!--                            <div class="col-auto mw-100 mb-2">-->
-<!--                                <strong>Type of Delivery: </strong>-->
-<!--                                <span t-field="doc.x_studio_type_of_delivery"/>-->
-<!--                            </div>-->
+                            <div class="col-auto mw-100 mb-2">
+                                <strong>Type of Delivery: </strong>
+                                <span t-field="doc.x_studio_type_of_delivery"/>
+                            </div>
                         </div>
                     </div><br/>
                     <table class="table table-condensed table-striped table-bordered" name="invoice_line_table" style="width:100%">
