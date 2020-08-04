@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="stock_picking_form_view" model="ir.ui.view">
+        <field name="name">stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_scrap']" position ="after">
+                <button name="action_send_mail_transfer" type="object" string="Sent Email"></button>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

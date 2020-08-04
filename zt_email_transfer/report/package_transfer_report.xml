@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="transfer_report_pdf">
+            <t t-call="web.html_container">
+                <t t-foreach="doc_ids" t-as="doc">
+                    <t t-call="zt_email_transfer.transfer_wh_report" t-lang="lang"/>
+                </t>
+            </t>
+        </template>
+
+        <template id="transfer_wh_report">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <h2 class="text-center" style="text-transform:uppercase">Transfer REPORT</h2>
+                    <div>
+                        <div class="row mt32 mb32" id="informations">
+                            <div class="col-auto mw-100 mb-2">
+                                <strong>Transfer ID: </strong>
+                                <span t-field="doc.name" style="margin-right:20px" />
+                            </div><br></br>
+                            <div class="col-auto mw-100 mb-2">
+                                <strong>Source Location: </strong>
+                                <span t-field="doc.location_id.name" />
+                            </div>
+
+                            <div class="col-auto mw-100 mb-2">
+                                <strong>Destination Location: </strong>
+                                <span t-field="doc.location_dest_id.name" />
+                            </div>
+                            <div class="col-auto mw-100 mb-2">
+                                <strong>Scheduled Date: </strong>
+                                <span t-field="doc.date_done" />
+                            </div>
+                            <div class="col-auto mw-100 mb-2">
+                                <strong>Type of Delivery: </strong>
+                                <span t-field="doc.x_studio_type_of_delivery"/>
+                            </div>
+                        </div>
+                    </div><br/>
+                    <table class="table table-condensed table-striped table-bordered" name="invoice_line_table" style="width:100%">
+                        <thead>
+                            <tr style="font-weight:bold;background-color: #eeeeee;">
+                                <td>Product</td>
+                                 <td>Internal Reference</td>
+                                <td>Quantity Per Package</td>
+                                <td>Package Type</td>
+                                <td>Package Count</td>
+                                 <td>Package Quantity</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.move_ids_without_package" t-as="line">
+                                <tr>
+                                    <td>
+                                        <t t-if="line.product_id.name">
+                                            <span t-field="line.product_id.name"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="line.product_id.default_code">
+                                            <span t-field="line.product_id.default_code"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="line.product_uom_qty">
+                                            <span t-field="line.product_uom_qty"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-if="line.product_id">
+                                            <span t-field="line.product_id.packaging_ids[:1].name"/>
+                                        </t>
+
+                                    </td>
+                                    <td>
+                                        <t t-if="line.product_id">
+                                            <span t-field="line.product_id.packaging_ids[:1].qty"/>
+                                        </t>
+                                    </td>
+                                     <td>
+                                        <t t-if="line.product_id.packaging_ids[:1].qty">
+                                            <span t-esc="(line.product_uom_qty)/line.product_id.packaging_ids[:1].qty"/>
+                                        </t>
+                                    </td>
+
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                </t>
+            </t>
+
+        </template>
+
+        <report
+                id="action_package_inventory"
+                string="Package Transfer"
+                model="stock.picking"
+                report_type="qweb-pdf"
+                file="zt_email_transfer.transfer_report_pdf"
+                name="zt_email_transfer.transfer_report_pdf"
+        />
+    </data>
+</odoo>
