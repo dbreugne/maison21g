@@ -12,7 +12,11 @@ class PurchaseOrderWizard(models.TransientModel):
         data = {'date_start': self.date_start, 'date_end': self.date_end,}
         return self.env.ref('zt_po_report.purchase_order_xlsx').report_action(self, data=data)
 
+class PosOrder(models.Model):
 
+    _inherit = "pos.order"
+
+    email_id = fields.Char(related='partner_id.email',String='Email')
 
 
 
