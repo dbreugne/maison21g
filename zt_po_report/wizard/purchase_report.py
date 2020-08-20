@@ -14,6 +14,8 @@ class PurchaseOrderXls(models.AbstractModel):
             domain.append(('date_order', '>=', start_date))
         if end_date:
             domain.append(('date_order', '<=', end_date))
+        domain.append(('state','in',('purchase','done')))
+
         purchase_orders = self.env['purchase.order'].sudo().search(domain)
         sheet = workbook.add_worksheet()
         format1 = workbook.add_format({'font_size': 16, 'align': 'vcenter', 'bg_color': '#D3D3D3', 'bold': True})
@@ -70,7 +72,7 @@ class PurchaseOrderXls(models.AbstractModel):
                 sheet.write('N' + str(num), order.x_studio_supplier_etd, cell_format)
                 sheet.write('O' + str(num), order.x_studio_tracking_info, cell_format)
                 sheet.write('P' + str(num), order.x_studio_eta, cell_format)
-                sheet.write('Q' + str(num), order.invoice_status, cell_format)
+                sheet.write('Q' + str(num), 'Fully Invoiced' if order.invoice_status=='invoiced' else 'Not Invoiced', cell_format)
                 num = num + 1
             num = num + 2
             sl = sl + 1
