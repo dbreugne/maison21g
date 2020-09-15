@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mrp_multi,mrp.multi.order,zt_mrp_multi_production.model_multi_mrp,,1,1,1,1
+access_multima_lines,mrp.multi.order.lines,zt_mrp_multi_production.model_mrpmulti_lines,,1,1,1,1
