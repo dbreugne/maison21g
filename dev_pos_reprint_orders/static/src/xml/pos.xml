@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="dev_pos_payment.template" inherit_id="point_of_sale.template">
+	
+	<t t-name="ShowOrdersButtonWidget">
+        <div class="control-button">
+            <i class="fa fa-list" aria-hidden="true"></i>
+            Show Orders
+        </div>
+    </t>
+
+	<t t-name="OrderListScreenWidget">
+        <div class="orderlist-screen screen">
+            <div class="screen-content orderlist-screen">
+                <section class="top-content top-content_finalset1">
+                   
+					<div class="order_set_width">
+	                    <span class='button back'>
+	                        <i class='fa fa-angle-double-left'></i>
+                            Back
+	                    </span>
+					</div>
+                    <div class="order_set_width_right">
+                        <span class='searchbox search_order1'>
+	                    	<input placeholder='Search orders'/>
+                            <span class='search-clear left'><i class="fa fa-search"></i></span>
+	                   	</span>
+                 	</div>
+                </section>
+                <section class="full-content">
+                    <div class='window'>
+                        <section class='subwindow'>
+                            <div class='subwindow-container'>
+                                <div class='subwindow-container-fix touch-scrollable scrollable-y order-list-scroll'>
+                                    <div>
+                                        <table class='order-list'>
+                                            <thead class="bgcolorset">  
+                                                <tr>
+                                                	<th>Order Ref</th>
+                                                    <th>Receipt Ref</th>
+                                                    <th>Customer</th>
+                                                    <th>Date</th>
+                                                    <th>Total</th>
+                                                    <th></th>
+                                            	</tr>
+                                            </thead>
+                                            <tbody class='order-list-contents'>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </t>
+
+	<t t-extend="OrderReceipt">
+		<t t-jquery="[t-foreach='paymentlines']:first" t-operation="replace">
+			<t t-if="receipt.reprint_payment">
+				<t t-foreach='receipt.reprint_payment' t-as='line'>
+		            <div>
+						<t t-esc='line.journal' />
+		                <span t-esc='widget.format_currency_no_symbol(line.amount)' class="pos-receipt-right-align"/>
+		            </div>
+		        </t>
+		    </t>
+			<t t-else="">
+				<t t-foreach='paymentlines' t-as='line'>
+		            <div>
+						<t t-esc='line.name' />
+		                <span t-esc='widget.format_currency_no_symbol(line.get_amount())' class="pos-receipt-right-align"/>
+		            </div>
+		        </t>
+		    </t>
+		</t>
+		<t t-jquery="div.receipt-change" t-operation="replace">
+			CHANGE
+			<t t-if="receipt.reprint_change">
+				<span t-esc='widget.format_currency(receipt.reprint_change)' class="pos-receipt-right-align"/>
+			</t>
+			<t t-else="">
+	            <span t-esc='widget.format_currency(receipt.change)' class="pos-receipt-right-align"/>
+	        </t>
+		</t>
+		<t t-jquery="[t-esc='receipt.name']" t-operation="replace">
+			<t t-if="receipt.reprint_order_name">
+				<t t-esc='receipt.reprint_order_name'/>
+			</t>
+			<t t-else="">
+				<t t-esc='receipt.name'/>
+			</t>
+		</t>
+	</t>
+
+	<t t-name="OrderlistLine">
+        <tr class='client-line' t-att-data-id='order.id'>
+            <td><t t-esc='order.name' /></td>
+            <td><t t-esc='order.pos_reference' /></td>
+            <td><t t-esc='order.partner_id[1]' /></td>
+            <td><t t-esc='order.date_order or ""' /></td>
+            <td><t t-esc='order.amount_total or ""' /></td>
+            <td>
+                <span id="print_order" t-att-data-id='order.id' title="Print Receipt" style="cursor:pointer">
+                	<i class="fa fa-print"/>
+                    <!--<img src="/aspl_manage_so_pos_orders/static/src/img/print.png" style="height: 30px;" />-->
+                </span>
+            </td>
+        </tr>
+    </t>
+
+</templates>
