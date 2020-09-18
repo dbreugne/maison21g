@@ -13,7 +13,14 @@ odoo.define('dev_pos_reprint_order.pos', function (require) {
     models.PosModel.prototype.models.push({
         model:  'pos.order',
         fields: ['name','pos_reference','partner_id','session_id','amount_total','date_order','lines','payment_ids'],
-        domain: function(self) {return [['session_id', '=', self.pos_session.id]]},
+        domain: function(self) {
+        	var from_date = moment().format('YYYY-MM-DD')
+			if(self.config.last_days){
+				from_date = moment().subtract(self.config.last_days, 'days').format('YYYY-MM-DD');
+			}
+			return [['state','not in',['cancel']], ['create_date', '>=', from_date]];
+//        	return [['session_id', '=', self.pos_session.id]]
+    	},
         loaded: function(self,orders){
             self.pos_orders = orders;
             self.db.add_pos_orders(orders);

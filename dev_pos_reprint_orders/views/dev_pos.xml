@@ -18,11 +18,17 @@
 	                         <field name="load_pos_order"/>
 	                     </div>
 	                     <div class="o_setting_right_pane">
-	                         <label for="load_pos_order" string="POS Orders"/>
+	                       	<label for="load_pos_order" string="POS Orders"/>
 	                         <div class="text-muted">
 	                             Load Orders to POS.
 	                         </div>
-	                     </div>
+	                        <div class="content-group mt16" attrs="{'invisible' : [('load_pos_order', '=', False)]}">
+	                            <div class="row mt16">
+	                                <label string="Last Days" for="last_days" class="col-md-3 o_light_label"/>
+	                                <field name="last_days"/>
+	                            </div>
+	                        </div>
+	                    </div>
 	                 </div>
              	</div>
 			</xpath>
