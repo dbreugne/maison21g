@@ -14,11 +14,12 @@
         """ 
 POS Orders Reprint
 
+
     """,
     'summary': 'POS Orders Reprint',
-    'author': 'ZT_DEV', 
-    'website': 'ztdev',
-    'depends': ['point_of_sale'],
+    'author': 'ZTR_DEV', 
+    'website': 'ztr',
+    'depends': ['base','point_of_sale'],
     'data': [
         'views/dev_pos.xml',
         'views/assets.xml',
