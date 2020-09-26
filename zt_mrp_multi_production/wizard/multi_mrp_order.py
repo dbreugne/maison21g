@@ -30,7 +30,7 @@ class MultiMRP(models.Model):
                 'product_id':record.product_id.id,
                 # 'initial_qty':record.qty_produce,
                 'location_dest_id':record.location_id.id,
-                'date_stat_wo':record.schedule_date,
+                'date_planned_start':record.schedule_date,
                 'bom_id':record.bom_id.id,
                 'product_uom_id':record.product_uom_id.id,
                 'origin':'Batch Processing'+" "+self.name,
