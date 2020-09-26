@@ -28,13 +28,15 @@ class MultiMRP(models.Model):
         for record in self.multimrp_order_line_ids:
             vals={
                 'product_id':record.product_id.id,
-                # 'initial_qty':record.qty_produce,
+                'initial_qty':record.qty_produce,
                 'location_dest_id':record.location_id.id,
-                'date_planned_start':record.schedule_date,
+                'date_stat_wo':record.schedule_date,
                 'bom_id':record.bom_id.id,
                 'product_uom_id':record.product_uom_id.id,
                 'origin':'Batch Processing'+" "+self.name,
-                'product_qty':record.qty_produce
+                'product_qty':record.qty_produce,
+                'location_src_id':record.location_src_id.id,
+                'picking_type_id':record.picking_type_id.id
             }
             production_obj=self.env['mrp.production'].create(vals)
             production_obj._onchange_move_raw()
@@ -43,34 +45,81 @@ class MultiMRP(models.Model):
     @api.model
     def default_get(self, fields):
         res = super(MultiMRP, self).default_get(fields)
-        company_id = self.env.context.get('default_company_id', self.env.company.id)
+        company_id = self.env.context.get('default_company_id', self.env.user.company_id.id)
 
         mrp_lines = []
         product_rec = self.env['mrp.bom'].search([])
+        # location_obj=self.en[]
         for all in product_rec:
-            qty_hand = all.product_tmpl_id.with_context({'location': all.product_tmpl_id.location_id}).qty_available
-            if qty_hand <= 0:
-                for pro in all:
-                    product_id = self.env['product.product'].search([('product_tmpl_id', '=', all.product_tmpl_id.id)])
+            # qty_hand = all.product_tmpl_id.with_context({'location': all.product_tmpl_id.location_id}).qty_available
+            # if qty_hand < 0:
+            location_obj = self.env['stock.location'].search([])
+            product_id = self.env['product.product'].search([('product_tmpl_id', '=', all.product_tmpl_id.id)])
+            for location in location_obj:
+                qty_hand = 0
+                stock_qty_obj = self.env['stock.quant']
+                stock_qty_lines = stock_qty_obj.search([('product_id', '=', product_id.id),
+                                                        ("location_id", "=", location.id)])
+                for row in stock_qty_lines:
+                    qty_hand += row.quantity
+                # qty_hand = all.product_tmpl_id.with_context({'location': location.id}).qty_available
+                # print("name",location_obj)
+                if qty_hand < 0:
                     line = (0, 0, {
                         'product_id': product_id.id,
                         'product_uom_id': self.env['uom.uom'].search([], limit=1, order='id').id,
-                        'schedule_date':datetime.today(),
-                        'qty_hand': all.product_tmpl_id.with_context(
-                            {'location': all.product_tmpl_id.location_id}).qty_available,
+                        'schedule_date': datetime.today(),
+                        'qty_hand': qty_hand,
+                        'location_src_id':location.id,
+                        # 'location_src_id': location.id,
                         'bom_id': self.env['mrp.bom']._bom_find(product=product_id,
                                                                 picking_type=self.picking_type_id,
                                                                 company_id=all.company_id.id, bom_type='normal').id,
-                        'picking_type_id':self.env['stock.picking.type'].search([
+                        'picking_type_id': self.env['stock.picking.type'].search([
                             ('code', '=', 'mrp_operation'),
                             ('warehouse_id.company_id', '=', company_id),
                         ], limit=1).id
                     })
                     mrp_lines.append(line)
-                    res.update({
-                        'multimrp_order_line_ids': mrp_lines,
-                    })
+            res.update({
+                'multimrp_order_line_ids': mrp_lines,
+            })
         return res
+
+        # @api.model
+    # def default_get(self, fields):
+    #     res = super(MultiMRP, self).default_get(fields)
+    #     company_id = self.env.context.get('default_company_id', self.env.company.id)
+    #
+    #     mrp_lines = []
+    #     product_rec = self.env['mrp.bom'].search([])
+    #     # location_obj=self.en[]
+    #     for all in product_rec:
+    #         qty_hand = all.product_tmpl_id.with_context({'location': all.product_tmpl_id.location_id}).qty_available
+    #         if qty_hand < 0:
+    #             for pro in all:
+    #                 product_id = self.env['product.product'].search([('product_tmpl_id', '=', all.product_tmpl_id.id)])
+    #                 # location_obj=self.env['stock.location'].search([])
+    #                 # print("name",location_obj)
+    #                 line = (0, 0, {
+    #                     'product_id': product_id.id,
+    #                     'product_uom_id': self.env['uom.uom'].search([], limit=1, order='id').id,
+    #                     'schedule_date':datetime.today(),
+    #                     'qty_hand': all.product_tmpl_id.with_context(
+    #                         {'location': all.product_tmpl_id.location_id}).qty_available,
+    #                     'bom_id': self.env['mrp.bom']._bom_find(product=product_id,
+    #                                                             picking_type=self.picking_type_id,
+    #                                                             company_id=all.company_id.id, bom_type='normal').id,
+    #                     'picking_type_id':self.env['stock.picking.type'].search([
+    #                         ('code', '=', 'mrp_operation'),
+    #                         ('warehouse_id.company_id', '=', company_id),
+    #                     ], limit=1).id
+    #                 })
+    #                 mrp_lines.append(line)
+    #                 res.update({
+    #                     'multimrp_order_line_ids': mrp_lines,
+    #                 })
+    #     return res
 
 
 class MultiMRPLine(models.Model):
@@ -107,7 +156,7 @@ class MultiMRPLine(models.Model):
         domain="[('bom_ids', '!=', False), ('bom_ids.active', '=', True), ('bom_ids.type', '=', 'normal'), ('type', 'in', ['product', 'consu'])]",
         required=True)
 
-    location_id = fields.Many2one('stock.location','Location',domain="[('usage','=','internal')]",required=True)
+    location_id = fields.Many2one('stock.location','Finished Location',domain="[('usage','=','internal')]",required=True)
     qty_produce =fields.Float('Qty Produced')
     varity_id=fields.Many2one('product.product','variant')
     schedule_date =fields.Date('Schedule Date')
@@ -122,6 +171,11 @@ class MultiMRPLine(models.Model):
     picking_type_id = fields.Many2one(
         'stock.picking.type', 'Picking Type',
         default=_get_default_picking_type, required=True)
+    location_src_id = fields.Many2one(
+        'stock.location', 'Components Location',
+        required=True,
+        domain="[('usage','=','internal')]",
+        help="Location where the system will look for components.")
 
     @api.onchange('product_id', 'picking_type_id', 'company_id')
     def onchange_product_id(self):
