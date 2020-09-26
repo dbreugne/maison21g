@@ -28,7 +28,7 @@ class MultiMRP(models.Model):
         for record in self.multimrp_order_line_ids:
             vals={
                 'product_id':record.product_id.id,
-                'initial_qty':record.qty_produce,
+                # 'initial_qty':record.qty_produce,
                 'location_dest_id':record.location_id.id,
                 'date_stat_wo':record.schedule_date,
                 'bom_id':record.bom_id.id,
