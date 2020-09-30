@@ -28,9 +28,9 @@ class MultiMRP(models.Model):
         for record in self.multimrp_order_line_ids:
             vals={
                 'product_id':record.product_id.id,
-                # 'initial_qty':record.qty_produce,
+                'initial_qty':record.qty_produce,
                 'location_dest_id':record.location_id.id,
-                'date_planned_start':record.schedule_date,
+                'date_stat_wo':record.schedule_date,
                 'bom_id':record.bom_id.id,
                 'product_uom_id':record.product_uom_id.id,
                 'origin':'Batch Processing'+" "+self.name,
@@ -57,11 +57,13 @@ class MultiMRP(models.Model):
             product_id = self.env['product.product'].search([('product_tmpl_id', '=', all.product_tmpl_id.id)])
             for location in location_obj:
                 qty_hand = 0
+                qty_reserved=0
                 stock_qty_obj = self.env['stock.quant']
                 stock_qty_lines = stock_qty_obj.search([('product_id', '=', product_id.id),
                                                         ("location_id", "=", location.id)])
                 for row in stock_qty_lines:
                     qty_hand += row.quantity
+                    qty_reserved += row.reserved_quantity
                 # qty_hand = all.product_tmpl_id.with_context({'location': location.id}).qty_available
                 # print("name",location_obj)
                 if qty_hand < 0:
@@ -70,6 +72,7 @@ class MultiMRP(models.Model):
                         'product_uom_id': self.env['uom.uom'].search([], limit=1, order='id').id,
                         'schedule_date': datetime.today(),
                         'qty_hand': qty_hand,
+                        'qty_reserved':qty_reserved,
                         'location_src_id':location.id,
                         # 'location_src_id': location.id,
                         'bom_id': self.env['mrp.bom']._bom_find(product=product_id,
@@ -176,6 +179,7 @@ class MultiMRPLine(models.Model):
         required=True,
         domain="[('usage','=','internal')]",
         help="Location where the system will look for components.")
+    qty_reserved= fields.Float('Reserved Quantity',)
 
     @api.onchange('product_id', 'picking_type_id', 'company_id')
     def onchange_product_id(self):
