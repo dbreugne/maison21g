@@ -16,10 +16,11 @@
                             <field name="product_id" required="True"/>
                             <field name="product_uom_id"/>
                             <field name="qty_hand" readonly="1"/>
-                            <field name="picking_type_id" invisible="1"/>
+                             <field name="qty_reserved" readonly="1"/>
+                            <field name="picking_type_id"/>
+                            <field name="location_src_id"/>
                             <field name="location_id"/>
                             <field name="qty_produce" required="True"/>
-                            <field name="varity_id" invisible="1"/>
                             <field name="schedule_date"/>
                             <field name="bom_id" required="True"/>
 
@@ -39,7 +40,7 @@
     </record>
 
     <record id="batch_mrp_multi" model="ir.actions.act_window">
-        <field name="name">Batch MRP Order For on Hand Quantity Zero</field>
+        <field name="name">Batch MRP Order For on Hand Quantity(Negative)</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">multi.mrp</field>
         <field name="view_mode">form</field>
