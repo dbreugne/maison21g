@@ -21,7 +21,6 @@
                             <field name="location_src_id"/>
                             <field name="location_id"/>
                             <field name="qty_produce" required="True"/>
-                            <field name="varity_id" invisible="1"/>
                             <field name="schedule_date"/>
                             <field name="bom_id" required="True"/>
 

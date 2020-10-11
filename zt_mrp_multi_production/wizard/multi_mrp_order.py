@@ -161,7 +161,6 @@ class MultiMRPLine(models.Model):
 
     location_id = fields.Many2one('stock.location','Finished Location',domain="[('usage','=','internal')]",required=True)
     qty_produce =fields.Float('Qty Produced')
-    varity_id=fields.Many2one('product.product','variant')
     schedule_date =fields.Date('Schedule Date')
     qty_hand = fields.Float('Quantity On Hand',)
     bom_id = fields.Many2one(
