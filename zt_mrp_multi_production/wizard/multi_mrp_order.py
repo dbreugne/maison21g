@@ -2,6 +2,14 @@ from odoo import api, models,fields,_
 from odoo.exceptions import UserError,ValidationError
 from datetime import datetime, timedelta
 
+class StockLocation(models.Model):
+
+    _inherit = 'stock.location'
+
+    mo_picking_type= fields.Many2one('stock.picking.type','Picking Type')
+
+
+
 class MultiMRP(models.Model):
 
     _name = "multi.mrp"
@@ -53,7 +61,7 @@ class MultiMRP(models.Model):
         for all in product_rec:
             # qty_hand = all.product_tmpl_id.with_context({'location': all.product_tmpl_id.location_id}).qty_available
             # if qty_hand < 0:
-            location_obj = self.env['stock.location'].search([])
+            location_obj = self.env['stock.location'].search([('usage','!=','inventory')])
             product_id = self.env['product.product'].search([('product_tmpl_id', '=', all.product_tmpl_id.id)])
             for location in location_obj:
                 qty_hand = 0
@@ -64,8 +72,6 @@ class MultiMRP(models.Model):
                 for row in stock_qty_lines:
                     qty_hand += row.quantity
                     qty_reserved += row.reserved_quantity
-                # qty_hand = all.product_tmpl_id.with_context({'location': location.id}).qty_available
-                # print("name",location_obj)
                 if qty_hand < 0:
                     line = (0, 0, {
                         'product_id': product_id.id,
@@ -78,10 +84,11 @@ class MultiMRP(models.Model):
                         'bom_id': self.env['mrp.bom']._bom_find(product=product_id,
                                                                 picking_type=self.picking_type_id,
                                                                 company_id=all.company_id.id, bom_type='normal').id,
-                        'picking_type_id': self.env['stock.picking.type'].search([
-                            ('code', '=', 'mrp_operation'),
-                            ('warehouse_id.company_id', '=', company_id),
-                        ], limit=1).id
+                        'picking_type_id': location and location.mo_picking_type and location.mo_picking_type.id or False,
+                        # 'picking_type_id': self.env['stock.picking.type'].search([
+                        #     ('code', '=', 'mrp_operation'),
+                        #     ('warehouse_id.company_id', '=', company_id),
+                        # ], limit=1).id
                     })
                     mrp_lines.append(line)
             res.update({
@@ -140,13 +147,13 @@ class MultiMRPLine(models.Model):
     def _get_default_product_uom_id(self):
         return self.env['uom.uom'].search([], limit=1, order='id').id
 
-    @api.model
-    def _get_default_picking_type(self):
-        company_id = self.env.context.get('default_company_id', self.env.company.id)
-        return self.env['stock.picking.type'].search([
-            ('code', '=', 'mrp_operation'),
-            ('warehouse_id.company_id', '=', company_id),
-        ], limit=1).id
+    # @api.model
+    # def _get_default_picking_type(self):
+    #     company_id = self.env.context.get('default_company_id', self.env.company.id)
+    #     return self.env['stock.picking.type'].search([
+    #         ('code', '=', 'mrp_operation'),
+    #         ('warehouse_id.company_id', '=', company_id),
+    #     ], limit=1).id
 
     product_uom_id = fields.Many2one(
         'uom.uom', 'Product Unit of Measure',
@@ -161,6 +168,7 @@ class MultiMRPLine(models.Model):
 
     location_id = fields.Many2one('stock.location','Finished Location',domain="[('usage','=','internal')]",required=True)
     qty_produce =fields.Float('Qty Produced')
+    varity_id=fields.Many2one('product.product','variant')
     schedule_date =fields.Date('Schedule Date')
     qty_hand = fields.Float('Quantity On Hand',)
     bom_id = fields.Many2one(
@@ -171,8 +179,7 @@ class MultiMRPLine(models.Model):
         index=True, required=True)
     product_qty = fields.Float('Qty')
     picking_type_id = fields.Many2one(
-        'stock.picking.type', 'Picking Type',
-        default=_get_default_picking_type, required=True)
+        'stock.picking.type', 'Picking Type',related='location_src_id.mo_picking_type',required=True)
     location_src_id = fields.Many2one(
         'stock.location', 'Components Location',
         required=True,
