@@ -9,7 +9,7 @@
     'company': '',
     'website': "",
     'category': 'Manufacturing',
-    'depends': ['mrp'],
+    'depends': ['mrp','stock'],
     'data': [
         'security/ir.model.access.csv',
         'wizard/multi_order_view.xml',
