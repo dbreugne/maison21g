@@ -49,7 +49,7 @@ class PartnerXlsx(models.AbstractModel):
         sl = 1
 
         sheet.write('A9', 'Order ID', table_head)
-        sheet.write('B9', 'Cashier ID', table_head)
+        sheet.write('B9', 'Cashier', table_head)
         sheet.write('C9', 'Order Date', table_head)
         sheet.write('D9', 'Customer Email ', table_head)
         sheet.write('E9', 'Customer Name', table_head)

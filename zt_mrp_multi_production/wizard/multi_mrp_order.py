@@ -36,7 +36,7 @@ class MultiMRP(models.Model):
         for record in self.multimrp_order_line_ids:
             vals={
                 'product_id':record.product_id.id,
-                'initial_qty':record.qty_produce,
+                # 'initial_qty':record.qty_produce,
                 'location_dest_id':record.location_id.id,
                 'date_stat_wo':record.schedule_date,
                 'bom_id':record.bom_id.id,
@@ -61,7 +61,14 @@ class MultiMRP(models.Model):
         for all in product_rec:
             # qty_hand = all.product_tmpl_id.with_context({'location': all.product_tmpl_id.location_id}).qty_available
             # if qty_hand < 0:
-            location_obj = self.env['stock.location'].search([('usage','!=','inventory')])
+            virtual_main = []
+            virtual_parent_locations = self.env['stock.location'].search([('location_id', '=',  False), ('usage', '=', 'view')])
+            if virtual_parent_locations:
+                virtual_main = virtual_parent_locations.ids
+            if virtual_main:
+                location_obj = self.env['stock.location'].search([('usage','not in',['inventory','view']), ('location_id', 'not in', virtual_main)])
+            else:
+                location_obj = self.env['stock.location'].search([('usage', 'not in', ['inventory', 'view'])])
             product_id = self.env['product.product'].search([('product_tmpl_id', '=', all.product_tmpl_id.id)])
             for location in location_obj:
                 qty_hand = 0
