@@ -1,0 +1,38 @@
+
+<odoo>
+
+    <record id="invoice_data_wizard_form_view" model="ir.ui.view">
+        <field name="name">Invoices</field>
+        <field name="model">customer.data.wizard</field>
+         <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Invoices">
+                <sheet>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="from_date"/>
+                        <field name="to_date"/>
+                    </group>
+                </sheet>
+            </form>
+            <footer>
+                <button string="Print Invoices" name="print_report" type="object"/>
+                <button string="Cancel" class="btn-secondary" special="cancel" />
+            </footer>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="customer_data_wizard_form_view_action">
+        <field name="name">Invoices</field>
+        <field name="res_model">customer.data.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="invoice_data_wizard_form_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem name="Invoices Report" id="customer_data_wizard_form_view_menu"
+              parent="account.account_reports_management_menu" action="customer_data_wizard_form_view_action" sequence="510"/>
+
+
+
+</odoo>
