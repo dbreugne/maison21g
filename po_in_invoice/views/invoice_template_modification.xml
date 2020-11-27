@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="invoice_cop" inherit_id="account.report_invoice_document">
+            <xpath expr="//div[@id='informations']" position="after">
+                <div id="informations_one" class="row mt32 mb32">
+                    <div class="col-auto mw-100 mb-2" t-if="o.po_number" name="purchase_order_id">
+                        <strong>PO:</strong>
+                        <p class="m-0" t-field="o.po_number"/>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+
+
+    </data>
+</odoo>

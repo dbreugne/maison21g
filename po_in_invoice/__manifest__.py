@@ -13,7 +13,8 @@
     'data': [
         # 'views/account.xml',
         # 'views/sale_order.xml',
-        'wizard/invoice_print_wizard_view.xml'
+        'wizard/invoice_print_wizard_view.xml',
+        'views/invoice_template_modification.xml'
     ],
     'demo': [],
     'test': [],
