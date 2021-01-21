@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+    <template id="report_delivery_document2" inherit_id="stock.report_delivery_document">
+        <xpath expr="//div[@name='div_sched_date']" position="after">
+            <div t-if="o.po_number" class="col-auto">
+                <strong>PO :</strong>
+                <p t-field="o.po_number"/>
+            </div>
+
+        </xpath>
+    <xpath expr="//table[@name='stock_move_line_table']/tbody" position="inside">
+        <tr>
+            <td>Total</td>
+            <td ><span t-esc="sum(o.move_lines.mapped('quantity_done'))"/></td>
+            <td/>
+        </tr>
+        </xpath>
+
+    </template>
+    </odoo>
