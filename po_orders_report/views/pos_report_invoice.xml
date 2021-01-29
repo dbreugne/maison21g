@@ -17,11 +17,20 @@
                         <address t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
 
                         <t t-if="doc.company_id.country_id.vat_label" t-esc="doc.company_id.country_id.vat_label" id="inv_tax_id_label"/>
-                        <!--                        <t t-else="">Tax ID</t>: <span t-field="o.partner_id.vat"/></div>-->
                     </t>
 
-<!--                    <h2 class="text-center" style="text-transform:uppercase">POS Order Report</h2><br/><br/>-->
+
                     <h2>  Invoice:  <span t-if="doc.name != '/'" t-field="doc.name"/></h2><br/>
+
+                    <div class="col-xs-6 text-left">
+                        <span style="color:#000000 !important;" t-field="doc.partner_id" /><br/>
+                        <span style="color:#000000 !important;" t-field="doc.partner_id.street" /><br/>
+                        <span style="color:#000000 !important;" t-field="doc.partner_id.zip"/><br/>
+                        <span style="color:#000000 !important;" t-field="doc.partner_id.city" /><br/>
+                        <span style="color:#000000 !important;" t-field="doc.partner_id.country_id" /><br/>
+                        <span style="color:#000000 !important;" t-field="doc.partner_id.phone" /><br/>
+                        <span style="color:#000000 !important;" t-field="doc.partner_id.email" /><br/>
+                    </div>
 
                     <div>
                         <div class="row mt32 mb32" id="informations">
@@ -34,19 +43,6 @@
                                 <strong>Receipt Number: </strong>
                                 <span t-field="doc.pos_reference" />
                             </div>
-
-                            <!--                            <div class="col-auto mw-100 mb-2">-->
-                            <!--                                <strong>Destination Location: </strong>-->
-                            <!--                                <span t-field="doc.location_dest_id.name" />-->
-                            <!--                            </div>-->
-                            <!--                            <div class="col-auto mw-100 mb-2">-->
-                            <!--                                <strong>Scheduled Date: </strong>-->
-                            <!--                                <span t-field="doc.date_done" />-->
-                            <!--                            </div>-->
-                            <!--                            <div class="col-auto mw-100 mb-2">-->
-                            <!--                                <strong>Type of Delivery: </strong>-->
-                            <!--                                <span t-field="doc.x_studio_type_of_delivery"/>-->
-                            <!--                            </div>-->
                         </div>
                     </div>
                     <br/>
@@ -110,36 +106,10 @@
                                     <tr class="border-black o_subtotal" style="">
                                         <td><strong>Total</strong></td>
                                         <td class="text-right">
-                                            <span t-field="doc.amount_total"/>
+                                            <span t-field="doc.amount_total" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
                                         </td>
                                     </tr>
-                                    <!--                                    <t t-foreach="o.amount_by_group" t-as="amount_by_group">-->
-                                    <!--                                        <tr style="">-->
-                                    <!--                                            <t t-if="len(o.line_ids.filtered(lambda line: line.tax_line_id)) == 1 and o.amount_untaxed == amount_by_group[2]">-->
-                                    <!--                                                <td><span t-esc="amount_by_group[0]"/></td>-->
-                                    <!--                                                <td class="text-right o_price_total">-->
-                                    <!--                                                    <span t-esc="amount_by_group[3]" />-->
-                                    <!--                                                </td>-->
-                                    <!--                                            </t>-->
-                                    <!--                                            <t t-else="">-->
-                                    <!--                                                <td>-->
-                                    <!--                                                    <span t-esc="amount_by_group[0]"/>-->
-                                    <!--                                                    <span>&amp;nbsp;<span>on</span>-->
-                                    <!--                                                        <t t-esc="amount_by_group[4]"/>-->
-                                    <!--                                                    </span>-->
-                                    <!--                                                </td>-->
-                                    <!--                                                <td class="text-right o_price_total">-->
-                                    <!--                                                    <span t-esc="amount_by_group[3]"/>-->
-                                    <!--                                                </td>-->
-                                    <!--                                            </t>-->
-                                    <!--                                        </tr>-->
-                                    <!--                                    </t>-->
-                                    <!--                                    <tr class="border-black o_total">-->
-                                    <!--                                        <td><strong>Total</strong></td>-->
-                                    <!--                                        <td class="text-right">-->
-                                    <!--                                            <span t-field="o.amount_total"/>-->
-                                    <!--                                        </td>-->
-                                    <!--                                    </tr>-->
+
                                 </table>
                             </div>
                         </div>
