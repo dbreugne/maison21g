@@ -32,7 +32,7 @@
                            </t>
                         </div>
                     </div>
-                    <table class="table table-sm" name="stock_move_table">
+                    <table class="table table-sm" name="stock_move_table" width="100%">
                         <thead>
                             <tr>
                                 <th name="th_sm_product"><strong>Product</strong></th>
@@ -69,7 +69,33 @@
                             All items couldn't be shipped, the remaining ones will be shipped as soon as they become available.
                         </t>
                     </p>
-                </div>
+                </div>            <div class="last-page" style="float:bottom;width:100%;height:50px;bottom:0;">
+                <table style="page-break-inside: avoid;">
+                    <tbody>
+                        <tr>
+                            <td width="50%"/>
+                            <td width="15%">
+                                <b>Received  By:</b>
+                            </td>
+                            <td width="35%">
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td/>
+                            <td/>
+                            <td style="border-top: 2px solid black;">
+                                 <p>Please make sure all goods received in good condition(Company chop &amp; signature)<br/>Date:</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+<!--                <p>-->
+<!--                    -->
+
+<!--                </p>-->
+            </div>
+
             </t>
          </t>
     </template>
@@ -92,5 +118,4 @@
 
 
 </odoo>
-
 
