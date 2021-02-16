@@ -137,7 +137,8 @@ class ZtReportPos(models.TransientModel):
                 _logger.info(col_vals)
                 _logger.info(order_data_list)
                 _logger.info(col_vals)
-                order_data_list[col_idx - 1][10] = ", ".join(col_vals)
+                join_list = [str(x) for x in col_vals]
+                order_data_list[col_idx - 1][10] = ", ".join(join_list)
             result_dict_list += order_data_list
         # result = []
         # for items in result_dict_list:
