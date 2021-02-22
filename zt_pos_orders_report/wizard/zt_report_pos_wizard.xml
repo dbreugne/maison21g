@@ -1,0 +1,39 @@
+<odoo>
+	<data>
+	
+	    <record id="zt_report_pos_form_view" model="ir.ui.view">
+			<field name="name">zt.report.pos.form</field>
+			<field name="model">zt.report.pos</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				
+		        <form string="Pos Report">
+	                <group>
+		        		<group>
+		                    <field name="from_date" />
+		                    <field name="to_date"/>
+		                </group>
+		        	</group>
+
+	                <footer>
+	                    <button name="print_excel_report" string="Export" type="object" class="oe_highlight"/> or 
+	                    <button string="Cancel" class="oe_link" special="cancel"/>
+	                </footer>
+		          	
+		        </form>
+	    	</field>
+	    </record>
+		
+	    <record id="zt_action_report_pos_xlsx" model="ir.actions.act_window">
+			<field name="name">Pos Report</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">zt.report.pos</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="zt_report_pos_form_view"/>
+			<field name="target">new</field>
+	    </record>
+		
+		<menuitem id="zt_menu_report_pos_xlsx" action="zt_action_report_pos_xlsx" parent="point_of_sale.menu_point_rep"/>
+	
+	</data>
+</odoo>
