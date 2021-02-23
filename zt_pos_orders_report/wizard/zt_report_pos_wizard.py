@@ -94,20 +94,18 @@ class ZtReportPos(models.TransientModel):
             #     "total": order_line.amount_total,
             # }
             new_column_data = defaultdict(list)
-            # combination_column_data = defaultdict(list)
+            combination_column_data = defaultdict(list)
             col_index = False
             order_data_list = []
             for index, lines in enumerate(order_line.lines, start=1):
                 if not lines.product_id:
                     col_index = index
                 if col_index and lines.product_id:
-                    new_column_data[col_index] += [lines.product_id.name]
+                    combination_column_data[col_index] += [lines.product_id.name]
                 if lines.product_id.is_pos_master:
                     col_index = index
                 if col_index and not lines.product_id.is_pos_master:
                     new_column_data[col_index] += [lines.product_id.name]
-                # if col_index and not lines.product_id and lines.product_id.name:
-                #     combination_column_data[col_index] += [lines.product_id.name]
                 if index == 1:
                     data = [order_line.note,
                             order_line.name,
@@ -139,11 +137,9 @@ class ZtReportPos(models.TransientModel):
                             lines.name]
                 order_data_list.append(data)
             for col_idx, col_vals in new_column_data.items():
-                _logger.info(order_data_list)
-                _logger.info(col_idx)
-                _logger.info(col_vals)
-                _logger.info(order_data_list)
-                _logger.info(col_vals)
+                join_list = [str(x) for x in col_vals if x]
+                order_data_list[col_idx - 1][10] = ", ".join(join_list)
+            for col_idx, col_vals in combination_column_data.items():
                 join_list = [str(x) for x in col_vals if x]
                 order_data_list[col_idx - 1][10] = ", ".join(join_list)
             result_dict_list += order_data_list
