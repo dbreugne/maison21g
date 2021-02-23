@@ -94,13 +94,16 @@ class ZtReportPos(models.TransientModel):
             #     "total": order_line.amount_total,
             # }
             new_column_data = defaultdict(list)
+            # combination_column_data = defaultdict(list)
             col_index = False
             order_data_list = []
             for index, lines in enumerate(order_line.lines, start=1):
                 if lines.product_id.is_pos_master:
                     col_index = index
-                if col_index and not lines.product_id.is_pos_master:
+                if col_index and not lines.product_id and lines.product_id.name:
                     new_column_data[col_index] += [lines.product_id.name]
+                # if col_index and not lines.product_id and lines.product_id.name:
+                #     combination_column_data[col_index] += [lines.product_id.name]
                 if index == 1:
                     data = [order_line.note,
                             order_line.name,
