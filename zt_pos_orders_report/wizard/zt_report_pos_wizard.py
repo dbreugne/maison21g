@@ -98,12 +98,12 @@ class ZtReportPos(models.TransientModel):
             col_index = False
             order_data_list = []
             for index, lines in enumerate(order_line.lines, start=1):
-                if not lines.product_id:
+                if not lines.qty:
                     col_index = index
-                if col_index and not lines.product_id:
                     new_column_data[col_index] += [lines.product_id.name]
-                # if col_index and not lines.product_id and lines.product_id.name:
-                #     combination_column_data[col_index] += [lines.product_id.name]
+                if lines.product_id.is_pos_master:
+                    col_index = index
+                    new_column_data[col_index] += [lines.product_id.name]
                 if index == 1:
                     data = [order_line.note,
                             order_line.name,
