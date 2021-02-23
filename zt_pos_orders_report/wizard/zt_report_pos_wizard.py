@@ -100,7 +100,7 @@ class ZtReportPos(models.TransientModel):
             for index, lines in enumerate(order_line.lines, start=1):
                 if lines.name:
                     col_index = index
-                if col_index and not lines.name:
+                if col_index and lines.name:
                     new_column_data[col_index] += [lines.product_id.name]
                 # if col_index and not lines.product_id and lines.product_id.name:
                 #     combination_column_data[col_index] += [lines.product_id.name]
