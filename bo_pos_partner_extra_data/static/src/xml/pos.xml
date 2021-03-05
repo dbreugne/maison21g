@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+	<t t-extend="ClientDetailsEdit">
+		<t t-jquery='div[class="client-details-left"]' t-operation="append">
+            <div class='client-detail'>
+                <span class='label'>Birth date</span>
+                <input class='detail birthdate date' name='birthdate' t-att-value='partner.birthdate || ""' placeholder="2018-01-01" type="date"/>
+            </div>
+        </t>
+        <t t-jquery='div[class="client-details-right"]' t-operation="append">
+            <div class='client-detail'>
+                <span class='label'>Gender</span>
+                <select class='detail client-gender needsclick' name='gender'>
+                    <t t-foreach='widget.pos.genders' t-as='gender'>
+                        <option t-att-value='gender.code' t-att-selected="partner.gender ? ((gender.code === partner.gender) ? true : undefined) : undefined">
+                            <t t-esc='gender.name'/>
+                        </option>
+                    </t>
+                </select>
+            </div>
+		</t>
+    </t>
+</templates>
