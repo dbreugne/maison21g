@@ -1,7 +1,7 @@
 
 
 {
-    'name': ' ZT POS Customers DOB',
+    'name': ' ZT-POS Customers DOB',
     'summary': 'ZT POS Customers DOB',
     'description': """ZT POS Customers DOB""",
     'category': 'Others',
