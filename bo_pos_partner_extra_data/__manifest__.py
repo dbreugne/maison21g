@@ -1,7 +1,7 @@
 
 
 {
-    'name': 'ZT Pos Partner Doc',
+    'name': 'ZT- Pos Partner Doc',
     'summary': 'zt pos data',
     'description': """zt pos data.""",
     'category': 'Point Of Sale',
