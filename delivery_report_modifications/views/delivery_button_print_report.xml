@@ -31,6 +31,11 @@
                                 <p t-field="o.scheduled_date"/>
                            </t>
                         </div>
+                        <div t-if="o.po_number" class="col-auto">
+                        <strong>PO :</strong>
+                        <p t-field="o.sale_id.x_studio_po_number"/>
+                    </div>
+
                     </div>
                     <table class="table table-sm" name="stock_move_table" width="100%">
                         <thead>
@@ -70,7 +75,7 @@
                         </t>
                     </p>
                 </div>
-                <div style="position:absolute;top:750px; page-break-inside: avoid;">
+                <div style="position:absolute;top:700px; page-break-inside: avoid;">
     <table style="page-break-inside: avoid;">
                     <tbody>
                         <tr>
@@ -110,6 +115,22 @@
         </t>
     </template>
 
+    <record id="paperformat_euro_lowmargin_delivery_report" model="report.paperformat">
+        <field name="name">European A4 low margin</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">40.00</field>
+        <field name="margin_bottom">28.00</field>
+        <field name="margin_left">7.00</field>
+        <field name="margin_right">7.00</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">35</field>
+        <field name="dpi">80</field>
+    </record>
+
             <report
             string="Delivery Slip"
             id="action_report_delivery"
@@ -118,7 +139,7 @@
             name="delivery_report_modifications.report_deliveryslip_so"
             file="delivery_report_modifications.report_deliveryslip_so"
             print_report_name="'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)"
-        />
+            paperformat="paperformat_euro_lowmargin_delivery_report"/>
 
 
 </odoo>
