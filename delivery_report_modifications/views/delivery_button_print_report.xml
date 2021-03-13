@@ -31,7 +31,7 @@
                                 <p t-field="o.scheduled_date"/>
                            </t>
                         </div>
-                        <div t-if="o.po_number" class="col-auto">
+                        <div t-if="o.sale_id.po_number" class="col-auto">
                         <strong>PO :</strong>
                         <p t-field="o.sale_id.x_studio_po_number"/>
                     </div>
