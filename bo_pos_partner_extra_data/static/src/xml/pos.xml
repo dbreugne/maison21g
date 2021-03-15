@@ -6,6 +6,21 @@
                 <span class='label'>Birth date</span>
                 <input class='detail birthdate date' name='birthdate' t-att-value='partner.birthdate || ""' placeholder="2018-01-01" type="date"/>
             </div>
+            <div class='client-detail'>
+                <span class='label'>Married</span>
+                <select class='detail client-gender needsclick' name='married'>
+                    <t t-foreach='widget.pos.married' t-as='married'>
+                        <option t-att-value='married.code' t-att-selected="partner.married ? ((married.code === partner.married) ? true : undefined) : undefined">
+                            <t t-esc='married.name'/>
+                        </option>
+                    </t>
+                </select>
+            </div>
+
+            <div class='client-detail'>
+                <span class='label'>Date of Wedding</span>
+                <input class='detail birthdate date' name='date_wedding' t-att-value='partner.date_wedding || ""' placeholder="2018-01-01" type="date"/>
+            </div>
         </t>
         <t t-jquery='div[class="client-details-right"]' t-operation="append">
             <div class='client-detail'>
@@ -18,6 +33,22 @@
                     </t>
                 </select>
             </div>
+            <div class='client-detail'>
+                <span class='label'>Children</span>
+                <select class='detail client-gender needsclick' name='children'>
+                    <t t-foreach='widget.pos.children' t-as='children'>
+                        <option t-att-value='children.code' t-att-selected="partner.children ? ((children.code === partner.children) ? true : undefined) : undefined">
+                            <t t-esc='children.name'/>
+                        </option>
+                    </t>
+                </select>
+            </div>
+            <div class='client-detail'>
+                <span class='label'>No.of Children</span>
+                <input class='detail client-no_children' name='no_children' t-att-value='partner.no_children || ""'/>
+            </div>
+
+
 		</t>
     </t>
 </templates>

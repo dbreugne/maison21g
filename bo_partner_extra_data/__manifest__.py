@@ -8,7 +8,7 @@
     'version': '1.0',
     'website': 'http://www.zt.com/',
     'author': 'ZTR',
-    'depends': ['base'],
+    'depends': ['base','point_of_sale'],
     'data': [
         'views/partner_views.xml',
     ],

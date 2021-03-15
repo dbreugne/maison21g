@@ -7,13 +7,15 @@ var _t = core._t;
 
 var PosModelSuper = models.PosModel;
 
-models.load_fields("res.partner", ["birthdate", "gender"]);
+models.load_fields("res.partner", ["birthdate", "gender", "married", "children"]);
 
 models.PosModel = models.PosModel.extend({
     initialize: function(session, attributes) {
         var res = PosModelSuper.prototype.initialize.apply(this, arguments);
         this.genders = [{'code': 'male', 'name': _t('Male')}, {'code': 'female', 'name': _t('Female')},
         {'code': 'unisex', 'name': _t('Unisex')}];
+        this.married = [{'code': 'yes', 'name': _t('Yes')}, {'code': 'no', 'name': _t('No')}];
+        this.children =[{'code': 'yes', 'name': _t('Yes')}, {'code': 'no', 'name': _t('No')}];
         return res;
     },
 });
