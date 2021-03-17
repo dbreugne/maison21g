@@ -11,7 +11,8 @@
     'data': [
         'views/delivery_report.xml',
         'views/delivery_picking_view.xml',
-        'views/delivery_button_print_report.xml'
+        'views/delivery_button_print_report.xml',
+        'views/layouts.xml'
 
       
     ]
