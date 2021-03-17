@@ -31,7 +31,7 @@
                                 <p t-field="o.scheduled_date"/>
                            </t>
                         </div>
-                        <div t-if="o.sale_id.x_studio_po_number" class="col-auto">
+                        <div t-if="o.po_number" class="col-auto">
                         <strong>PO :</strong>
                         <p t-field="o.sale_id.x_studio_po_number"/>
                     </div>
@@ -75,8 +75,17 @@
                         </t>
                     </p>
                 </div>
-                <div style="position:absolute;top:700px; page-break-inside: avoid;">
-    <table style="page-break-inside: avoid;">
+<div class="footer">
+                                        <div style="position:absolute;top:150px"  class="text-right page_number">
+                        <div class="text-muted">
+                            Page:
+                            <span class="page"/>
+                            of
+                            <span class="topage"/>
+                        </div>
+                    </div>
+
+    <table class=" last-page" style="page-break-inside: avoid;">
                     <tbody>
                         <tr>
                             <td width="50%"/>
@@ -96,9 +105,14 @@
                         </tr>
                     </tbody>
                 </table>
+                                <div style="position:absolute;" class="text-left">
+                <div>
+                    Page: <span class="page"/> / <span class="topage"/>
+                </div>
+            </div>
 
-</div>
-<!--                <div class="last-page" style="float:bottom;width:100%;height:50px;bottom:0;">-->
+
+</div><!--                <div class="last-page" style="float:bottom;width:100%;height:50px;bottom:0;">-->
 <!--&lt;!&ndash;                <p>&ndash;&gt;-->
 <!--&lt;!&ndash;                    &ndash;&gt;-->
 
@@ -123,7 +137,7 @@
         <field name="page_width">0</field>
         <field name="orientation">Portrait</field>
         <field name="margin_top">40.00</field>
-        <field name="margin_bottom">28.00</field>
+        <field name="margin_bottom">45.00</field>
         <field name="margin_left">7.00</field>
         <field name="margin_right">7.00</field>
         <field name="header_line" eval="False"/>
@@ -143,3 +157,4 @@
 
 
 </odoo>
+
