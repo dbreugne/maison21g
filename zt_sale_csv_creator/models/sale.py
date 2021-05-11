@@ -11,11 +11,11 @@ class SaleOrder(models.Model):
 
     def create_sale_order_csv(self, env=None):
         directory = self.env.company.csv_folder or "/tmp"
-        try:
-            if not os.path.isdir(directory):
-                os.makedirs(directory)
-        except:
-            raise
+        # try:
+        #     if not os.path.isdir(directory):
+        #         os.makedirs(directory)
+        # except:
+        #     raise
         current_date_time = datetime.now()
         last_hour_date_time = current_date_time - timedelta(hours=1)
         tz = self.env.user.tz
