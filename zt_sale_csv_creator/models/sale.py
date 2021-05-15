@@ -1,5 +1,5 @@
 from odoo import api, fields, models
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 import csv
 import os
 
@@ -9,13 +9,20 @@ import base64
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    def get_sequence(self):
+        start_date = date(2021, 5, 13)
+        today = date.today()
+        delta = today - start_date
+        return "MBSSH{seq}".format(seq=delta.days)
+
     def create_sale_order_csv(self, env=None):
+        sequence = self.get_sequence()
         directory = self.env.company.csv_folder or "/tmp"
-        # try:
-        #     if not os.path.isdir(directory):
-        #         os.makedirs(directory)
-        # except:
-        #     raise
+        try:
+            if not os.path.isdir(directory):
+                os.makedirs(directory)
+        except:
+            raise
         current_date_time = datetime.now()
         last_hour_date_time = current_date_time - timedelta(hours=1)
         tz = self.env.user.tz
@@ -28,11 +35,11 @@ class SaleOrder(models.Model):
         for indx, item in enumerate(sale_orders, start=1):
             amount_tax += item.amount_tax
             amount_total += item.amount_total
-        row = ["MBSSH{index}".format(index=hour_date_time.strftime("%H")),
+        row = [sequence,
                hour_date_time.strftime("%Y-%m-%d"),
                hour_date_time.strftime("%H"),
-               amount_total,
                amount_tax,
+               amount_total,
                len(sale_orders)
                ]
         file_name = "{directory}/mbssh_{date_time}.csv".format(directory=directory,
