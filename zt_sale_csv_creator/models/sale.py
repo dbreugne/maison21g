@@ -31,8 +31,8 @@ class SaleOrder(models.Model):
         row = [self.get_sequence(),
                hour_date_time.strftime("%Y-%m-%d"),
                hour_date_time.strftime("%H"),
-               amount_tax,
                amount_total,
+               amount_tax,
                len(sale_orders)
                ]
         return row
