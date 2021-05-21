@@ -8,8 +8,8 @@ import os
 import base64
 
 
-class SaleOrder(models.Model):
-    _inherit = 'sale.order'
+class PosOrder(models.Model):
+    _inherit = 'pos.order'
 
     def get_sequence(self):
         start_date = date(2021, 5, 13)
