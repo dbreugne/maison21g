@@ -8,8 +8,8 @@ import os
 import base64
 
 
-class SaleOrder(models.Model):
-    _inherit = 'sale.order'
+class PosOrder(models.Model):
+    _inherit = 'pos.order'
 
     def get_sequence(self):
         start_date = date(2021, 5, 13)
@@ -31,8 +31,8 @@ class SaleOrder(models.Model):
         row = [self.get_sequence(),
                hour_date_time.strftime("%Y-%m-%d"),
                hour_date_time.strftime("%H"),
-               amount_total,
                amount_tax,
+               amount_total,
                len(sale_orders)
                ]
         return row

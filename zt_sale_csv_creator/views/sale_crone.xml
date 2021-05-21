@@ -3,8 +3,8 @@
     <data>
 
         <record id="ir_cron_sale_csv_create" model="ir.cron">
-            <field name="name">Create Sale CSV</field>
-            <field name="model_id" ref="model_sale_order"/>
+            <field name="name">Create POS CSV</field>
+            <field name="model_id" ref="model_pos_order"/>
             <field name="state">code</field>
             <field name="code">model.create_sale_order_csv()</field>
             <field name="interval_number">1</field>

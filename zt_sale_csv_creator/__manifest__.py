@@ -1,11 +1,11 @@
 {
     # Module information
-    'name': 'Automate Sale CSV Generator',
+    'name': 'Create Sale CSV',
     'category': 'general',
     'summary': ' .',
     'version': '1.0.0',
     'license': 'OPL-1',
-    'depends': ['sale_management'],
+    'depends': ['point_of_sale'],
 
     'data': ['views/sale_crone.xml'
     ],
@@ -15,7 +15,7 @@
     ],
 
     # Author
-    'author': 'ZT-Dev',
+    'author': '',
     'website': '',
 
     # Technical
