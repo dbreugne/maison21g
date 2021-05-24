@@ -49,7 +49,7 @@ class PosOrder(models.Model):
         hour_date_time = fields.Datetime.context_timestamp(self.with_context(tz=tz), current_date_time)
         current_row = self.get_csv_line_by_date_time(hour_date_time, tz, current_date_time)
         attachment_name = "mbssh_{date_time}.csv".format(
-                date_time=fields.Date.to_string(current_date_time))
+                date_time=fields.Date.to_string(hour_date_time))
         attachment = self.env["ir.attachment"].sudo().search([('name', '=', attachment_name)],
                                                              limit=1)
         if attachment:
