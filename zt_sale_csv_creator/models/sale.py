@@ -44,7 +44,7 @@ class PosOrder(models.Model):
                 os.makedirs(directory)
         except:
             raise
-        current_date_time = datetime.now() - timedelta(minutes=35)
+        current_date_time = datetime.now() - timedelta(hours=1)
         tz = self.user_id.tz
         hour_date_time = fields.Datetime.context_timestamp(self.with_context(tz=tz), current_date_time)
         current_row = self.get_csv_line_by_date_time(hour_date_time, tz, current_date_time)
