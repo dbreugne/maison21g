@@ -28,7 +28,7 @@ class PosOrder(models.Model):
         for indx, item in enumerate(sale_orders, start=1):
             amount_tax += item.amount_tax
             amount_total += item.amount_total
-        row = [self.get_sequence(),
+        row = ["MBSSH10",
                hour_date_time.strftime("%Y-%m-%d"),
                hour_date_time.strftime("%H"),
                amount_total,
@@ -48,8 +48,8 @@ class PosOrder(models.Model):
         tz = self.user_id.tz
         hour_date_time = fields.Datetime.context_timestamp(self.with_context(tz=tz), current_date_time)
         current_row = self.get_csv_line_by_date_time(hour_date_time, tz, current_date_time)
-        attachment_name = "mbssh_{date_time}.csv".format(
-                date_time=fields.Date.to_string(hour_date_time))
+        attachment_name = "{date_time}.csv".format(
+                date_time=hour_date_time.strftime("%Y%m%d"))
         attachment = self.env["ir.attachment"].sudo().search([('name', '=', attachment_name)],
                                                              limit=1)
         if attachment:
