@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="sale.view_order_tree"/>
             <field name="arch" type="xml">
 
-                <xpath expr="//field[@name='state']" position="after">
+                <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="invoice_number"/>
                     <field name="x_studio_po_number"/>
                 </xpath>
