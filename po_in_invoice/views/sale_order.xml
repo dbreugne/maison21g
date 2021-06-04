@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="sale_order_form_view_inherit" model="ir.ui.view">
-            <field name="name">Sale.order.po</field>
+        <record id="sale_order_tree_view_inherit" model="ir.ui.view">
+            <field name="name">Sale.order.po.tree</field>
             <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
             <field name="arch" type="xml">
 
-                <xpath expr="//field[@name='payment_term_id']" position="after">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="invoice_number"/>
                     <field name="x_studio_po_number"/>
                 </xpath>
 
             </field>
         </record>
+
+<!--        <record id="sale_order_form_view_inherit" model="ir.ui.view">-->
+<!--            <field name="name">Sale.order.po</field>-->
+<!--            <field name="model">sale.order</field>-->
+<!--            <field name="inherit_id" ref="sale.view_order_form"/>-->
+<!--            <field name="arch" type="xml">-->
+
+<!--                <xpath expr="//field[@name='payment_term_id']" position="after">-->
+<!--                    <field name="x_studio_po_number"/>-->
+<!--                </xpath>-->
+
+<!--            </field>-->
+<!--        </record>-->
     </data>
 </odoo>
