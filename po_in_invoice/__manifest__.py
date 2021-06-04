@@ -12,7 +12,7 @@
     'depends': ['sale_management','account', 'purchase'],
     'data': [
         # 'views/account.xml',
-        # 'views/sale_order.xml',
+        'views/sale_order.xml',
         'wizard/invoice_print_wizard_view.xml',
         'views/invoice_template_modification.xml'
     ],
