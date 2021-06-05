@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <report
+            id="invoice_order_xlsx"
+            model="account.move"
+            string="Invoice Report"
+            report_type="xlsx"
+            name="zt_sales_report.invoice_order_xlsx"
+            file="invoice_order_date_wize_report"
+            attachment_use="False"
+            menu="False"
+    />
+
+<!--    <report id="crm_order_xlsx"-->
+<!--            model="crm.lead"-->
+<!--            string="CRM Details"-->
+<!--            report_type="xlsx"-->
+<!--            name="zt_sales_report.crm_order_xlsx"-->
+<!--            file="crm_order_date_wize_report"-->
+<!--            attachment_use="False"-->
+<!--            menu="False"-->
+<!--    />-->
+
+
+</odoo>
