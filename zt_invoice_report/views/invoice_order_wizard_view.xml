@@ -33,7 +33,7 @@
                 target="new"/>
 
     <menuitem action="action_report_wizard_invoice_mg"
-              id="menu_account_mg_report_report" sequecen="101"
+              id="menu_account_mg_report_report" sequence="101"
               parent="account.account_reports_management_menu"/>
 
 
