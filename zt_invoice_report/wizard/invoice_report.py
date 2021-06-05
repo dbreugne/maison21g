@@ -10,6 +10,7 @@ class InvoiceXlsx(models.AbstractModel):
         start_date = data['date_start']
         end_date = data['date_end']
         domain=[]
+        domain.append(('type', '>=', 'out_invoice'))
         if start_date:
             domain.append(('invoice_date', '>=', start_date))
         if end_date:
