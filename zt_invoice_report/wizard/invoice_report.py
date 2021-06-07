@@ -9,8 +9,10 @@ class InvoiceXlsx(models.AbstractModel):
     def generate_xlsx_report(self, workbook, data, partners):
         start_date = data['date_start']
         end_date = data['date_end']
+        number = data['number']
         domain=[]
-        domain.append(('type', '=', 'out_invoice'))
+        if number:
+            domain.append(('id', 'in', number))
         if start_date:
             domain.append(('invoice_date', '>=', start_date))
         if end_date:

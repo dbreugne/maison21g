@@ -14,6 +14,9 @@
                     <group>
                         <field name="date_end"/>
                     </group>
+                     <group>
+                        <field name="number" widget= "many2many_tags" />
+                    </group>
 <!--                    <group>-->
 <!--                        <field name="team_sales_id"/>-->
 <!--                    </group>-->
@@ -33,7 +36,7 @@
                 target="new"/>
 
     <menuitem action="action_report_wizard_invoice_mg"
-              id="menu_account_mg_report_report" sequence="101"
+              id="menu_account_mg_report_report"
               parent="account.account_reports_management_menu"/>
 
 
