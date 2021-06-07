@@ -15,7 +15,7 @@
                         <field name="date_end"/>
                     </group>
                      <group>
-                        <field name="number" widget= "many2many_tags" domain="[('move_type','=','out_invoice')]" />
+                        <field name="number" widget= "many2many_tags" domain="[('type','=','out_invoice')]" />
                     </group>
 <!--                    <group>-->
 <!--                        <field name="team_sales_id"/>-->
