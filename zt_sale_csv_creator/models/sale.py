@@ -22,7 +22,7 @@ class PosOrder(models.Model):
         end_time = current_date_time.replace(minute=59, second=59)
         domain = [("create_date", ">=", fields.Datetime.to_string(start_time)),
                   ("create_date", "<=", fields.Datetime.to_string(end_time)),
-                  ("config_id","in",[5])]
+                  ("config_id","in",[6])]
         sale_orders = self.with_context(tz=tz).search(domain)
         amount_tax = 0.0
         amount_total = 0.0
