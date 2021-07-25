@@ -1,5 +1,5 @@
 {
-    'name': 'Security',
+    'name': 'Custom Security For ERP',
     'version': '14.0.0',
     'category': 'General',
     'summary': 'User Management',
