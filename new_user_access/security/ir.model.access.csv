@@ -36,4 +36,6 @@ access_pos_order_view,pos.order,point_of_sale.model_pos_order,new_user_access.gr
 access_pos_order_line_view,pos.order.line,point_of_sale.model_pos_order_line,new_user_access.group_new_finance_admin_user,1,0,0,0
 
 
-access_mrp_production_finace,production user,mrp.model_mrp_production,new_user_access.group_new_finance_admin_user,1,0,0,0
+access_mrp_production_finance,production user,mrp.model_mrp_production,new_user_access.group_new_finance_admin_user,1,0,0,0
+access_stock_picking__finance,stock.picking mrp_worker,stock.model_stock_picking,new_user_access.group_new_finance_admin_user,1,0,0,0
+access_stock_scrap_finance,stock.scrap.user,stock.model_stock_scrap,new_user_access.group_new_finance_admin_user,1,0,0,0
