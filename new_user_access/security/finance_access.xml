@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.menu" id="mrp.menu_mrp_root">
+            <field eval="[(4, ref('new_user_access.group_new_finance_admin_user'))]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="sale.menu_sale_order">
+            <field eval="[(4, ref('new_user_access.group_new_finance_admin_user'))]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="point_of_sale.menu_point_root">
+            <field eval="[(4, ref('new_user_access.group_new_finance_admin_user'))]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="purchase.menu_purchase_form_action">
+            <field eval="[(4, ref('new_user_access.group_new_finance_admin_user'))]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="stock.menu_stock_root">
+            <field eval="[(4, ref('new_user_access.group_new_finance_admin_user'))]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_stock_inventory_control">
+            <field eval="[(4, ref('stock.group_stock_user')),
+            (4, ref('stock.group_stock_manager'))]" name="groups_id"/>
+        </record>
+
+
+    </data>
+</odoo>

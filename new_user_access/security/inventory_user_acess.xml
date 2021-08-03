@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.menu" id="purchase.menu_purchase_root">
+            <field eval="[(4, ref('new_user_access.group_new_inventory_user')),
+            (4, ref('new_user_access.group_new_finance_admin_user')),
+            (4, ref('new_user_access.group_new_outbound_user'))]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="purchase.menu_purchase_products">
+            <field eval="[(4, ref('purchase.group_purchase_manager')), (4, ref('purchase.group_purchase_user'))]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="purchase.menu_procurement_management_supplier_name">
+            <field eval="[(4, ref('purchase.group_purchase_manager')), (4, ref('purchase.group_purchase_user'))]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="purchase.menu_purchase_rfq">
+            <field eval="[(4, ref('purchase.group_purchase_manager')), (4, ref('purchase.group_purchase_user'))]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="purchase.menu_purchase_form_action">
+            <field eval="[(4, ref('new_user_access.group_new_inventory_user'))]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="point_of_sale.menu_point_root">
+            <field eval="[(4, ref('new_user_access.group_new_inventory_user')),
+            (4, ref('new_user_access.group_new_finance_admin_user'))]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="point_of_sale.menu_point_of_sale">
+            <field eval="[(4, ref('new_user_access.group_new_finance_admin_user')),
+            (4, ref('new_user_access.group_new_inventory_user')),(4, ref('point_of_sale.group_pos_manager')),
+            (4, ref('point_of_sale.group_pos_user'))]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="point_of_sale.menu_point_ofsale">
+            <field eval="[(4, ref('new_user_access.group_new_finance_admin_user')),
+            (4, ref('new_user_access.group_new_inventory_user')),(4, ref('point_of_sale.group_pos_manager')),
+            (4, ref('point_of_sale.group_pos_user'))]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="point_of_sale.menu_point_of_sale_customer">
+            <field eval="[(4, ref('point_of_sale.group_pos_manager')),
+            (4, ref('point_of_sale.group_pos_user'))]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="point_of_sale.pos_config_menu_catalog">
+            <field eval="[(4, ref('point_of_sale.group_pos_manager')),
+            (4, ref('point_of_sale.group_pos_user'))]" name="groups_id"/>
+        </record>
+<!--       Sale-->
+        <record model="ir.ui.menu" id="sale.menu_sale_order">
+            <field eval="[(4, ref('new_user_access.group_new_inventory_user'))]" name="groups_id"/>
+        </record>
+
+
+<!--        # mRP-->
+
+<!--                <record model="ir.ui.menu" id="mrp.menu_mrp_manufacturing">-->
+<!--            <field eval="[(4, ref('new_user_access.group_new_inventory_user'))]" name="groups_id"/>-->
+<!--        </record>-->
+        <record model="ir.ui.menu" id="mrp.menu_mrp_root">
+            <field eval="[(4, ref('new_user_access.group_new_inventory_user'))]" name="groups_id"/>
+        </record>
+
+                <record model="ir.ui.menu" id="mrp.mrp_planning_menu_root">
+            <field eval="[(4, ref('mrp.group_mrp_user')),
+            (4, ref('mrp.group_mrp_manager'))]" name="groups_id"/>
+
+        </record>
+        <record model="ir.ui.menu" id="mrp.menu_mrp_bom">
+            <field eval="[(4, ref('mrp.group_mrp_user')),
+            (4, ref('mrp.group_mrp_manager'))]" name="groups_id"/>
+
+        </record>
+        <record model="ir.ui.menu" id="mrp.menu_mrp_reporting">
+            <field eval="[(4, ref('mrp.group_mrp_user')),
+            (4, ref('mrp.group_mrp_manager'))]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="mrp.menu_mrp_scrap">
+            <field eval="[(4, ref('mrp.group_mrp_user')),
+            (4, ref('mrp.group_mrp_manager'))]" name="groups_id"/>
+        </record>
+
+        <record id="purchase_order_rule_inventory_user_read" model="ir.rule">
+            <field name="name">PO: read all</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('new_user_access.group_new_inventory_user'))]"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="0"/>
+        </record>
+
+    </data>
+</odoo>

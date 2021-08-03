@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.menu" id="sale.menu_sale_order">
+            <field eval="[(4, ref('new_user_access.group_new_outbound_user'))]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="purchase.menu_purchase_form_action">
+            <field eval="[(4, ref('new_user_access.group_new_outbound_user'))]" name="groups_id"/>
+        </record>
+
+
+
+    </data>
+</odoo>

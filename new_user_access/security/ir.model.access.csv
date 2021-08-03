@@ -1,0 +1,41 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_new_purchase_order,purchase.order,purchase.model_purchase_order,new_user_access.group_new_inventory_user,1,0,0,0
+
+access_new_purchase_order_line,purchase.order.line user,purchase.model_purchase_order_line,new_user_access.group_new_inventory_user,1,0,0,0
+
+access_new_account_tax_purchase_user,account.tax,account.model_account_tax,new_user_access.group_new_inventory_user,1,0,0,0
+
+access_new_product_product_purchase_user,product.product.purchase.user,product.model_product_product,new_user_access.group_new_inventory_user,1,0,0,0
+
+access_new_product_template_purchase_user,product.template purchase_user,product.model_product_template,new_user_access.group_new_inventory_user,1,0,0,0
+
+access_new_account_move_purchase,account_move purchase,account.model_account_move,new_user_access.group_new_inventory_user,1,0,0,0
+
+access_new_account_fiscal_position_purchase_user,account.fiscal.position purchase,account.model_account_fiscal_position,new_user_access.group_new_inventory_user,1,0,0,0
+
+access_new_res_partner_purchase_user,res.partner purchase,base.model_res_partner,new_user_access.group_new_inventory_user,1,0,0,0
+
+access_new_account_journal,account.journal,account.model_account_journal,new_user_access.group_new_inventory_user,1,0,0,0
+
+access_new_account_move_line,account.move.line,account.model_account_move_line,new_user_access.group_new_inventory_user,1,0,0,0
+
+access_new_account_analytic_line,account.analytic.line,account.model_account_analytic_line,new_user_access.group_new_inventory_user,1,0,0,0
+
+access_new_account_type,account.acount.type.purchase.user,account.model_account_account_type,new_user_access.group_new_inventory_user,1,0,0,0
+
+account_partial_reconcile,account.partial.reconcile.purchase.user,account.model_account_partial_reconcile,new_user_access.group_new_inventory_user,1,0,0,0
+
+access_new_purchase_bill_union,access_purchase_bill_union,purchase.model_purchase_bill_union,new_user_access.group_new_inventory_user,1,0,0,0
+
+access_new_report_purchase_order_user,purchase.stock.report user,purchase.model_purchase_report,new_user_access.group_new_inventory_user,1,0,0,0
+purchase.access_purchase_order_invoicing_payments,purchase.order,purchase.model_purchase_order,account.group_account_invoice,1,0,0,0
+sale.access_sale_order_invoicing_payments,sale.order,sale.model_sale_order,account.group_account_invoice,1,0,0,0
+
+
+access_pos_order_view,pos.order,point_of_sale.model_pos_order,new_user_access.group_new_finance_admin_user,1,0,0,0,
+access_pos_order_line_view,pos.order.line,point_of_sale.model_pos_order_line,new_user_access.group_new_finance_admin_user,1,0,0,0
+
+
+access_mrp_production_finance,production user,mrp.model_mrp_production,new_user_access.group_new_finance_admin_user,1,0,0,0
+access_stock_picking__finance,stock.picking mrp_worker,stock.model_stock_picking,new_user_access.group_new_finance_admin_user,1,0,0,0
+access_stock_scrap_finance,stock.scrap.user,stock.model_stock_scrap,new_user_access.group_new_finance_admin_user,1,0,0,0
