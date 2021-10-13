@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <report
+            id="po_order_product_xlsx"
+            model="purchase.order.line"
+            string="Print to XLSX"
+            report_type="xlsx"
+            name="excel_po_report.po_order_product_xlsx"
+            file="pos_order_date_wize_report"
+            attachment_use="False"
+            menu="False"
+
+    />
+
+
+</odoo>

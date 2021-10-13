@@ -1,0 +1,46 @@
+<odoo>
+
+
+    <record model="ir.ui.view" id="po_order_product_xlsx_report_wizard">
+        <field name="name">po.order.product.xlsx</field>
+        <field name="model">po.order.product.xlsx</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form >
+                <group>
+                    <group>
+                        <field name="apply_date"/>
+                        <field name="products" widget="many2many_tags"/>
+                    </group>
+                    <group>
+                        <field name="date_start" attrs="{
+                                                    'required': [('apply_date', '=', True)],
+                                                    'invisible': [('apply_date', '=', False)],
+                                               }"/>
+                        <field name="date_end" attrs="{
+                                                    'required': [('apply_date', '=', True)],
+                                                    'invisible': [('apply_date', '=', False)],
+                                               }"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="get_report" string="Get Report" type="object" class="oe_highlight"/>
+<!--                     <button name="get_pdf_report" string="Get PDF Report" type="object" class="oe_highlight"/>-->
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="action_report_wizard"
+                name="Po order Product xlsx report"
+                res_model="po.order.product.xlsx"
+                view_mode="form"
+                target="new"/>
+
+    <menuitem action="action_report_wizard"
+              id="menu_po_product_xlsx_report_wizard"
+              parent="purchase.purchase_report"/>
+
+
+</odoo>
