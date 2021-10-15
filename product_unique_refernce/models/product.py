@@ -19,16 +19,16 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
 
-    def copy(self, default=None):  # pylint: disable=W0622
-
-        if not default:
-            default = {}
-
-        default[
-            'default_code'] = self.default_code and\
-            self.default_code + ' (copy)' or False
-
-        return super(ProductProduct, self).copy(default=default)
+    # def copy(self, default=None):  # pylint: disable=W0622
+    #
+    #     if not default:
+    #         default = {}
+    #
+    #     default[
+    #         'default_code'] = self.default_code and\
+    #         self.default_code + ' (copy)' or False
+    #
+    #     return super(ProductProduct, self).copy(default=default)
 
     _sql_constraints = [
         ('default_code_unique', 'unique (default_code)',
