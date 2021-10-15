@@ -15,9 +15,9 @@ class ProductTemplate(models.Model):
         if not default:
             default = {}
 
-        default[
-            'default_code'] = self.default_code and\
-            self.default_code + ' (copy)' or False
+        # default[
+        #     'default_code'] = self.default_code and\
+        #     self.default_code + ' (copy)' or False
         product = super(ProductTemplate, self).copy(default)
         return product
 
@@ -30,9 +30,10 @@ class ProductProduct(models.Model):
         if not default:
             default = {}
 
-        default[
-            'default_code'] = self.default_code and\
-            self.default_code + ' (copy)' or False
+        # default[
+        #     'default_code'] = self.default_code and\
+        #     self.default_code + ' (copy)' or False
 
         return super(ProductProduct, self).copy(default=default)
+
 
