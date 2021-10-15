@@ -5,7 +5,7 @@ from odoo.exceptions import ValidationError
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    # _sql_constraints = [('unique_default_code', 'UNIQUE(default_code)', 'Internal Reference Code must be unique')]
+    _sql_constraints = [('unique_default_code', 'UNIQUE(default_code)', 'Internal Reference Code must be unique')]
     # @api.model
     # def create(self, vals):
     #     res=
