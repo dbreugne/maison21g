@@ -9,13 +9,6 @@ class ProductTemplate(models.Model):
 
     _sql_constraints = [('unique_default_code', 'UNIQUE(default_code)', 'Internal Reference Code must be unique')]
 
-    @api.constrains('default_code')
-    def _check_default_code(self):
-        code = self.search([('default_code', '=', self.default_code)])
-        if len(code) > 1:
-            raise ValidationError(_("Internal Reference Code must be unique"))
-
-
     @api.returns('self', lambda value: value.id)
     def copy(self, default=None):  # pylint: disable=W0622
 
@@ -42,5 +35,4 @@ class ProductProduct(models.Model):
             self.default_code + ' (copy)' or False
 
         return super(ProductProduct, self).copy(default=default)
-
 
