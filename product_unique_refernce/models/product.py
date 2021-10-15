@@ -5,7 +5,7 @@ from odoo.exceptions import ValidationError
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    _sql_constraints = [('unique_default_code', 'UNIQUE(default_code)', 'Internal Reference Code must be unique')]
+    # _sql_constraints = [('unique_default_code', 'UNIQUE(default_code)', 'Internal Reference Code must be unique')]
     # @api.model
     # def create(self, vals):
     #     res=
@@ -15,9 +15,9 @@ class ProductTemplate(models.Model):
         if len(code) > 1:
             raise ValidationError(_("Internal Reference Code must be unique"))
 
-class ProductProduct(models.Model):
-    _inherit = "product.product"
-
+# class ProductProduct(models.Model):
+#     _inherit = "product.product"
+#
 
     # def copy(self, default=None):  # pylint: disable=W0622
     #
@@ -30,10 +30,10 @@ class ProductProduct(models.Model):
     #
     #     return super(ProductProduct, self).copy(default=default)
 
-    _sql_constraints = [
-        ('default_code_unique', 'unique (default_code)',
-         'The code of Product must be unique !'),
-    ]
+    # _sql_constraints = [
+    #     ('default_code_unique', 'unique (default_code)',
+    #      'The code of Product must be unique !'),
+    # ]
 
 
 
