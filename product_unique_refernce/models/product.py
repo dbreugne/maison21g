@@ -15,10 +15,10 @@ class ProductTemplate(models.Model):
         if len(code) > 1:
             raise ValidationError(_("Internal Reference Code must be unique"))
 
-# class ProductProduct(models.Model):
-#     _inherit = "product.product"
-#
+class ProductProduct(models.Model):
+    _inherit = "product.product"
 
+    default_code = fields.Char('Internal Reference', index=True,copy=False)
     # def copy(self, default=None):  # pylint: disable=W0622
     #
     #     if not default:
