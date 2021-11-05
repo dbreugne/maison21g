@@ -65,7 +65,7 @@ class PartnerXlsx(models.AbstractModel):
                 amount_in_sgd = currency_sgd and currency_sgd._convert(order.price_total, order.currency_id, order.company_id, order.date_order, round=True)
                 sheet.write('A' + str(num), order.product_id and order.product_id.default_code or '', cell_format)
                 sheet.write('B' + str(num), order.product_id and order.product_id.name or '', cell_format)
-                sheet.write('C' + str(num), order.product_id and "%0.2f" % order.product_id.list_price or '', cell_format)
+                sheet.write('C' + str(num), order.product_id and "%0.2f" % order.price_unit or '', cell_format)
                 sheet.write('D' + str(num), order.order_id and order.order_id.name or ' ', cell_format)
                 sheet.write('E' + str(num), order.date_order or ' ', format5)
                 sheet.write('F' + str(num), order.price_total or ' ', cell_format)
