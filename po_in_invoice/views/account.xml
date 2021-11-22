@@ -12,17 +12,17 @@
             </field>
         </record>
 
-        <record id="acount_move_form_view_inherit" model="ir.ui.view">
-            <field name="name">account.move.po</field>
-            <field name="model">account.move</field>
-            <field name="inherit_id" ref="account.view_move_form"/>
-            <field name="arch" type="xml">
+<!--        <record id="acount_move_form_view_inherit" model="ir.ui.view">-->
+<!--            <field name="name">account.move.po</field>-->
+<!--            <field name="model">account.move</field>-->
+<!--            <field name="inherit_id" ref="account.view_move_form"/>-->
+<!--            <field name="arch" type="xml">-->
 
-                <xpath expr="//field[@name='invoice_origin']" position="after">
-                    <field name="po_no"/>
-                </xpath>
+<!--                <xpath expr="//field[@name='invoice_origin']" position="after">-->
+<!--                    <field name="po_no"/>-->
+<!--                </xpath>-->
 
-            </field>
-        </record>
+<!--            </field>-->
+<!--        </record>-->
     </data>
 </odoo>
