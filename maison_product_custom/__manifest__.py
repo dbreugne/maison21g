@@ -10,7 +10,7 @@
     """,
     'author': '',
     'website': '',
-    'depends': ['base','product','stock'
+    'depends': ['product'
                 ],
     'data': [
         'views/product_template_view.xml',
