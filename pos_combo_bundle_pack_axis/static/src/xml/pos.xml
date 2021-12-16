@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="Orderline">
+    	<t t-jquery="ul.info-list" t-operation="after">
+    		<div class="combo_list" style="color:#888;">
+				<t t-foreach="line.get_combo_prod_info()" t-as="prod_info">
+	                <div style="margin-left: 15px;">
+	                    &#8594;<t t-esc="prod_info.product.display_name"/>
+	                </div>
+	            </t>
+    		</div>
+    	</t>
+    </t>
+
+    <t t-extend="Product">
+        <t t-jquery="span.price-tag" t-operation="after">
+            <t t-if="product.is_product_pack and product.pack_product_ids.length >0">
+                <div class="product_pack">
+                    Combo Pack
+                </div>
+            </t>
+        </t>
+    </t>
+
+    <t t-extend="OrderReceipt">
+        <t t-jquery="span.price_display" t-operation="before">
+            <t t-if="widget.pos.config.bundle_print_type == 'print_only_bundle_product_on_receipt'">
+                &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<t t-esc='line.quantity'></t>
+            </t>
+            <t t-if="widget.pos.config.bundle_print_type == 'print_bundle_and_bundle_item_both_on_receipt'">
+                &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<t t-esc='line.quantity'></t>
+            </t>
+        </t>
+        <t t-jquery="span.price_display" t-operation="after">
+              <t t-if="widget.pos.config.bundle_print_type == 'print_bundle_and_bundle_item_both_on_receipt'">
+                  <div class="combo_list" style="color:#888;">
+                      <t t-foreach="line.get_combo_prod_info" t-as="prod_info">
+                        <div style="margin-left: 15px;">
+                            &#8594;<t t-esc="prod_info.product.display_name"/>
+                            (<t t-esc="prod_info.product.quantity"/>)
+                        </div>
+                    </t>
+                  </div>
+              </t>
+        </t>
+    </t>
+</templates>

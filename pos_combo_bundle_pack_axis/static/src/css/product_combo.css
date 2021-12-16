@@ -1,0 +1,13 @@
+.product_pack {
+	background: #EB3812;
+	position: absolute;
+	top: 69px;
+	vertical-align: top;
+	color: white;
+	line-height: 13px;
+	padding: 2px 5px;
+	border-radius: 2px;
+	opacity: 0.8;
+    width: 100%;
+    font-weight: bold;
+}

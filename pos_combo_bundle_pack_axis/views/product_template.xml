@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="package_product_template_only_form_view" model="ir.ui.view">
+        <field name="name">package.product.template.form.view</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <label for="purchase_ok" position="after">
+                <div>
+                    <field name="is_product_pack"/>
+                    <label for="is_product_pack"/>
+                </div>
+            </label>
+             <xpath expr="//page[@name='inventory']" position="after">
+                <page name="pos_bundle" string="Pack Products" attrs="{'invisible': [('is_product_pack','=', False)]}">
+                    <field name="pack_product_ids">
+                        <tree string="Pack Product" editable="bottom">
+                            <field name="product_new_name_trial"/>
+                            <field name="qty_new"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+<!--    Inherit quotations search view-->
+        <record id="product_template_search_view_pos_pack_product" model="ir.ui.view">
+        <field name="name">product.template.search.pos.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <filter name="filter_to_availabe_pos" position="before">
+               <filter name="pack)_products" string="Pack Products" domain="[('is_product_pack', '=', True)]"/>
+            </filter>
+        </field>
+        </record>
+</odoo>

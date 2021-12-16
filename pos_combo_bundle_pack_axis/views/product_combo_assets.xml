@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+        <template id="index" name="Pos Combo" inherit_id="point_of_sale.index">
+            <xpath expr="." position="inside">
+            	<script type="text/javascript" src="/pos_combo_bundle_pack_axis/static/src/js/models.js"></script>
+            	<script type="text/javascript" src="/pos_combo_bundle_pack_axis/static/src/js/screen.js"></script>
+                <link rel="stylesheet" type="text/css" href="/pos_combo_bundle_pack_axis/static/src/css/product_combo.css"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>
