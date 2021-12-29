@@ -4,7 +4,7 @@
     'author': '',
     'summary': 'General Customisation',
     'category': 'Project',
-    'depends': ['account'],
+    'depends': ['account','point_of_sale'],
     'data': [
 
         'views/account_move_view.xml',

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pack_product_form" model="ir.ui.view">
+        <field name="name">pack.product.form</field>
+        <field name="model">pack.product</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Products">
+                <group name="main_field">
+                    <field name="product_new_name_trial"/>
+                    <field name="qty_new">
+                    </field>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="pack_product_view_tree" model="ir.ui.view">
+        <field name="name">pack.product.view.tree</field>
+        <field name="model">pack.product</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Combo Products" create="0" delete="0">
+                <field name="product_new_name_trial"/>
+                <field name="qty_new"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pack_product_action" model="ir.actions.act_window">
+        <field name="name">Combo Product</field>
+        <field name="res_model">pack.product</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+        <menuitem id="combo_product_menu"
+        action="pack_product_action"
+        parent="point_of_sale.pos_config_menu_catalog"
+        groups="base.group_user"
+        />
+</odoo>
