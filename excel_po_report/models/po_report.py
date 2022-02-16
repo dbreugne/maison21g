@@ -67,7 +67,7 @@ class PartnerXlsx(models.AbstractModel):
                 sheet.write('B' + str(num), order.product_id and order.product_id.name or '', cell_format)
                 sheet.write('C' + str(num), order.product_id and "%0.2f" % order.product_id.list_price or '', cell_format)
                 sheet.write('D' + str(num), order.order_id and order.order_id.name or ' ', cell_format)
-                sheet.write('E' + str(num), order.date_order or ' ', format5)
+                sheet.write('E' + str(num), order.date_order.strftime("%d/%m/%Y") or ' ', format5)
                 sheet.write('F' + str(num), order.currency_id.name or ' ', cell_format)
                 sheet.write('G' + str(num), amount_in_sgd or '', cell_format)
                 num = num + 1
