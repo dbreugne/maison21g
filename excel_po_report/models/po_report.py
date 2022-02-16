@@ -11,7 +11,7 @@ class PartnerXlsx(models.AbstractModel):
         start_date = data['date_start']
         end_date = data['date_end']
         products = data['products']
-        domain = []
+        domain = [('state','=','purchase')]
         if apply_date:
             domain += [('date_order', '>=', start_date), ('date_order', '<=', end_date)]
         if products:
@@ -51,8 +51,8 @@ class PartnerXlsx(models.AbstractModel):
         sheet.write('C1', 'Unit Price', table_head)
         sheet.write('D1', 'Latest PO number', table_head)
         sheet.write('E1', 'Latest PO Date ', table_head)
-        sheet.write('F1', 'Price in PO currency', table_head)
-        sheet.write('G1', 'Price in SGD', table_head)
+        sheet.write('F1', 'PO currency', table_head)
+        sheet.write('G1', 'Unit Price in SGD', table_head)
         num = 2
         sl = 1
         format5 = workbook.add_format({'num_format': 'dd/mm/yy'})
@@ -65,10 +65,10 @@ class PartnerXlsx(models.AbstractModel):
                 amount_in_sgd = currency_sgd and currency_sgd._convert(order.price_total, order.currency_id, order.company_id, order.date_order, round=True)
                 sheet.write('A' + str(num), order.product_id and order.product_id.default_code or '', cell_format)
                 sheet.write('B' + str(num), order.product_id and order.product_id.name or '', cell_format)
-                sheet.write('C' + str(num), order.product_id and "%0.2f" % order.price_unit or '', cell_format)
+                sheet.write('C' + str(num), order.product_id and "%0.2f" % order.product_id.list_price or '', cell_format)
                 sheet.write('D' + str(num), order.order_id and order.order_id.name or ' ', cell_format)
                 sheet.write('E' + str(num), order.date_order or ' ', format5)
-                sheet.write('F' + str(num), order.price_total or ' ', cell_format)
+                sheet.write('F' + str(num), order.currency_id.name or ' ', cell_format)
                 sheet.write('G' + str(num), amount_in_sgd or '', cell_format)
                 num = num + 1
                 sl = sl + 1
