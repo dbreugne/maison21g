@@ -62,7 +62,7 @@ class PartnerXlsx(models.AbstractModel):
             if order.product_id not in product_ids:
                 product_ids.append(order.product_id)
                 currency_sgd = self.env.ref('base.SGD')
-                amount_in_sgd = currency_sgd and currency_sgd._convert(order.price_total, order.currency_id, order.company_id, order.date_order, round=True)
+                amount_in_sgd = currency_sgd and currency_sgd._convert(order.price_unit, order.currency_id, order.company_id, order.date_order, round=True)
                 sheet.write('A' + str(num), order.product_id and order.product_id.default_code or '', cell_format)
                 sheet.write('B' + str(num), order.product_id and order.product_id.name or '', cell_format)
                 sheet.write('C' + str(num), order.product_id and "%0.2f" % order.product_id.list_price or '', cell_format)
