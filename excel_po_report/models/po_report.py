@@ -57,7 +57,7 @@ class PartnerXlsx(models.AbstractModel):
         sl = 1
         format5 = workbook.add_format({'num_format': 'dd/mm/yy'})
         # worksheet.write('A5', number, format5)  # 28/02/13 12:00
-        product_ids = []
+        product_ids= []
 
         for order in po_lines:
             if order.product_id not in product_ids:
