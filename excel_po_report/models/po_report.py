@@ -64,14 +64,13 @@ class PartnerXlsx(models.AbstractModel):
                 product_ids.append(order.product_id)
                 currency_sgd = self.env.ref('base.SGD')
                 amount_in_sgd = currency_sgd and currency_sgd._convert(order.price_unit, order.currency_id, order.company_id, order.date_order,round=True)
-                print ("amount_in_sgd@@@@@@@",amount_in_sgd)
                 sheet.write('A' + str(num), order.product_id and order.product_id.default_code or '', cell_format)
                 sheet.write('B' + str(num), order.product_id and order.product_id.name or '', cell_format)
                 sheet.write('C' + str(num), order.product_id and "%0.2f" % order.price_unit or '', cell_format)
                 sheet.write('D' + str(num), order.order_id and order.order_id.name or ' ', cell_format)
                 sheet.write('E' + str(num), order.date_order.strftime("%d/%m/%Y") or ' ', format5)
                 sheet.write('F' + str(num), order.currency_id.name or ' ', cell_format)
-                sheet.write('G' + str(num), order.price_unit*currency_sgd.rate or '', cell_format)
+                sheet.write('G' + str(num), order.price_unit/order.currency_id.rate or '', cell_format)
                 num = num + 1
                 sl = sl + 1
         workbook.close()
