@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.menu" id="contacts.res_partner_industry_menu">
+            <field name="name">Segment</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="base.res_partner_industry_action">
+            <field name="name">Segment</field>
+        </record>
+    </data>
+</odoo>
