@@ -13,6 +13,7 @@
     'depends': ['sale', 'base'],
     'data': [
         'views/res_partner_industry_views.xml',
+        'reports/sale_report_views.xml',
     ],
     'installable': True,
     'application': False,
