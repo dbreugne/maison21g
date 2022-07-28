@@ -39,7 +39,6 @@ class PosOrder(models.Model):
                len(sale_orders)
                ]
         return row
-
     def create_sale_order_csv(self, env=None):
         directory = self.env.company.csv_folder or "/tmp"
         try:
@@ -92,7 +91,7 @@ class PosOrder(models.Model):
                 'public': False
             })
         """
-        Remove all old files (on local server) in case this is configured..
+        Remov all old files (on local server) in case this is configured..
         """
         if self.env.company.csv_autoremove:
             delete_date = current_date_time - timedelta(days=self.env.company.csv_days_to_keep)
