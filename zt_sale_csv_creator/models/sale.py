@@ -28,7 +28,7 @@ class PosOrder(models.Model):
         amount_total = 0.0
         for indx, item in enumerate(sale_orders, start=1):
             payment_methods = [k.payment_method_id.name.lower() for k in item.payment_ids]
-            if "cash" or "credit card"  not in payment_methods:
+            if "cash" or "credit card" in payment_methods:
                 amount_tax += item.amount_tax
                 amount_total += item.amount_total
         row = ["MBSSH10",
