@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_account_invoice_report_pivot_inherit_category">
+            <field name="name">account.invoice.report.inherit.category</field>
+            <field name="model">account.invoice.report</field>
+            <field name="inherit_id" ref="account.view_account_invoice_report_pivot"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_categ_id']" position="after">
+                    <field name="parent_category_id" type="row"/>
+                    <field name="industry_id" type="row"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
