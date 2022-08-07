@@ -4,7 +4,6 @@ from odoo import api, fields, models
 from datetime import datetime, timedelta, date
 import csv
 import os
-
 import base64
 
 
