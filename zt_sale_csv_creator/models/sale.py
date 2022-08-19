@@ -20,15 +20,18 @@ class PosOrder(models.Model):
     def get_csv_line_by_date_time(self, hour_date_time, tz, current_date_time):
         start_time = current_date_time.replace(minute=00, second=00)
         end_time = current_date_time.replace(minute=59, second=59)
-        domain = [("create_date", ">=", fields.Datetime.to_string(start_time)),
-                  ("create_date", "<=", fields.Datetime.to_string(end_time)),
-                  ("config_id","in",[6])]
+        domain = [
+            ("create_date", ">=", fields.Datetime.to_string(start_time)),
+            ("create_date", "<=", fields.Datetime.to_string(end_time)),
+            ("config_id","in",[6])
+        ]
         sale_orders = self.with_context(tz=tz).search(domain)
         amount_tax = 0.0
         amount_total = 0.0
         for indx, item in enumerate(sale_orders, start=1):
             payment_methods = [k.payment_method_id.name.lower() for k in item.payment_ids]
-            if "cash" or "credit card"  not in payment_methods:
+            allowed_payment_methods = ['cash', 'credit card']
+            if any([method in payment_methods for method in allowed_payment_methods]):
                 amount_tax += item.amount_tax
                 amount_total += item.amount_total
         row = ["MBSSH10",
