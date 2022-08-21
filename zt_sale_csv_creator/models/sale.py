@@ -20,27 +20,34 @@ class PosOrder(models.Model):
     def get_csv_line_by_date_time(self, hour_date_time, tz, current_date_time):
         start_time = current_date_time.replace(minute=00, second=00)
         end_time = current_date_time.replace(minute=59, second=59)
+        
+        blocked_payment_methods = self.env['pos.payment.method'].search([
+            ('name', 'ilike', 'simplybook me')
+        ])
         domain = [
-            ("create_date", ">=", fields.Datetime.to_string(start_time)),
-            ("create_date", "<=", fields.Datetime.to_string(end_time)),
-            ("config_id","in",[6])
+            ("pos_order_id.create_date", ">=", fields.Datetime.to_string(start_time)),
+            ("pos_order_id.create_date", "<=", fields.Datetime.to_string(end_time)),
+            ("pos_order_id.config_id", "in", [6]),
+            ("payment_method_id", "not in", blocked_payment_methods.ids)
         ]
-        sale_orders = self.with_context(tz=tz).search(domain)
-        amount_tax = 0.0
-        amount_total = 0.0
-        for indx, item in enumerate(sale_orders, start=1):
-            payment_methods = [k.payment_method_id.name.lower() for k in item.payment_ids]
-            allowed_payment_methods = ['cash', 'credit card']
-            if any([method in payment_methods for method in allowed_payment_methods]):
-                amount_tax += item.amount_tax
-                amount_total += item.amount_total
-        row = ["MBSSH10",
-               hour_date_time.strftime("%Y-%m-%d"),
-               hour_date_time.strftime("%H"),
-               amount_total,
-               amount_tax,
-               len(sale_orders)
-               ]
+        pos_payments = self.env['pos.payment'].with_context(tz=tz).search(domain)
+        
+        # amount_tax = sum(pos_payments.mapped('amount_tax'))
+        amount_total = sum(pos_payments.mapped('amount'))
+        pos_order_ids = list(set(pos_payments.mapped('pos_order_id').ids))
+        # for indx, item in enumerate(sale_orders, start=1):
+        #     payment_methods = [k.payment_method_id.name.lower() for k in item.payment_ids]
+        #     if any([method in payment_methods for method in allowed_payment_methods]):
+        #         amount_tax += item.amount_tax
+        #         amount_total += item.amount_total
+        row = [
+            "MBSSH10",
+            hour_date_time.strftime("%Y-%m-%d"),
+            hour_date_time.strftime("%H"),
+            amount_total,
+            amount_total,
+            len(pos_order_ids)
+        ]
         return row
 
     def create_sale_order_csv(self, env=None):
