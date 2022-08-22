@@ -8,6 +8,19 @@ import os
 import base64
 
 
+class PosPayment(models.Model):
+    _inherit = 'pos.payment'
+    
+    def compute_amount_tax(self):
+        amount_tax = 0
+        for payment in self:
+            taxes = payment.pos_order_id.lines.mapped('tax_ids').filtered(lambda t: t.company_id.id == payment.pos_order_id.company_id.id)
+            if payment.pos_order_id.fiscal_position_id:
+                taxes = payment.pos_order_id.fiscal_position_id.map_tax(taxes)
+            taxes = taxes.compute_all(payment.amount, payment.pos_order_id.pricelist_id.currency_id, partner=payment.pos_order_id.partner_id or False)['taxes']
+            amount_tax += sum(tax.get('amount', 0.0) for tax in taxes)
+        return amount_tax
+
 class PosOrder(models.Model):
     _inherit = 'pos.order'
 
@@ -32,7 +45,7 @@ class PosOrder(models.Model):
         ]
         pos_payments = self.env['pos.payment'].with_context(tz=tz).search(domain)
         
-        # amount_tax = sum(pos_payments.mapped('amount_tax'))
+        amount_tax = pos_payments.compute_amount_tax()
         amount_total = sum(pos_payments.mapped('amount'))
         pos_order_ids = list(set(pos_payments.mapped('pos_order_id').ids))
         # for indx, item in enumerate(sale_orders, start=1):
@@ -45,7 +58,7 @@ class PosOrder(models.Model):
             hour_date_time.strftime("%Y-%m-%d"),
             hour_date_time.strftime("%H"),
             amount_total,
-            amount_total,
+            amount_tax,
             len(pos_order_ids)
         ]
         return row
