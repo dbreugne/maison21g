@@ -4,8 +4,22 @@ from odoo import api, fields, models
 from datetime import datetime, timedelta, date
 import csv
 import os
+
 import base64
 
+
+class PosPayment(models.Model):
+    _inherit = 'pos.payment'
+    
+    def compute_amount_tax(self):
+        amount_tax = 0
+        for payment in self:
+            taxes = payment.pos_order_id.lines.mapped('tax_ids').filtered(lambda t: t.company_id.id == payment.pos_order_id.company_id.id)
+            if payment.pos_order_id.fiscal_position_id:
+                taxes = payment.pos_order_id.fiscal_position_id.map_tax(taxes)
+            taxes = taxes.compute_all(payment.amount, payment.pos_order_id.pricelist_id.currency_id, partner=payment.pos_order_id.partner_id or False)['taxes']
+            amount_tax += sum(tax.get('amount', 0.0) for tax in taxes)
+        return amount_tax
 
 class PosOrder(models.Model):
     _inherit = 'pos.order'
@@ -19,25 +33,36 @@ class PosOrder(models.Model):
     def get_csv_line_by_date_time(self, hour_date_time, tz, current_date_time):
         start_time = current_date_time.replace(minute=00, second=00)
         end_time = current_date_time.replace(minute=59, second=59)
-        domain = [("create_date", ">=", fields.Datetime.to_string(start_time)),
-                  ("create_date", "<=", fields.Datetime.to_string(end_time)),
-                  ("config_id","in",[6])]
-        sale_orders = self.with_context(tz=tz).search(domain)
-        amount_tax = 0.0
-        amount_total = 0.0
-        for indx, item in enumerate(sale_orders, start=1):
-            payment_methods = [k.payment_method_id.name.lower() for k in item.payment_ids]
-            if "cash" in payment_methods or "credit card" in payment_methods:
-                amount_tax += item.amount_tax
-                amount_total += item.amount_total
-        row = ["MBSSH10",
-               hour_date_time.strftime("%Y-%m-%d"),
-               hour_date_time.strftime("%H"),
-               amount_total,
-               amount_tax,
-               len(sale_orders)
-               ]
+        
+        blocked_payment_methods = self.env['pos.payment.method'].search([
+            ('name', 'ilike', 'simplybook me')
+        ])
+        domain = [
+            ("pos_order_id.create_date", ">=", fields.Datetime.to_string(start_time)),
+            ("pos_order_id.create_date", "<=", fields.Datetime.to_string(end_time)),
+            ("pos_order_id.config_id", "in", [6]),
+            ("payment_method_id", "not in", blocked_payment_methods.ids)
+        ]
+        pos_payments = self.env['pos.payment'].with_context(tz=tz).search(domain)
+        
+        amount_tax = pos_payments.compute_amount_tax()
+        amount_total = sum(pos_payments.mapped('amount'))
+        pos_order_ids = list(set(pos_payments.mapped('pos_order_id').ids))
+        # for indx, item in enumerate(sale_orders, start=1):
+        #     payment_methods = [k.payment_method_id.name.lower() for k in item.payment_ids]
+        #     if any([method in payment_methods for method in allowed_payment_methods]):
+        #         amount_tax += item.amount_tax
+        #         amount_total += item.amount_total
+        row = [
+            "MBSSH10",
+            hour_date_time.strftime("%Y-%m-%d"),
+            hour_date_time.strftime("%H"),
+            amount_total,
+            amount_tax,
+            len(pos_order_ids)
+        ]
         return row
+
     def create_sale_order_csv(self, env=None):
         directory = self.env.company.csv_folder or "/tmp"
         try:
@@ -90,7 +115,7 @@ class PosOrder(models.Model):
                 'public': False
             })
         """
-        Remov all old files (on local server) in case this is configured..
+        Remove all old files (on local server) in case this is configured..
         """
         if self.env.company.csv_autoremove:
             delete_date = current_date_time - timedelta(days=self.env.company.csv_days_to_keep)
