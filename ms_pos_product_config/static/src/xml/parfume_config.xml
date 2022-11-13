@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="ParfumeConfigButton">
+        <div class='control-button js_parfume_config'>
+            <i class="fa fa-gear"></i> Parfume Config
+        </div>
+    </t>
+
+    <t t-name="ParfumeConfigWIdget">
+        <div class="modal-dialog" id="parfume_config_widget">
+            <div class="popup touch-scrollable scrollable-y" style="width: 900px; min-height: 500px">
+                <div class="card">
+                    <h4 class="card-title">
+                        Parfume Configurator
+                    </h4>
+                    <div class="card-content">
+                        <input type="text" name="product_name" class="product_name" placeholder="Parfume Name" required="True"/>
+                        <h4 class="card-title">
+                            Selected Scent
+                        </h4>
+                        <div class="table-responsive js-selected-scent-list" style="padding-top: 5px;">
+                            <table class="table table-striped" style="width: 100%;">
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid">
+                                        <td class="text-left">Name</td>
+                                        <td class="text-left">Quantity</td>
+                                        <td class="text-left"></td>
+                                    </tr>
+                                    <t t-foreach="[1, 2]" t-as="number">
+                                        <tr class="line-select" t-att-data-scent-id="number">
+                                            <td class="text-center">Scent <t t-esc="number"/></td>
+                                            <td class="text-center">
+                                                <input type="number" name="qty" class="qty" placeholder="Scent Qty" required="True"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <button t-attf-class="btn btn-danger delete_scent_#{number}">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h4 class="card-title">
+                            Availble Scent
+                        </h4>
+                        <div class="table-responsive js-selected-scent-list" style="padding-top: 5px;">
+                            <table class="table table-striped" style="width: 100%;">
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid">
+                                        <td class="text-left">Name</td>
+                                    </tr>
+                                    <t t-foreach="[3, 4, 5, 6, 7, 8, 9, 10]" t-as="number">
+                                        <tr t-attf-class="line-select add_scent_#(number)" t-att-data-scent-id="number">
+                                            <td class="text-center">Scent <t t-esc="number"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="button confirm" id="con_button">
+                        Confirm
+                    </div>
+                    <div class="button cancel">
+                        Cancel
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>
