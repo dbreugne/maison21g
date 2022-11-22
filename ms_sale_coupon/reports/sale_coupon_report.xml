@@ -12,85 +12,73 @@
     </record>
 
     <template id="report_sale_coupon_document">
-        <div class="card">
-            <div class="card-body">
-                <div class="page" style="font-size: 16px;">
-                    <div class="row text-center">
-                        <div class="col-12 text-center">
-                            <img alt="Logo"
-                                t-att-src="'/logo?company=%d' % (o.program_id.company_id)"
-                                t-att-alt="'%s' % (o.program_id.company_id.name)"
-                                style="border:0px solid transparent; height: auto; width: 20px;"/>
+        <t t-call="web.basic_layout">
+            <div class="card p-0">
+                <div class="card-body">
+                    <div class="page" style="font-size: 12px;">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <img alt="Logo"
+                                    t-att-src="'/logo?company=%d' % (o.program_id.company_id)"
+                                    t-att-alt="'%s' % (o.program_id.company_id.name)"
+                                    style="border:0px solid transparent; height: auto; width: 25px;"/>
+                            </div>
                         </div>
-                        <div class="o_offer col-12">
-                            <t t-set="text">OFF ON YOUR NEXT ORDER!</t>
-                            <t t-if="o.program_id.reward_type == 'discount'">
-                                <span t-if="o.program_id.discount_type == 'fixed_amount'"
-                                    class="text-success">
-                                    <strong><span t-field="o.program_id.discount_fixed_amount"
-                                            t-options='{"widget": "monetary", "display_currency": o.program_id.currency_id}' /></strong>
-                                </span>
-                                <span t-if="o.program_id.discount_type == 'percentage'"
-                                    class="text-success">
-                                    <strong><span
-                                            t-field="o.program_id.discount_percentage" />%</strong>
-                                </span>
-                                <t t-if="o.program_id.discount_apply_on == 'specific_products'">
-                                    <t t-if="len(o.program_id.discount_specific_product_ids) > 1">
-                                        <t t-set="text">OFF ON SOME PRODUCTS*</t>
-                                        <t t-set="display_specific_products" t-value="True" />
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <p style="line-height: 18px;">
+                                    <span t-field="o.program_id" t-if="o.program_id"/> <br/>
+                                    <t t-set="text">OFF ON YOUR NEXT ORDER!</t>
+                                    <t t-if="o.program_id.reward_type == 'discount'">
+                                        <span t-if="o.program_id.discount_type == 'fixed_amount'">
+                                            <strong><span t-field="o.program_id.discount_fixed_amount"
+                                                    t-options='{"widget": "monetary", "display_currency": o.program_id.currency_id}' /></strong>
+                                        </span>
+                                        <span t-if="o.program_id.discount_type == 'percentage'">
+                                            <strong><span
+                                                    t-field="o.program_id.discount_percentage" />%</strong>
+                                        </span>
+                                        <t t-if="o.program_id.discount_apply_on == 'specific_products'">
+                                            <t t-if="len(o.program_id.discount_specific_product_ids) > 1">
+                                                <t t-set="text">OFF ON SOME PRODUCTS*</t>
+                                                <t t-set="display_specific_products" t-value="True" />
+                                            </t>
+                                            <t t-else="">
+                                                <t t-set="text">OFF ON %s</t>
+                                                <t t-set="text"
+                                                    t-value="text % o.program_id.discount_specific_product_ids.name.upper()" />
+                                            </t>
+                                        </t>
+                                        <t t-if="o.program_id.discount_apply_on == 'cheapest_product'">
+                                            <t t-set="text">OFF ON THE CHEAPEST PRODUCT</t>
+                                        </t>
                                     </t>
-                                    <t t-else="">
-                                        <t t-set="text">OFF ON %s</t>
+                                    <t t-if="o.program_id.reward_type == 'product'">
+                                        <t t-set="text">GET %s FREE %s ON YOUR NEXT ORDER!</t>
                                         <t t-set="text"
-                                            t-value="text % o.program_id.discount_specific_product_ids.name.upper()" />
+                                            t-value="text % (o.program_id.reward_product_quantity, o.program_id.reward_product_id.name.upper())" />
                                     </t>
-                                </t>
-                                <t t-if="o.program_id.discount_apply_on == 'cheapest_product'">
-                                    <t t-set="text">OFF ON THE CHEAPEST PRODUCT</t>
-                                </t>
-                            </t>
-                            <t t-if="o.program_id.reward_type == 'product'">
-                                <t t-set="text">GET %s FREE %s ON YOUR NEXT ORDER!</t>
-                                <t t-set="text"
-                                    t-value="text % (o.program_id.reward_product_quantity, o.program_id.reward_product_id.name.upper())" />
-                            </t>
-                            <t t-if="o.program_id.reward_type == 'free_shipping'">
-                                <t t-set="text">GET FREE SHIPPING ON YOUR NEXT ORDER!</t>
-                            </t>
-                            <span t-esc="text"/> <br/>
-                            <span t-if="o.expiration_date">
-                                Use this code before
-                                <strong t-field="o.expiration_date"
-                                    t-options='{"format": "d MMMM y"}' />
-                            </span> <br/>
-                            <span>
-                                CODE:
-                                <strong class="bg-success" t-esc="o.code"></strong>
-                            </span>
-                            <!-- <span t-if="o.program_id.rule_min_quantity > 1">
-                                Minimum purchase of
-                                <strong t-esc="o.program_id.rule_min_quantity" /> products
-                            </span>
-                            <span t-if="o.program_id.rule_minimum_amount">
-                                Valid for purchase above
-                                <strong t-esc="o.program_id.rule_minimum_amount"
-                                    t-options="{'widget': 'monetary', 'display_currency': o.program_id.currency_id}" />
-                            </span>
-                            <p t-if="display_specific_products">
-                                <small>
-                                    *Valid for following products:
-                                    <t
-                                        t-esc="', '.join(o.program_id.discount_specific_product_ids.mapped('name')).upper()" />
-                                </small>
-                            </p> -->
-                            <br />
-                            <img alt="Barcode" t-att-src="'/report/barcode/Code128/%s' % o.code" style="border:0px solid transparent; height: auto; width: 200px;"/>
+                                    <t t-if="o.program_id.reward_type == 'free_shipping'">
+                                        <t t-set="text">GET FREE SHIPPING ON YOUR NEXT ORDER!</t>
+                                    </t>
+                                    <span t-esc="text"/> <br/>
+                                    <span t-if="o.expiration_date">
+                                        Use this code before
+                                        <strong t-field="o.expiration_date"
+                                            t-options='{"format": "d MMMM y"}' />
+                                    </span> <br/>
+                                    <img class="py-1" alt="Barcode" t-att-src="'/report/barcode/Code128/%s' % o.code" style="border:0px solid transparent; height: auto; width: 200px;"/> <br/>
+                                    <span>
+                                        CODE:
+                                        <strong t-esc="o.code"></strong>
+                                    </span>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </t>
     </template>
 
     <template id="report_sale_coupon_template">
