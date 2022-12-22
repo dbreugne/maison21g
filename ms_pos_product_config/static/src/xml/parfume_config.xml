@@ -20,7 +20,7 @@
     <t t-name="ParfumeConfigWIdget">
         <div class="modal-dialog" id="parfume_config_widget">
             <div class="popup touch-scrollable scrollable-y" style="width: 900px; min-height: 700px">
-                <div class="card">
+                <div class="card" style="font-size: 12px !important;">
                     <h4 class="card-title">
                         <u>
                             Bottle Creation
@@ -53,13 +53,15 @@
                         </h4>
                         <div class="table-responsive js-selected-scent-list" style="padding-top: 5px;">
                             <table class="table table-striped" style="width: 100%;">
-                                <tbody>
+                                <thead>
                                     <tr style="border-bottom: 1px solid;margin-bottom: 10px;">
-                                        <td class="text-left">Name</td>
-                                        <td class="text-left">Quantity</td>
-                                        <td class="text-left">Uom</td>
-                                        <td class="text-left"></td>
+                                        <th class="text-left">Name</th>
+                                        <th class="text-left">Quantity</th>
+                                        <th class="text-left">Uom</th>
+                                        <th class="text-left"></th>
                                     </tr>
+                                </thead>
+                                <tbody id="selected_scent">
                                     <!-- <t t-foreach="widget.options.scent_order_lines" t-as="scent">
                                         <tr class="line-select" t-att-data-scent-id="scent.id">
                                             <td class="text-center"><t t-esc="scent.product.display_name"/></td>
@@ -75,9 +77,9 @@
                                         </tr>
                                     </t> -->
                                     <t t-if="widget.options.remaining_scents > 0">
-                                        <tr>
-                                            <td colspan="4">
-                                                <a href="#" id="add_scent">Add Scent</a>
+                                        <tr id="add_scent_container">
+                                            <td colspan="4" style="text-align: left; padding-left: 15px;">
+                                                <a href="#" id="add_scent" style="color: royalblue;">Add Scent</a>
                                             </td>
                                         </tr>
                                     </t>
@@ -98,21 +100,19 @@
         </div>
     </t>
     <t t-name="new_scent">
-        <tr class="new_scent">
-            <td class="text-center">
-                <input type="text" id="scent_id" name="scent[]['id']" class="scent_id" required="True"/>
-            </td>
-            <td class="text-center">
-                <input type="number" name="scent[]['qty']" class="scent_qty" placeholder="Scent Qty" required="True"/>
-            </td>
-            <td class="text-left">
-                <input type="text" disabled="disabled"/>
-            </td>
-            <td class="text-center">
-                <button t-attf-class="btn btn-danger delete_scent">
-                    <i class="fa fa-trash"></i>
-                </button>
-            </td>
-        </tr>
+        <td class="text-center" style="padding-top: 10px;">
+            <input type="text" id="scent_id" name="scent[]['id']" class="scent_id" required="True"/>
+        </td>
+        <td class="text-center" style="padding-top: 10px;">
+            <input type="number" name="scent[]['qty']" class="scent_qty" placeholder="Scent Qty" required="True"/>
+        </td>
+        <td class="text-left" style="padding-top: 10px;">
+            <input type="text" disabled="disabled"/>
+        </td>
+        <td class="text-center" style="padding-top: 10px;">
+            <button class="btn btn-danger delete_scent">
+                <i class="fa fa-trash"></i>
+            </button>
+        </td>
     </t>
 </templates>

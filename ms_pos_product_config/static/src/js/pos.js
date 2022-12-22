@@ -40,7 +40,7 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 			// get indexof bottle
 			var idx = order.orderlines.indexOf(this.bottle_order_line);
 			// add section name before bottle
-			order.orderlines.add(section_line, {at: idx - 1})
+			order.orderlines.add(section_line, {at: idx})
 			this.bottle_order_line.engrave_line = section_line
 
 			var scent_id;
@@ -58,8 +58,7 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 					scent_line.set_unit_price(product.get_price(order.pricelist, scent_qty));
 					self.bottle_order_line.scent_lines.push(scent_line)
 					order.orderlines.add(scent_line, {at: idx});
-					self.bottle_order_line -= 1;
-					console.log(scent_line)
+					self.bottle_order_line.remaining_scents -= 1;
 				}
 			}).get();
 			
@@ -85,18 +84,22 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 				}
 			}else{
 				var new_scent_html = QWeb.render('new_scent', {widget:this})
-				var $new_scent_html = $(new_scent_html)
-				if($new_scent_html.is(':hidden')){
-					$new_scent_html.toggle();
-				}
-				$new_scent_html.insertBefore($el.parent().parent());
+				var node = document.createElement('tr');
+				node.className = 'new_scent'
+				var el_node = _.str.trim(new_scent_html);
+				node.innerHTML = el_node
+				var delete_button = node.querySelector('button.delete_scent');
+				delete_button.addEventListener('click', (function(ev) {
+                    this.remove_scent_handler(ev, $(ev.currentTarget))
+                }.bind(this)));
+				$(node).insertBefore($el.parent().parent());
 
 				var $new_scent_hidden = $('tr.new_scent:hidden');
 				if ($new_scent_hidden){
 					$new_scent_hidden.toggle();
 				}
 
-				var scent_id_visible = $('#scent_id:visible')
+				var scent_id_visible = $('input.scent_id:visible')
 				if (scent_id_visible){
 					var product_scents = this.pos.db.get_product_scent();
 					var scents = []
@@ -106,7 +109,7 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 							text: product.display_name
 						})
 					})
-					$('#scent_id:visible').select2({
+					$('input.scent_id:visible').select2({
 						width: '100%',
 						allowClear: true,
 						multiple: true,
@@ -124,9 +127,10 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 		remove_scent_handler: function(event, $el){
 			this.remaining_scents+=1
 			$el.remove()
-			if(this.remaining_scents > 0 && $('#add_scent').is(':hidden')){
-				$('#add_scent').toggle();
+			if(this.remaining_scents > 0 && $('a#add_scent').is(':hidden')){
+				$('a#add_scent').toggle();
 			}
+			this.remaining_scents += 1;
 		},
     });
 
