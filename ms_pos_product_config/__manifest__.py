@@ -10,9 +10,10 @@
     'summary': 'Add Perfume Configurator.',
     'author': 'Portcities Ltd',
     'website': 'http://portcities.net',
-    'depends': ['point_of_sale'],
+    'depends': ['point_of_sale', 'account'],
     'data': [
         'views/template.xml',
+        'views/product_views.xml',
     ],
     'qweb': [
         'static/src/xml/parfume_config.xml'

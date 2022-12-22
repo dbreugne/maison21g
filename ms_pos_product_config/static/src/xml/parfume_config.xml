@@ -7,13 +7,23 @@
         </div>
     </t>
 
+    <t t-extend="Orderline">
+        <t t-jquery='t[t-if="line.get_discount_str() !== &apos;0&apos;"]' t-operation="after">
+            <li class="info js_parfume_config" t-if="line.get_product().is_bottle">
+                <div class="js_parfume_config">
+                    <i class="fa fa-gear"></i> Parfume Config
+                </div>
+            </li>
+        </t>
+    </t>
+
     <t t-name="ParfumeConfigWIdget">
         <div class="modal-dialog" id="parfume_config_widget">
-            <div class="popup touch-scrollable scrollable-y" style="width: 900px; min-height: 500px">
+            <div class="popup touch-scrollable scrollable-y" style="width: 900px; min-height: 700px">
                 <div class="card">
                     <h4 class="card-title">
                         <u>
-                            Parfume Creation
+                            Bottle Creation
                         </u>
                     </h4>
                     <div class="card-content" style="padding-top: 10px;">
@@ -21,18 +31,18 @@
                             <table class="table table-striped" style="width: 100%;">
                                 <tbody>
                                     <tr class="line-select" data-scent-id="1">
-                                        <td class="text-center" style="width: 18%;text-align: left;padding-left: 15px;">Parfume Name
+                                        <td class="text-center" style="width: 18%;text-align: left;padding-left: 15px;">Bottle Name
                                         </td>
 
                                         <td class="text-center">
-                                            <input type="number" name="parfume_name" class="parfume_name" placeholder="Parfume Name" required="True"/>
+                                            <input type="text" class="bottle_name" t-att-value="widget.options.bottle_name || ''" placeholder="Bottle Name" disabled="disabled"/>
                                         </td>
                                     </tr>
                                     <tr class="line-select" data-scent-id="1">
                                         <td class="text-center" style="width: 15%;text-align: left;padding-left: 15px;">Engrave Name
                                         </td>
                                         <td class="text-center">
-                                            <input type="number" name="engrave_name" class="engrave_name" placeholder="Engrave Name" required="True"/>
+                                            <input type="text" name="section_name" t-att-value="widget.options.section_name  || ''" class="section_name" placeholder="Engrave Name" required="True"/>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -50,21 +60,27 @@
                                         <td class="text-left">Uom</td>
                                         <td class="text-left"></td>
                                     </tr>
-                                    <t t-foreach="[1, 2, 3, 4]" t-as="number">
-                                        <tr class="line-select" t-att-data-scent-id="number">
-                                            <td class="text-center">Scent <t t-esc="number"/></td>
+                                    <!-- <t t-foreach="widget.options.scent_order_lines" t-as="scent">
+                                        <tr class="line-select" t-att-data-scent-id="scent.id">
+                                            <td class="text-center"><t t-esc="scent.product.display_name"/></td>
                                             <td class="text-center">
                                                 <input type="number" name="qty" class="qty" placeholder="Scent Qty" required="True"/>
                                             </td>
                                             <td class="text-left">Uom</td>
                                             <td class="text-center">
-                                                <button t-attf-class="btn btn-danger delete_scent_#{number}">
+                                                <button t-attf-class="btn btn-danger delete_scent_#{scent.id}">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
+                                    </t> -->
+                                    <t t-if="widget.options.remaining_scents > 0">
+                                        <tr>
+                                            <td colspan="4">
+                                                <a href="#" id="add_scent">Add Scent</a>
+                                            </td>
+                                        </tr>
                                     </t>
-
                                 </tbody>
                             </table>
                         </div>
@@ -81,5 +97,22 @@
             </div>
         </div>
     </t>
-
+    <t t-name="new_scent">
+        <tr class="new_scent">
+            <td class="text-center">
+                <input type="text" id="scent_id" name="scent[]['id']" class="scent_id" required="True"/>
+            </td>
+            <td class="text-center">
+                <input type="number" name="scent[]['qty']" class="scent_qty" placeholder="Scent Qty" required="True"/>
+            </td>
+            <td class="text-left">
+                <input type="text" disabled="disabled"/>
+            </td>
+            <td class="text-center">
+                <button t-attf-class="btn btn-danger delete_scent">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+    </t>
 </templates>
