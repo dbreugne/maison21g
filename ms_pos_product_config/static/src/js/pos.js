@@ -83,6 +83,11 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 					$el.toggle();
 				}
 			}else{
+				if(this.remaining_scents <= 1){
+					if($el.is(':visible')){
+						$el.toggle();
+					}
+				}
 				var new_scent_html = QWeb.render('new_scent', {widget:this})
 				var node = document.createElement('tr');
 				node.className = 'new_scent'
@@ -101,7 +106,7 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 
 				var scent_id_visible = $('input.scent_id:visible')
 				if (scent_id_visible){
-					var product_scents = this.pos.db.get_product_scent();
+					var product_scents = this.pos.db.product_scents;
 					var scents = []
 					_.forEach(product_scents, function(product){
 						scents.push({
@@ -112,8 +117,8 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 					$('input.scent_id:visible').select2({
 						width: '100%',
 						allowClear: true,
-						multiple: true,
-						maximumSelectionSize: 1,
+						multiple: false,
+						// maximumSelectionSize: 1,
 						placeholder: "Type Scent",
 						data: scents
 					});
@@ -125,12 +130,11 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 			console.log($el);
 		},
 		remove_scent_handler: function(event, $el){
-			this.remaining_scents+=1
-			$el.remove()
+			$el.parent().parent().remove()
+			this.remaining_scents += 1;
 			if(this.remaining_scents > 0 && $('a#add_scent').is(':hidden')){
 				$('a#add_scent').toggle();
 			}
-			this.remaining_scents += 1;
 		},
     });
 

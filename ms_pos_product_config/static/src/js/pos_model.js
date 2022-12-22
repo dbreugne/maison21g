@@ -70,6 +70,10 @@ odoo.define('ms_pos_product_config.pos_model', function (require) {
     }); 
 
     DB.include({
+        init: function(options){
+            this._super.apply(this, arguments);
+            this.product_scents = this.get_product_scent();
+        },
         get_product_scent: function(){
             var res = {}
             _.forEach(this.product_by_id, function(product){
