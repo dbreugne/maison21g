@@ -7,11 +7,16 @@ class SaleOrderLine(models.Model):
     available_qty = fields.Float(compute='_compute_available_qty')
 
     def _compute_available_qty(self):
-        sale_warehouse_location_id = self.order_id.warehouse_id.int_type_id.default_location_src_id.id
-        domain = [('location_id','=', sale_warehouse_location_id)]
+        sale_warehouse_location_id = self.order_id.warehouse_id.lot_stock_id.id
+        warehouse_internal_locations = self.env['stock.location'].search([
+            ('location_id', '=', sale_warehouse_location_id),
+            ('usage', '=', 'internal'),
+        ])
         for line in self:
-            domain += [('location_id.usage', '=', 'internal'),
-                       ('product_id', 'in', self.product_id.ids),
-                    ]
+            domain = [
+                ('location_id', 'in', warehouse_internal_locations.ids),
+                ('product_id', 'in', line.product_id.ids),
+            ]
             stock_quant_obj = self.env['stock.quant'].search(domain)
-            self.available_qty = stock_quant_obj.quantity
+            stock_quant_obj._compute_available_qty()
+            line.available_qty = sum(stock_quant_obj.mapped('available_qty'))
