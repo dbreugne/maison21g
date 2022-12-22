@@ -31,41 +31,54 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 			var id = self.pos.config.wildcard_product_id[0];
 	        var product = self.pos.db.get_product_by_id(id);
 	        var order = self.pos.get_order();
-	        var section_line = new models.Orderline({}, {pos: this.pos, order: order, product: product});
-	        section_line.set_quantity(0);
-            section_line.set_unit_price(0);
-            section_line.set_is_section_product(true);
-            section_line.set_section_name(section_name);
 
 			// get indexof bottle
 			var idx = order.orderlines.indexOf(this.bottle_order_line);
-			// add section name before bottle
-			order.orderlines.add(section_line, {at: idx})
-			this.bottle_order_line.engrave_line = section_line
 
 			var scent_id;
 			$('input[name^="scent"]').map(function(){
 				var value = $(this).val()
 				if($(this).hasClass('scent_id')){
 					scent_id = parseInt(value)
+					if(!value){
+						self.gui.show_popup('error',_t('A Scent Is Required'));
+					}
+					$(this).css('border', '1px solid red');
 				}
 				if($(this).hasClass('scent_qty')){
-					idx+=2;
 					var scent_qty = parseFloat(value)
+					if(!value){
+						self.gui.show_popup('error',_t('A Scent Qty Is Required'));
+					}
+					$(this).css('border', '1px solid red');
 					var product = self.pos.db.get_product_by_id(scent_id);
 					var scent_line = new models.Orderline({}, {pos: self.pos, order: order, product: product});
 					scent_line.set_quantity(scent_qty);
 					scent_line.set_unit_price(product.get_price(order.pricelist, scent_qty));
 					self.bottle_order_line.scent_lines.push(scent_line)
 					order.orderlines.add(scent_line, {at: idx});
+					idx+=1;
 					self.bottle_order_line.remaining_scents -= 1;
 				}
 			}).get();
-			
+
+
+			if(!section_name){
+				self.gui.show_popup('error',_t('Engrave Name Is Required'));
+			}
+			$('input.section_name').css('border', '1px solid red');
+
+	        var section_line = new models.Orderline({}, {pos: this.pos, order: order, product: product});
+	        section_line.set_quantity(0);
+            section_line.set_unit_price(0);
+            section_line.set_is_section_product(true);
+            section_line.set_section_name(section_name);
+
+			// add section name before bottle
+			order.orderlines.add(section_line, {at: idx})
+			this.bottle_order_line.engrave_line = section_line
+
 			this.gui.close_popup();
-            // if( this.options.confirm ){
-            //     this.options.confirm.call(this,value);
-            // }
         },
 		renderElement: function(){
 			var self = this;

@@ -8,13 +8,13 @@ class StockQuant(models.Model):
     
     def _compute_available_qty(self):
         for quant in self:
-            allowed_move_status = ['draft', 'waiting', 'confirmed', 'assigned', 'done']
+            allowed_move_status = ['draft', 'waiting', 'confirmed', 'assigned']
             
             related_moves = self.env['stock.move'].search([
                 ('product_id', '=', quant.product_id.id),
                 ('state', 'in', allowed_move_status),
-                ('location_id.usage', '=', 'internal'),
-                ('location_dest_id.usage', '=', 'customer'),
+                # ('location_id.usage', '=', 'internal'),
+                # ('location_dest_id.usage', '=', 'customer'),
             ])
             outgoing_qty = 0
             different_uom = related_moves.filtered(lambda mv: mv.product_uom.id != False and mv.product_uom.id != quant.product_uom_id.id)
