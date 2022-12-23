@@ -72,16 +72,19 @@ odoo.define('ms_pos_product_config.pos_model', function (require) {
     DB.include({
         init: function(options){
             this._super.apply(this, arguments);
-            this.product_scents = this.get_product_scent();
+            this.product_scents = {};
         },
-        get_product_scent: function(){
-            var res = {}
-            _.forEach(this.product_by_id, function(product){
+        add_products: function(products){
+            this._super.apply(this, arguments);
+            if(!products instanceof Array){
+                products = [products];
+            }
+            for(var i = 0, len = products.length; i < len; i++){
+                var product = products[i];
                 if(product.is_scent){
-                    res[product.id] = product      
+                    this.product_scents[product.id] = product;
                 }
-            })
-            return res;
+            }
         }
     })
 });
