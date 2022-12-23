@@ -34,6 +34,7 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 
 			// get indexof bottle
 			var idx = order.orderlines.indexOf(this.bottle_order_line);
+			idx+=1;
 
 			// value checking
 			var valid = true;
@@ -102,7 +103,8 @@ odoo.define('ms_pos_product_config.product_config', function(require){
             section_line.set_is_section_product(true);
             section_line.set_section_name(section_name);
 
-			// add section name before bottle
+			// add section name after bottle
+			idx+=1;
 			order.orderlines.add(section_line, {at: idx})
 			this.bottle_order_line.engrave_line = section_line
 
