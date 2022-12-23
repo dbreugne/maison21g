@@ -7,7 +7,7 @@
         </div>
     </t>
 
-    <t t-extend="Orderline">
+    <!-- <t t-extend="Orderline">
         <t t-jquery='t[t-if="line.get_discount_str() !== &apos;0&apos;"]' t-operation="after">
             <li class="info" t-if="line.get_product().is_bottle">
                 <div class="js_parfume_config" style="text-align: right">
@@ -15,7 +15,7 @@
                 </div>
             </li>
         </t>
-    </t>
+    </t> -->
 
     <t t-name="ParfumeConfigWIdget">
         <div class="modal-dialog" id="parfume_config_widget">
@@ -64,20 +64,6 @@
                                     </tr>
                                 </thead>
                                 <tbody id="selected_scent">
-                                    <!-- <t t-foreach="widget.options.scent_order_lines" t-as="scent">
-                                        <tr class="line-select" t-att-data-scent-id="scent.id">
-                                            <td class="text-center"><t t-esc="scent.product.display_name"/></td>
-                                            <td class="text-center">
-                                                <input type="number" name="qty" class="qty" placeholder="Scent Qty" required="True"/>
-                                            </td>
-                                            <td class="text-left">Uom</td>
-                                            <td class="text-center">
-                                                <button t-attf-class="btn btn-danger delete_scent_#{scent.id}">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </t> -->
                                     <t t-if="widget.options.remaining_scents > 0">
                                         <tr id="add_scent_container">
                                             <td style="text-align: center; padding-left: 15px;">
