@@ -35,22 +35,56 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 			// get indexof bottle
 			var idx = order.orderlines.indexOf(this.bottle_order_line);
 
+			// value checking
+			var valid = true;
+			// section name checking
+			if(!section_name || section_name == ""){
+				self.do_notify('error',_t('Engrave Name Is Required'));
+				$('input.section_name').css('border', '1px solid red');
+				valid = false
+			}else{
+				$(this).css('border', 'none');
+
+			}
+			// scent schecking
+			$('input[name^="scent"]').map(function(){
+				var value = $(this).val()
+				if($(this).hasClass('scent_id')){
+					scent_id = parseInt(value)
+					if(!value || value == ""){
+						self.do_notify('error',_t('A Scent Is Required'));
+						$(this).siblings('.select2-container').css('border', '1px solid red');
+						valid = false
+					}else{
+						$(this).siblings('.select2-container').css('border', 'none');
+
+					}
+				}
+				if($(this).hasClass('scent_qty')){
+					var scent_qty = parseFloat(value)
+					if(!value || value == ""){
+						self.do_notify('error',_t('A Scent Qty Is Required'));
+						$(this).css('border', '1px solid red');
+						valid = false
+					}else{
+						$(this).css('border', 'none');
+
+					}
+				}
+			}).get();
+
+			if (!valid){
+				return false
+			}
+
 			var scent_id;
 			$('input[name^="scent"]').map(function(){
 				var value = $(this).val()
 				if($(this).hasClass('scent_id')){
 					scent_id = parseInt(value)
-					if(!value){
-						self.gui.show_popup('error',_t('A Scent Is Required'));
-					}
-					$(this).css('border', '1px solid red');
 				}
 				if($(this).hasClass('scent_qty')){
 					var scent_qty = parseFloat(value)
-					if(!value){
-						self.gui.show_popup('error',_t('A Scent Qty Is Required'));
-					}
-					$(this).css('border', '1px solid red');
 					var product = self.pos.db.get_product_by_id(scent_id);
 					var scent_line = new models.Orderline({}, {pos: self.pos, order: order, product: product});
 					scent_line.set_quantity(scent_qty);
@@ -61,12 +95,6 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 					self.bottle_order_line.remaining_scents -= 1;
 				}
 			}).get();
-
-
-			if(!section_name){
-				self.gui.show_popup('error',_t('Engrave Name Is Required'));
-			}
-			$('input.section_name').css('border', '1px solid red');
 
 	        var section_line = new models.Orderline({}, {pos: this.pos, order: order, product: product});
 	        section_line.set_quantity(0);
