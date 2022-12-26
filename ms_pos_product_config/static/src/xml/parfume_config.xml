@@ -7,16 +7,6 @@
         </div>
     </t>
 
-    <!-- <t t-extend="Orderline">
-        <t t-jquery='t[t-if="line.get_discount_str() !== &apos;0&apos;"]' t-operation="after">
-            <li class="info" t-if="line.get_product().is_bottle">
-                <div class="js_parfume_config" style="text-align: right">
-                    <i class="fa fa-gear"></i> Parfume Config
-                </div>
-            </li>
-        </t>
-    </t> -->
-
     <t t-name="ParfumeConfigWIdget">
         <div class="modal-dialog" id="parfume_config_widget">
             <div class="popup" style="width: 900px; min-height: 600px;">
@@ -96,8 +86,9 @@
         <td class="text-center" style="padding-top: 10px;">
             <input type="number" name="scent[]['qty']" class="scent_qty" placeholder="Scent Qty" required="True"/>
         </td>
-        <td class="text-left" style="padding-top: 10px;">
-            <input type="text" disabled="disabled"/>
+        <td class="text-center" style="padding-top: 10px;">
+            g
+            <!-- <input type="text" disabled="disabled"/> -->
         </td>
         <td class="text-center" style="padding-top: 10px;">
             <button class="btn btn-danger delete_scent">

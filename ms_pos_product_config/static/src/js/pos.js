@@ -51,7 +51,6 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 			$('input[name^="scent"]').map(function(){
 				var value = $(this).val()
 				if($(this).hasClass('scent_id')){
-					scent_id = parseInt(value)
 					if(!value || value == ""){
 						self.do_notify('error',_t('A Scent Is Required'));
 						$(this).siblings('.select2-container').css('border', '1px solid red');
@@ -62,7 +61,6 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 					}
 				}
 				if($(this).hasClass('scent_qty')){
-					var scent_qty = parseFloat(value)
 					if(!value || value == ""){
 						self.do_notify('error',_t('A Scent Qty Is Required'));
 						$(this).css('border', '1px solid red');
@@ -116,9 +114,13 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 			this.$('#add_scent').click(function(event){
 				self.add_scent_handler(event,$(this));
 			});
-			$('input[name^="scent"]').change(function(event) {
-				self.onchange_scent_handler(event,$(this));
+			$('#add_scent').on('select2:select', function (e) {
+				var data = e.params.data;
+				console.log(data);
 			});
+			// $('input[name^="scent"]').change(function(event) {
+			// 	self.onchange_scent_handler(event,$(this));
+			// });
 		},
 		add_scent_handler: function(event, $el){
 			if(this.remaining_scents <= 0){
@@ -140,6 +142,10 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 				delete_button.addEventListener('click', (function(ev) {
                     this.remove_scent_handler(ev, $(ev.currentTarget))
                 }.bind(this)));
+				var input_scent = node.querySelector('input.scent_id');
+				input_scent.addEventListener('change', function(ev){
+					this.onchange_scent_handler(ev, $(ev.currentTarget));
+				}.bind(this));
 				$(node).insertBefore($el.parent().parent());
 
 				var $new_scent_hidden = $('tr.new_scent:hidden');
@@ -178,6 +184,13 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 			if(this.remaining_scents > 0 && $('a#add_scent').is(':hidden')){
 				$('a#add_scent').toggle();
 			}
+		},
+		click_cancel: function(){
+			if(this.bottle_order_line){
+				var order = this.bottle_order_line.order;
+				order.remove_orderline(this.bottle_order_line)
+			}
+			this.gui.close_popup();
 		},
     });
 
