@@ -30,5 +30,5 @@ class SaleOrderLine(models.Model):
                 ('product_id', 'in', line.product_id.ids),
             ]
             stock_quant_obj = self.env['stock.quant'].search(domain)
-            stock_quant_obj._compute_available_qty()
+            stock_quant_obj.sudo()._compute_available_qty()
             line.available_qty = sum(stock_quant_obj.mapped('available_qty'))
