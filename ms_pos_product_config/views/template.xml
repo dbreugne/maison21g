@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="point_of_sale_assets" name="pos perfume configurator assets" inherit_id="point_of_sale.index">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/ms_pos_product_config/static/src/js/pos.js"></script>
+            </xpath>
+        </template>
+        <template id="assets" inherit_id="point_of_sale.assets">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" type="text/css" href="/web/static/lib/select2/select2.css"/>
+                <link rel="stylesheet" type="text/css" href="/web/static/lib/select2-bootstrap-css/select2-bootstrap.css"/>
+                <script type="text/javascript" src="/web/static/lib/select2/select2.js"></script>
+                <script type="text/javascript" src="/ms_pos_product_config/static/src/js/pos_screen.js"></script>
+                <script type="text/javascript" src="/ms_pos_product_config/static/src/js/pos_model.js"></script>
+            </xpath>
+        </template>
+    </data>
+</odoo>
