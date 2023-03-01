@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_mrp_product_produce_wizard">
+            <field name="name">mrp.product.produce.form</field>
+            <field name="model">mrp.product.produce</field>
+            <field name="inherit_id" ref="mrp.view_mrp_product_produce_wizard"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('o_row')][2]" position="after">
+                    <field name="finished_lot_number" string="Rename Lot/Serial Number" attrs="{'invisible':[('finished_lot_id', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
