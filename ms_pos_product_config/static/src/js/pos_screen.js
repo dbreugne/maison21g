@@ -24,6 +24,7 @@ odoo.define('ms_pos_product_config.screen', function(require){
                         section_name: (orderline.engrave_line && orderline.engrave_line.product) ? orderline.engrave_line.product.display_name : '',
                         // selected_scents: [],
                         bottle_order_line: orderline,
+                        // bottle_line_id: orderline.id,
                     });
                 }.bind(this)));
             }

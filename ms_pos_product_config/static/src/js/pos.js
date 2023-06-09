@@ -27,6 +27,8 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 	    },
         click_confirm: function(){
 			var self = this
+			// adding bottle_line_id
+			var bottle_line_id = self.bottle_order_line.id
             var section_name = this.$('input.section_name').val();
 			var id = self.pos.config.wildcard_product_id[0];
 	        var product = self.pos.db.get_product_by_id(id);
@@ -75,7 +77,6 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 			if (!valid){
 				return false
 			}
-
 			var scent_id;
 			$('input[name^="scent"]').map(function(){
 				var value = $(this).val()
@@ -85,9 +86,16 @@ odoo.define('ms_pos_product_config.product_config', function(require){
 				if($(this).hasClass('scent_qty')){
 					var scent_qty = parseFloat(value)
 					var product = self.pos.db.get_product_by_id(scent_id);
-					var scent_line = new models.Orderline({}, {pos: self.pos, order: order, product: product});
+					// nambah order line
+					var scent_line = new models.Orderline({}, {
+						pos: self.pos,
+						order: order,
+						product: product,
+						bottle_line_id: bottle_line_id,
+					});
 					scent_line.set_quantity(scent_qty);
 					scent_line.set_unit_price(product.get_price(order.pricelist, scent_qty));
+					scent_line.bottle_line_idx = idx-1;
 					self.bottle_order_line.scent_lines.push(scent_line)
 					order.orderlines.add(scent_line, {at: idx});
 					idx+=1;

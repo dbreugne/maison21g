@@ -14,6 +14,7 @@
     'data': [
         'views/template.xml',
         'views/product_views.xml',
+        'views/pos_order_line_views.xml'
     ],
     'qweb': [
         'static/src/xml/parfume_config.xml'

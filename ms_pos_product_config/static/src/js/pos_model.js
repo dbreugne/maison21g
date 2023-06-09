@@ -8,6 +8,7 @@ odoo.define('ms_pos_product_config.pos_model', function (require) {
     var QWeb = core.qweb;
     
     models.load_fields("product.product", ["is_scent", "is_bottle", "max_number_of_scents"]);
+    models.load_fields("pos.order.line", ["bottle_line_id"]);
     
     var _super_orderline = models.Orderline.prototype;
     models.Orderline = models.Orderline.extend({
@@ -17,6 +18,7 @@ odoo.define('ms_pos_product_config.pos_model', function (require) {
             this.engrave_line = options.engrave_line || false;
             this.scent_lines = options.scent_lines || [];
             this.remaining_scents = options.remaining_scents || 0;
+            this.bottle_line_idx = false;
             var product = options.product;
             if (product && product.is_bottle != false){
                 this.pos.gui.show_popup('pos_perfume_configurator', {
@@ -25,9 +27,16 @@ odoo.define('ms_pos_product_config.pos_model', function (require) {
                     bottle_name: product.display_name,
                     selected_scents: [],
                     bottle_order_line: this,
+                    // bottle_line_id : this.id
                 });
             }
         },
+        // set_bottle_line_id: function (bottle_line_id) {
+        //     this.bottle_line_id = bottle_line_id;
+        // },
+        // get_bottle_line_id: function(bottle_line_id){
+        //     return this.bottle_line_id;
+        // },
         destroy: function(){
             var res = _super_orderline.destroy.apply(this, arguments);
             return res            
@@ -44,8 +53,18 @@ odoo.define('ms_pos_product_config.pos_model', function (require) {
             if(product && (product.is_bottle || product.scent)){
                 return false;
             }
+
+            // var bottle_line_id = orderline.bottle_line_id;
+            // if (product && (bottle_line_id.bottle_line_id)) {
+            //     return false
+            // }
             return res
-        }
+        },
+        export_as_JSON: function(){
+            var json = _super_orderline.export_as_JSON.call(this);
+            json.bottle_line_idx = this.bottle_line_idx;
+            return json;
+        },
     });
 
     var _super_order = models.Order.prototype;
@@ -83,6 +102,7 @@ odoo.define('ms_pos_product_config.pos_model', function (require) {
                 var product = products[i];
                 if(product.is_scent){
                     this.product_scents[product.id] = product;
+                    // this.product_scents['bottle_line_id'] = product.bottle_line_id;
                 }
             }
         }
