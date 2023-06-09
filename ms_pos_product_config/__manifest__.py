@@ -13,8 +13,9 @@
     'depends': ['point_of_sale', 'account'],
     'data': [
         'views/template.xml',
+        'reports/pos_order_report.xml',
         'views/product_views.xml',
-        'views/pos_order_line_views.xml'
+        'views/pos_order_line_views.xml',
     ],
     'qweb': [
         'static/src/xml/parfume_config.xml'
