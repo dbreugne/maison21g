@@ -48,6 +48,7 @@ class PosOrder(models.Model):
         amount_tax = pos_payments.compute_amount_tax()
         amount_total = sum(pos_payments.mapped('amount'))
         pos_order_ids = list(set(pos_payments.mapped('pos_order_id').ids))
+        currency_sgd = self.env.ref('base.SGD').sudo()
         # for indx, item in enumerate(sale_orders, start=1):
         #     payment_methods = [k.payment_method_id.name.lower() for k in item.payment_ids]
         #     if any([method in payment_methods for method in allowed_payment_methods]):
@@ -57,8 +58,8 @@ class PosOrder(models.Model):
             "MBSSH10",
             hour_date_time.strftime("%Y-%m-%d"),
             hour_date_time.strftime("%H"),
-            amount_total,
-            amount_tax,
+            currency_sgd.round(amount_total),
+            currency_sgd.round(amount_tax),
             len(pos_order_ids)
         ]
         return row
