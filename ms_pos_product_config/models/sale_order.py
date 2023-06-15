@@ -12,12 +12,6 @@ class SaleOrder(models.Model):
     def _get_bottle_list(self):
         if not self._context.get('module', False):
             for order in self:
-                # bottle = []
-                # for line in order.order_line:
-                #     check_bottle = line.product_id.is_bottle
-                #     if check_bottle:
-                #         bottle.append(line.product_id.id)
-                # order.bottle_ids = [(6, 0, bottle)]
                 bottle_product_ids = order.order_line.filtered(
                     lambda l: l.product_id.id != False and l.product_id.is_bottle
                 ).mapped('product_id')
