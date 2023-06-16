@@ -1,12 +1,13 @@
 
 {
     'name': 'POS Perfume Configurator',
-    'version': '13.0.1.2',
+    'version': '13.0.1.3',
     'sequence': 1,
     'category': 'Point Of Sale',
     'description': """ 
         Add Perfume Configurator. \n
-        Add Scent selection in sale
+        Add Scent selection in sale \n
+        move field client_order_ref
     """,
     'summary': 'Add Perfume Configurator.',
     'author': 'Portcities Ltd',
