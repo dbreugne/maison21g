@@ -2,8 +2,9 @@ from odoo import models, fields, api
 
 
 class CRMOrderTeamtWizard(models.TransientModel):
-
+    """Create new wizard crm.order.xlsx"""
     _name = 'crm.order.xlsx'
+    _description = 'Wizard to generate CRM Team report'
 
     date_start = fields.Datetime(string="Start Date", required=True)
     date_end = fields.Datetime(string="End Date", required=True)

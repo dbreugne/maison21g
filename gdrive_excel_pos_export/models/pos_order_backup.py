@@ -27,7 +27,9 @@ start_day_of_prev_month = date.today().replace(day=1) - timedelta(days=last_day_
 
 
 class POSGdriveBackup(models.Model):
+    """Create a new model pos.gdrive.backup"""
     _name = 'pos.gdrive.backup'
+    _description = 'POS GDrive Backup'
 
 
     # Columns fro Google Drive

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="ms_view_order_form">
+            <field name="name">ms.view.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group/group[1]" position="inside">
+                    <field name="bottle_ids" widget="many2many_tags" invisible="1" />
+                </xpath>
+                <xpath expr="//tree/field[@name='name']" position="after">
+                    <field name="is_scent" invisible="1" />
+                    <field name="bottle_id" optional="show" attrs="{'readonly':[('is_scent','=', False)]}" />
+                </xpath>
+                <xpath expr="//field[@name='client_order_ref']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_invoice_id']" position="before">
+                    <field name="client_order_ref"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

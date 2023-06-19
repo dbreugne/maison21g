@@ -4,7 +4,9 @@ from odoo.exceptions import UserError
 
 
 class MultiDo(models.TransientModel):
+    """Create a new wizard multi.do.wiz"""
     _name = 'multi.do.wiz'
+    _description = 'Multi DO Wizard'
 
     # pick_ids = fields.Many2many('stock.picking', 'stock_picking_transfer_rel')
 

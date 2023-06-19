@@ -3,6 +3,7 @@ from odoo import models,fields,api
 class PartnerXlsx(models.AbstractModel):
     _name = 'report.excel_pos_report.pos_order_xlsx'
     _inherit = 'report.report_xlsx.abstract'
+    _description = 'Report Pos Orded XLSX'
 
     def generate_xlsx_report(self, workbook, data, partners):
 

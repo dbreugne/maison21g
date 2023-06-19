@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 import logging
 from odoo import models
 
@@ -7,7 +6,9 @@ _logger = logging.getLogger(__name__)
 
 
 class SaleOrderConfirm(models.TransientModel):
+    """Create new model sale.order.confirm"""
     _name = 'sale.order.confirm'
+    _description = "Sale Order Confirm"
 
 
     def sale_confirm(self):
