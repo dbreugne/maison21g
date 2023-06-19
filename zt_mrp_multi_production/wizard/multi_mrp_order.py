@@ -11,8 +11,9 @@ class StockLocation(models.Model):
 
 
 class MultiMRP(models.Model):
-
+    """Create a new model multi.mrp"""
     _name = "multi.mrp"
+    _description = "Multi MRP"
 
     @api.model
     def _get_default_picking_type(self):
@@ -140,8 +141,9 @@ class MultiMRP(models.Model):
 
 
 class MultiMRPLine(models.Model):
-
+    """Create a new model mrpmulti.lines"""
     _name = 'mrpmulti.lines'
+    _description = 'MRP Multi Lines'
 
     @api.model
     def _get_default_picking_type(self):

@@ -2,8 +2,10 @@ from odoo import models, fields, api
 from odoo.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
 
 class CRMTeamXlsx(models.AbstractModel):
+    """Create xlsx report for CRM team"""
     _name = 'report.zt_sales_report.crm_order_xlsx'
     _inherit = 'report.report_xlsx.abstract'
+    _description = 'CRM Team xlsx report'
 
     def generate_xlsx_report(self, workbook, data, partners):
         start_date = data['date_start']

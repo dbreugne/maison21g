@@ -5,6 +5,7 @@ from odoo.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
 class PurchaseOrderXls(models.AbstractModel):
     _name = 'report.zt_po_report.purchase_order_xlsx'
     _inherit = 'report.report_xlsx.abstract'
+    _description = 'Report Purchase Order XLSX'
 
     def generate_xlsx_report(self, workbook, data, partners):
         start_date = data['date_start']

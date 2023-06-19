@@ -2,8 +2,9 @@ from odoo import models, fields, api
 
 
 class PurchaseOrderWizard(models.TransientModel):
-
+    """Create a new wizard purchase.order.xlsx"""
     _name = 'purchase.order.xlsx'
+    _description = 'Wizard to generate the Purchase Order Report'
 
     date_start = fields.Datetime(string="Start Date", required=True)
     date_end = fields.Datetime(string="End Date", required=True)

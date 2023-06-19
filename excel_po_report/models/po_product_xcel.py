@@ -5,7 +5,9 @@ from odoo import models, fields, api
 
 
 class PoProductReportWizard(models.TransientModel):
+    """Create a new wizard po.order.product.xlsx"""
     _name = 'po.order.product.xlsx'
+    _description = 'Wizard to generate the PO Product Report'
 
     apply_date = fields.Boolean("Apply Date")
     date_start = fields.Date(string="Start Date")
