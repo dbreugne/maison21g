@@ -202,7 +202,7 @@ odoo.define('ms_pos_product_config.product_config', function(require){
     });
 
 
-	gui.define_popup({name:'pos_perfume_configurator', widget: PerfumeConfigWidget});
+	gui.define_popup({ name: 'pos_perfume_configurator', widget: PerfumeConfigWidget });
 
 	// var PerfumeConfigButton = screens.ActionButtonWidget.extend({
 	//     template: 'ParfumeConfigButton',
