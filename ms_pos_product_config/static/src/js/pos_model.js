@@ -19,19 +19,6 @@ odoo.define('ms_pos_product_config.pos_model', function (require) {
             this.scent_lines = options.scent_lines || [];
             this.remaining_scents = options.remaining_scents || 0;
             this.bottle_line_idx = false;
-            // var product = options.product;
-            // if (product && product.is_bottle != false) {
-            //     // if (product && product.tracking == 'none') {
-            //         this.pos.gui.show_popup('pos_perfume_configurator', {
-            //             bottle: product,
-            //             remaining_scents: product.max_number_of_scents,
-            //             bottle_name: product.display_name,
-            //             selected_scents: [],
-            //             bottle_order_line: this,
-            //             // bottle_line_id : this.id
-            //         });
-            //     // }
-            // }
         },
         destroy: function(){
             var res = _super_orderline.destroy.apply(this, arguments);
@@ -50,10 +37,6 @@ odoo.define('ms_pos_product_config.pos_model', function (require) {
                 return false;
             }
 
-            // var bottle_line_id = orderline.bottle_line_id;
-            // if (product && (bottle_line_id.bottle_line_id)) {
-            //     return false
-            // }
             return res
         },
         export_as_JSON: function(){
