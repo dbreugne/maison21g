@@ -16,6 +16,8 @@
     'data': [
         'views/template.xml',
         'reports/pos_order_report.xml',
+        'data/server_actions_bottle.xml',
+        'data/scheduled_actions_bottle.xml',
         'views/product_views.xml',
         'views/pos_order_line_views.xml',
         'views/sale_order_views.xml',
