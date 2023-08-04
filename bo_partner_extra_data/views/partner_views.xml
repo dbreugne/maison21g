@@ -12,9 +12,9 @@
                 <field name="children" widget="radio"/>
                 <field name="no_children"  attrs="{'invisible':[('children','=','no')]}"/>
             </xpath>
-            <xpath expr="//field[@name='vat']" position="after">
+            <!-- <xpath expr="//field[@name='vat']" position="after">
                 <field name="membership"/>
-            </xpath>
+            </xpath> -->
         </field>
     </record>
 </odoo>
