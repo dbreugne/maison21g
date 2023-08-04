@@ -19,3 +19,9 @@ class ResPartner(models.Model):
     children = fields.Selection(
         [('yes', 'Yes'), ('no', 'No')], string='Children')
     no_children = fields.Integer('No.of Children')
+    
+    membership = fields.Selection([
+        ('silver','Silver'),
+        ('gold','Gold'),
+        ('black','Black')
+    ])
