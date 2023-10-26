@@ -1,0 +1,15 @@
+<odoo>
+    <record id="account_task_form" model="ir.ui.view">
+        <field name="name">Project Task</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='extra_info']/group" position="inside">
+               <group string="Developer Estimation">
+                    <field name="hours" groups="base.group_no_one"/>
+                    <field name="amount" groups="base.group_no_one"/>
+               </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
