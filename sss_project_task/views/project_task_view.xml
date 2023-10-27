@@ -6,8 +6,8 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook/page[@name='extra_info']/group" position="inside">
                <group string="Developer Estimation">
-                    <field name="hours" groups="base.group_no_one"/>
-                    <field name="amount" groups="base.group_no_one"/>
+                    <field name="hours"/>
+                    <field name="amount"/>
                </group>
             </xpath>
         </field>
