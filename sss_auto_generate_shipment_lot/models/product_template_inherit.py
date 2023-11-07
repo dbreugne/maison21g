@@ -31,10 +31,3 @@ class StockMove(models.Model):
                 'lot_name': self.env['ir.sequence'].next_by_code('stock.production.lot.seial')})]})
             self.is_true_lot = True
         return res
-
-
-
-class AccountMoveInherit(models.Model):
-    _inherit = 'account.move'
-
-    sale_orders_id = fields.Many2one('sale.order', related="invoice_line_ids.sale_line_ids.order_id", string='SSS Sales')

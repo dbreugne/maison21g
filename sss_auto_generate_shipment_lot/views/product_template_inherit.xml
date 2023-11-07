@@ -21,15 +21,5 @@
 	            </xpath>
 	        </field>
 		</record>
-		<record id="account_invoice_inherit" model="ir.ui.view">
-			<field name="name">account.move.view.tree.inherited</field>
-	        <field name="model">account.move</field>
-	        <field name="inherit_id" ref="account.view_invoice_tree"/>
-	        <field name="arch" type="xml">
-	            <xpath expr="//field[@name='name']" position="after">
-	                <field name="sale_orders_id" invisible="0"/>
-	            </xpath>
-	        </field>
-		</record>
 	</data>
 </odoo>
