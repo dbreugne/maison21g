@@ -1,7 +1,7 @@
 
 {
     'name': 'Auto Ganrate Lot No in Shipment', 
-    'version': '1.4',
+    'version': '1.5',
     'sequence': 1, 
     'category': 'Auto Ganrate Lot No In Shipment', 
     'description': 
