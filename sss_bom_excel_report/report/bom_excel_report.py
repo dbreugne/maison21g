@@ -11,7 +11,6 @@ class BOMExcelReport(models.AbstractModel):
 
     def generate_xlsx_report(self, workbook, data, objs):
         sheet = workbook.add_worksheet('mrp.bom')
-
         bold = workbook.add_format({'font_color':'white','bg_color':'#380036','align':'center','valign':'center','font_size':12})
         size = workbook.add_format({'bold':True,'align':'left'})
         size1 = workbook.add_format({'bold':True,'align':'left', 'bg_color': '#E9ECEF'})
