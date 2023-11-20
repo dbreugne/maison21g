@@ -1,11 +1,12 @@
-
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'Auto Ganrate Lot No in Shipment', 
-    'version': '1.5',
-    'sequence': 1, 
-    'category': 'Auto Ganrate Lot No In Shipment', 
-    'description': 
-        """ 
+    'name': 'Auto Ganrate Lot No in Shipment',
+    'version': '1.6',
+    'sequence': 1,
+    'category': 'Auto Ganrate Lot No In Shipment',
+    'description':
+        """
         Auto Ganrate Lot No In Shipment.
     """,
     'summary': 'Auto Ganrate Lot No In Shipment',

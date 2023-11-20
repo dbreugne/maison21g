@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+    <template id="search_template_countries">
+        <a t-if="context.get('model') in ('account.general.ledger','account.partner.ledger','account.coa.report','account.cash.flow.report','account.generic.tax.report','account.financial.html.report', 'account.aged.receivable','account.aged.payable','account.analytic.report','account.consolidated.journal')" type="button" class="dropdown-toggle account_country_filter" data-toggle="dropdown">
+            <span class="fa fa-folder-open"/> Country
+        </a>
+        <ul class="dropdown-menu o_filters_menu" role="menu">
+            <li class="o_account_report_search account_countrym2m"/>
+        </ul>
+    </template>
+
+    <template id="search_template_countries_filter" inherit_id="account_reports.search_template" >
+    	<xpath expr="//div[@id='extra_options_dropdown']" position="after">
+    		<div class="btn-group o_dropdown o_account_reports_filter_countries">
+                <t t-call="account_gernal_ledger_report.search_template_countries"/>
+            </div>
+    	</xpath>
+    </template>
+</data>
+</odoo>
