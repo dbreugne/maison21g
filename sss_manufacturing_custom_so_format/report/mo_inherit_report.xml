@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="mo_report_inherit" inherit_id="mrp.report_mrporder">
+		<xpath expr="//div[@t-if='o.origin']" position="replace">
+		</xpath>
+		<xpath expr="//div[4]/div[2]" position="after">
+			<div class="col-3">
+				<span t-if="o.origin">Sale Order Number: <span t-field="o.origin"/></span> <br/>
+				<span t-if="o.sale_id">Customer Name: <span t-field="o.sale_id.partner_id.name"/></span><br/>
+				<span t-if="o.date_deadline">Deadline: <span t-field="o.date_deadline"/></span> <br/>
+			</div>
+		</xpath>
+		<xpath expr="//th[@t-if='has_product_barcode']" position="replace">
+			<th width="15%"	class="text-center">Quantity Picked</th>
+		</xpath>
+		<xpath expr="//td[@t-if='has_product_barcode']" position="replace">
+			<td><span class="text-center" t-esc="raw_line.product_uom_qty * o.product_qty"/></td>
+		</xpath>
+	</template>
+	
+</odoo>
