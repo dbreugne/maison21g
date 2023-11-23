@@ -14,7 +14,7 @@ class SaleOrderInherit(models.Model):
 		res = super(SaleOrderInherit, self).action_confirm()
 		for rec in self.order_line:
 			for routes in rec.product_id.route_ids:
-				if routes.name in ['Manufacture', 'Replenish on Order (MTO)'] and rec.product_id.qty_available == 0.0:
+				if routes.name in ['Manufacture', 'Replenish on Order (MTO)']:
 					rec.order_id.mo_status = 'pending_manufacturing'
 		return res
 

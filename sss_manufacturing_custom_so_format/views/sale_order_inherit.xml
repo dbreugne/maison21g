@@ -34,6 +34,17 @@
 		</field>
 	</record>
 
+	<record id="sale_order_inherit_mo_id" model="ir.ui.view">
+		<field name="name">mrp.production.view.form.inherited</field>
+		<field name="model">mrp.production</field>
+		<field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='origin']" position="after">
+				<field name="sale_id" />
+			</xpath>
+		</field>
+	</record>
+
 	<record id="mrp_subcontracting_attrs_for_state" model="ir.ui.view">
 		<field name="name">mrp.production.form.view</field>
 		<field name="model">mrp.production</field>
