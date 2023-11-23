@@ -14,7 +14,7 @@
 			<th width="15%"	class="text-center">Quantity Picked</th>
 		</xpath>
 		<xpath expr="//td[@t-if='has_product_barcode']" position="replace">
-			<td><span class="text-center" t-esc="raw_line.product_uom_qty * o.product_qty"/></td>
+			<td><!-- <span class="text-center" t-esc="raw_line.product_uom_qty * o.product_qty"/> --></td>
 		</xpath>
 	</template>
 	

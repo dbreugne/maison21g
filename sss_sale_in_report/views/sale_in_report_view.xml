@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<record id="sale_in_report_pivot_view" model="ir.ui.view">
+	        <field name="name">sale.in.reports.pivot.view</field>
+	        <field name="model">sale.in.reports</field>
+	        <field name="arch" type="xml">
+	            <pivot string="Sale In Report" disable_linking="True">
+                    <field name="product_category_id" type="row"/>
+                    <field name="product_id"/>
+                    <field name="partner_id"/>
+                    <field name="industry_id" type="col"/>
+                    <field name="pos_config_id" type="col"/>
+                    <field name="total_price" type="measure" widget="monetary"/>
+                    <field name="actual_selling_price" type="measure"/>
+	           		<field name="total_revenue" type="measure"/>
+	           		<field name="sales_quantity" type="measure"/>
+                    <field name="average_price" type="measure"/>
+                    <field name="user_id" type="measure" invisible="1"/>
+                    <field name="pos_config_id"/>
+                    <field name="pos_order_id"/>
+                    <!-- <field name="pos_config_id" type="measure"/> -->
+                    <field name="uom_id" type="measure" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+	            </pivot>
+	        </field>
+    	</record>
+
+	    <record id="action_sale_in_report" model="ir.actions.act_window">
+	        <field name="name">Sale In Report</field>
+	        <field name="res_model">sale.in.reports</field>
+	        <field name="binding_view_types">pivot</field>  
+	        <field name="view_id" eval="sale_in_report_pivot_view"></field>
+	        <field name="view_mode">pivot</field>
+	    </record>
+	    <menuitem id="menu_sale_in_report"
+			      name="Sale In Report"
+			      action= "action_sale_in_report"
+			      parent="point_of_sale.menu_point_rep"
+			      sequence="3"/>
+	   
+    </data>
+</odoo>
+
+
+

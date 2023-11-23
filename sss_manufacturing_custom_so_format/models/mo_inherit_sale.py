@@ -9,7 +9,7 @@ from dateutil.relativedelta import relativedelta
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
-    sale_id = fields.Many2one('sale.order',string="Sale Order Ref")
+    sale_id = fields.Many2one('sale.order', string="Sale Order Ref")
 
     @api.model
     def create(self, values):
