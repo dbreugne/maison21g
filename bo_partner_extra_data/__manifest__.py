@@ -5,7 +5,7 @@
     'summary': 'ZT POS Customers DOB',
     'description': """ZT POS Customers DOB""",
     'category': 'Others',
-    'version': '1.0',
+    'version': '1.1',
     'website': 'http://www.zt.com/',
     'author': 'ZTR',
     'depends': ['base','point_of_sale'],
