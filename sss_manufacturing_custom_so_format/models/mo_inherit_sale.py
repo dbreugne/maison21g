@@ -9,7 +9,24 @@ from dateutil.relativedelta import relativedelta
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
-    sale_id = fields.Many2one('sale.order', string="Sale Order Ref")
+    sale_id = fields.Many2one('sale.order', string="Sale Order", copy=False)
+    order_count = fields.Integer(string="Sale Order", compute="_compute_order_count",copy=False)
+
+    @api.depends('sale_id')
+    def _compute_order_count(self):
+        for order in self:
+            order.order_count = len(order.sale_id)
+
+    def action_view_saleorder(self):
+        self.ensure_one()
+        return{
+            'name':'Sale Orders',
+            'res_model':'sale.order',
+            'view_mode':'tree,form',
+            'target':'current',
+            'domain': [('id', '=', self.sale_id.id)],
+            'type':'ir.actions.act_window'
+        }
 
     @api.model
     def create(self, values):
@@ -19,7 +36,7 @@ class MrpProduction(models.Model):
         res['sale_id'] = sale_id.id
         if sale_id:
             sale_id.write({
-                'manufacturing_ids': [(6,0,res.ids)]
+                'manufacturing_ids': [(4,res.id)]
                 })
         return res
 
@@ -36,8 +53,6 @@ class MrpProduction(models.Model):
             mrp_ids.sale_id.mo_status = 'ready_to_ship'
         res = super(MrpProduction, self).button_mark_done()
         return res
-
-
 
 
 class MrpProductProduce(models.TransientModel):
@@ -57,7 +72,7 @@ class MrpProductProduce(models.TransientModel):
                 'product_uom_id': res.get('product_uom_id'),
                 'company_id': self.env.company.id,
                 'life_date': three_years_later,
-                'name': self.env['ir.sequence'].next_by_code('stock.production.lot.seial')})
+                'name': self.env['ir.sequence'].next_by_code('stock.production.lot.mrp')})
             res['finished_lot_id'] = lot_id.id
             res['expairy_date'] = three_years_later
         return res

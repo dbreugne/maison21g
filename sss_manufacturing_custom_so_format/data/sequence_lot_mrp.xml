@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data noupdate="1">
+		<record id="account_lot_sequence_mrp" model="ir.sequence">
+	        <field name="name">Lot Serial Sequence mrp</field>
+	        <field name="code">stock.production.lot.mrp</field>
+	    	<field name="number_next_actual">01</field>
+	        <!-- <field name="prefix">IVR/%(year)s/</field> -->
+	        <field name="padding">5</field>
+        </record>
+	</data>
+</odoo>

@@ -3,7 +3,7 @@
 
 {
     'name': 'Manufacturing Order Report',
-    'version': '0.4',
+    'version': '0.5',
     'sequence': 1,
     'category': 'Manufacturing Order Report',
     'description': 
@@ -16,6 +16,7 @@
     'depends': ['mrp','sale'],
     'data': [
         'report/mo_inherit_report.xml',
+        'data/sequence_lot_mrp.xml',
         'views/sale_order_inherit.xml',
         'views/mo_inherit_sale.xml',
     ],
