@@ -4,6 +4,7 @@ import xlrd
 import io
 import math
 from datetime import datetime, timedelta
+from datetime import datetime
 import xlsxwriter
 import datetime
 from base64 import b64decode , b64encode
@@ -11,12 +12,12 @@ from base64 import b64decode , b64encode
 
 class DailySaleReport(models.TransientModel):
 	_name = "daily.sale.report"
-	_description = "Daily Sale Report"  
+	_description = "Daily Sale Report"
 
 	file = fields.Binary()
 	document = fields.Binary('Excel Report')
 	myfile = fields.Char('Excel File', size=64)
-	date = fields.Date('Date')
+	date = fields.Date('Date', default=lambda self: fields.Date.context_today(self))
 
 	def daily_sales_report(self):
 		output = io.BytesIO()
@@ -47,13 +48,18 @@ class DailySaleReport(models.TransientModel):
 
 		row = 4
 		indexing = 1
+		counter = 0
+		sale_order_count = []
 		for rec in pos_order_ids:
+			if not rec.session_id.user_id.id in sale_order_count:
+				sale_order_count.append(rec.session_id.user_id.id)
+
 			worksheet.write(row, 0, indexing, data_border_format)
 			worksheet.write(row, 1, rec.session_id.name, data_border_format)
 			worksheet.write(row, 2, rec.name, data_border_format)
-			worksheet.write(row, 3, rec.amount_total, data_border_format)
+			worksheet.write(row, 3, rec.amount_total, data_border_format_right)
 			worksheet.write(row, 4, rec.lines.tax_ids_after_fiscal_position.name, data_border_format)
-			worksheet.write(row, 5, rec.amount_tax, data_border_format)
+			worksheet.write(row, 5, rec.amount_tax, data_border_format_right)
 			worksheet.write(row, 6, rec.payment_ids.payment_method_id.name, data_border_format)
 			worksheet.write(row, 7, rec.session_id.user_id.name, data_border_format)
 			worksheet.set_column('A:A', 25)
@@ -66,6 +72,7 @@ class DailySaleReport(models.TransientModel):
 			worksheet.set_column('H:H', 18)
 			row += 1
 			indexing = indexing+1
+			counter += 1
 
 		worksheet.merge_range(row+1, 0, row+1, 1, 'Payment summary', head)
 		worksheet.write(row+2, 0, 'Cash', data_border_format)
@@ -87,7 +94,9 @@ class DailySaleReport(models.TransientModel):
 		alipay_total = sum(pos_order_ids.payment_ids.filtered(lambda x:x.payment_method_id.name == "ALIPAY").mapped("amount"))
 		grabpay_total = sum(pos_order_ids.payment_ids.filtered(lambda x:x.payment_method_id.name == "GrabPay").mapped("amount"))
 		weChat_pay_total = sum(pos_order_ids.payment_ids.filtered(lambda x:x.payment_method_id.name == "WeChat Pay").mapped("amount"))
+		visamaster_total = sum(pos_order_ids.payment_ids.filtered(lambda x:x.payment_method_id.name == "Visa/Master").mapped("amount"))
 		alipay_grappay_wechat_pay_total = alipay_total + grabpay_total + weChat_pay_total
+		sale_for_today = alipay_grappay_wechat_pay_total + cash_total + amex_total + credit_card_total + simplybookme_total + klook_total + tipalti_total + atome_total
 		
 		worksheet.write(row+2,1, cash_total, data_border_format_right)
 		worksheet.write(row+3,1, amex_total, data_border_format_right)
@@ -97,6 +106,33 @@ class DailySaleReport(models.TransientModel):
 		worksheet.write(row+7,1, klook_total, data_border_format_right)
 		worksheet.write(row+8,1, tipalti_total, data_border_format_right)
 		worksheet.write(row+9,1, atome_total, data_border_format_right)
+
+		worksheet.merge_range(row+1, 2, row+1, 3, 'Today Sales Report', head)
+		worksheet.write(row+2, 2, 'Sales for today', data_border_format)
+		worksheet.write(row+3, 2, 'Transactions', data_border_format)
+		worksheet.write(row+4, 2, 'Quantity', data_border_format)
+		worksheet.write(row+5, 2, 'Visa/Master', data_border_format)
+		worksheet.write(row+6, 2, 'Amex', data_border_format)
+		worksheet.write(row+7, 2, 'Cash', data_border_format)
+
+		qty_total = sum(pos_order_ids.lines.filtered(lambda x: x.qty).mapped("qty"))
+		print('qtyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy', qty_total)
+
+		worksheet.write(row+2, 3, sale_for_today, data_border_format_right)
+		worksheet.write(row+3, 3, counter, data_border_format_right)
+		worksheet.write(row+4, 3, qty_total, data_border_format_right)
+		worksheet.write(row+5, 3, visamaster_total, data_border_format_right)
+		worksheet.write(row+6, 3, cash_total, data_border_format_right)
+		worksheet.write(row+7, 3, amex_total, data_border_format_right)
+		row += 8 
+		for person in sale_order_count:
+				worksheet.write(row, 2, self.env["res.users"].browse(person).name, data_border_format)
+				worksheet.write(row, 3, (len(pos_order_ids.filtered(lambda x : x.session_id.user_id.id == person))),data_border_format_right)
+				worksheet.write(row, 4, 'transaction', data_border_format)
+				worksheet.write(row, 5, 'qty', data_border_format)
+				worksheet.write(row, 6, (sum(pos_order_ids.filtered(lambda x : x.session_id.user_id.id == person).lines.mapped("qty"))),data_border_format_right)
+				row +=1
+
 		workbook.close()
 		output.seek(0)
 		self.document = b64encode(output.read())
