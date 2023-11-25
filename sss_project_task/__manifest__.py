@@ -3,7 +3,7 @@
 
 {
     'name': 'Project Task', 
-    'version': '13.0.2',
+    'version': '13.0.3',
     'sequence': 1, 
     'category': 'Project Task', 
     'description': 
