@@ -31,7 +31,6 @@
                 <search string="Sale In Reports">
                     <filter string="Customer" name="partner_id"
                             domain="[('partner_id', 'in', [194420,238589,40524,53334,134293,172463,29959,292780,73961,61248,32471,286273,307513,145594])]"/>
-                   
                 </search>
             </field>
         </record>
@@ -44,6 +43,7 @@
 	        <field name="context">{"search_default_partner_id":[194420,238589,40524,53334,134293,172463,29959,292780,73961,61248,32471,286273,307513,145594]}</field>
 	        <field name="view_mode">pivot</field>
 	    </record>
+
 	    <menuitem id="menu_sale_in_report"
 			      name="Sale In Report"
 			      action= "action_sale_in_report"
@@ -60,6 +60,6 @@
 	        	</xpath>
 	        </field>
 	    </record>
-	   
+
     </data>
 </odoo>
