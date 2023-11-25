@@ -6,4 +6,4 @@ from odoo import fields, models
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    pos_order_id = fields.Many2one('pos.order', string="Pos Order")
+    pos_order_id = fields.Many2one('pos.order', string="Pos Orders")
