@@ -104,9 +104,3 @@ class SaleInReport(models.Model):
             if 'total_revenue' in rec and 'sales_quantity' in rec:
                 rec['average_price'] = rec.get('total_revenue') / rec.get('sales_quantity') if rec.get('sales_quantity') else 1
         return response
-
-
-class AccountMove(models.Model):
-    _inherit = 'account.move'
-
-    pos_order_id = fields.Many2one('pos.order', string="Pos Order")

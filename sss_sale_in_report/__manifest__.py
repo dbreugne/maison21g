@@ -4,13 +4,14 @@
 {
     'name': 'SSS Sale In Report',
     'description': """sss_sale_in_report""",
-    'version': '0.1',
+    'version': '0.2',
     'summary': 'sss sale in report',
     'author': 'Spellbound Soft Solution',
     'website': 'http://spellboundss.com',
     'depends': ['point_of_sale','account','sale'],
     'data': [
         'security/ir.model.access.csv',
+        'views/account_move_view.xml',
         'views/sale_in_report_view.xml',
        
     ],
