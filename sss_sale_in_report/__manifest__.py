@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
 {
     'name': 'SSS Sale In Report',
     'description': """sss_sale_in_report""",
-    'version': '13.1',
+    'version': '0.2',
     'summary': 'sss sale in report',
     'author': 'Spellbound Soft Solution',
     'website': 'http://spellboundss.com',
@@ -9,7 +12,6 @@
     'data': [
         'security/ir.model.access.csv',
         'views/sale_in_report_view.xml',
-        # 'report/sale_report_view.xml'
        
     ],
     'installable': True,

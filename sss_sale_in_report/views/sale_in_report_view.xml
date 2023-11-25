@@ -8,9 +8,8 @@
 	            <pivot string="Sale In Report" disable_linking="True">
                     <field name="product_category_id" type="row"/>
                     <field name="product_id"/>
-                    <field name="partner_id"/>
                     <field name="industry_id" type="col"/>
-                    <field name="pos_config_id" type="col"/>
+                    <field name="partner_id" type="col"/>
                     <field name="total_price" type="measure" widget="monetary"/>
                     <field name="actual_selling_price" type="measure"/>
 	           		<field name="total_revenue" type="measure"/>
@@ -19,18 +18,30 @@
                     <field name="user_id" type="measure" invisible="1"/>
                     <field name="pos_config_id"/>
                     <field name="pos_order_id"/>
-                    <!-- <field name="pos_config_id" type="measure"/> -->
                     <field name="uom_id" type="measure" invisible="1"/>
                     <field name="currency_id" invisible="1"/>
 	            </pivot>
 	        </field>
     	</record>
 
+    	<record id="sale_in_report_view_search" model="ir.ui.view">
+            <field name="name">sale.in.report.search</field>
+            <field name="model">sale.in.reports</field>
+            <field name="arch" type="xml">
+                <search string="Sale In Reports">
+                    <filter string="Customer" name="partner_id"
+                            domain="[('partner_id', 'in', [194420,238589,40524,53334,134293,172463,29959,292780,73961,61248,32471,286273,307513,145594])]"/>
+                   
+                </search>
+            </field>
+        </record>
+
 	    <record id="action_sale_in_report" model="ir.actions.act_window">
 	        <field name="name">Sale In Report</field>
 	        <field name="res_model">sale.in.reports</field>
 	        <field name="binding_view_types">pivot</field>  
 	        <field name="view_id" eval="sale_in_report_pivot_view"></field>
+	        <field name="context">{"search_default_partner_id":[194420,238589,40524,53334,134293,172463,29959,292780,73961,61248,32471,286273,307513,145594]}</field>
 	        <field name="view_mode">pivot</field>
 	    </record>
 	    <menuitem id="menu_sale_in_report"
@@ -38,9 +49,17 @@
 			      action= "action_sale_in_report"
 			      parent="point_of_sale.menu_point_rep"
 			      sequence="3"/>
+
+		<record id="account_move_inherit_view_tree" model="ir.ui.view">
+	        <field name="name">Account</field>
+	        <field name="model">account.move</field>
+	        <field name="inherit_id" ref="account.view_move_tree"/>
+	        <field name="arch" type="xml">
+	        	<xpath expr="//field[@name='state']" position="after">
+	        		<field name="pos_order_id" force_save="1" invisible="1"/>
+	        	</xpath>
+	        </field>
+	    </record>
 	   
     </data>
 </odoo>
-
-
-
