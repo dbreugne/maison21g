@@ -3,7 +3,7 @@
 
 {
     'name': 'Manufacturing Order Report',
-    'version': '0.3',
+    'version': '0.4',
     'sequence': 1,
     'category': 'Manufacturing Order Report',
     'description': 
@@ -17,6 +17,7 @@
     'data': [
         'report/mo_inherit_report.xml',
         'views/sale_order_inherit.xml',
+        'views/mo_inherit_sale.xml',
     ],
     'installable': True,
     'application': True,

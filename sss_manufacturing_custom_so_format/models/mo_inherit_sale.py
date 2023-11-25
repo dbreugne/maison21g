@@ -13,11 +13,15 @@ class MrpProduction(models.Model):
 
     @api.model
     def create(self, values):
-    	res = super(MrpProduction, self).create(values)
-    	# context = self.env.context
-    	sale_id = self.env['sale.order'].search([('name', '=', values.get('origin',''))], limit=1)
-    	res['sale_id'] = sale_id.id
-    	return res
+        res = super(MrpProduction, self).create(values)
+        # context = self.env.context
+        sale_id = self.env['sale.order'].search([('name', '=', values.get('origin',''))], limit=1)
+        res['sale_id'] = sale_id.id
+        if sale_id:
+            sale_id.write({
+                'manufacturing_ids': [(6,0,res.ids)]
+                })
+        return res
 
     def open_produce_product(self):
         res = super(MrpProduction, self).open_produce_product()
@@ -32,6 +36,8 @@ class MrpProduction(models.Model):
             mrp_ids.sale_id.mo_status = 'ready_to_ship'
         res = super(MrpProduction, self).button_mark_done()
         return res
+
+
 
 
 class MrpProductProduce(models.TransientModel):
