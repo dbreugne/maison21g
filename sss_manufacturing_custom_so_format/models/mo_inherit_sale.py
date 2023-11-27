@@ -10,7 +10,7 @@ class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
     sale_id = fields.Many2one('sale.order', string="Sale Order", copy=False)
-    order_count = fields.Integer(string="Sale Order", compute="_compute_order_count",copy=False)
+    order_count = fields.Integer(string="Sale Order", compute="_compute_order_count", copy=False)
 
     @api.depends('sale_id')
     def _compute_order_count(self):
@@ -19,36 +19,36 @@ class MrpProduction(models.Model):
 
     def action_view_saleorder(self):
         self.ensure_one()
-        return{
-            'name':'Sale Orders',
-            'res_model':'sale.order',
-            'view_mode':'tree,form',
-            'target':'current',
+        return {
+            'name': 'Sale Orders',
+            'res_model': 'sale.order',
+            'view_mode': 'tree, form',
+            'target': 'current',
             'domain': [('id', '=', self.sale_id.id)],
-            'type':'ir.actions.act_window'
+            'type': 'ir.actions.act_window'
         }
 
     @api.model
     def create(self, values):
         res = super(MrpProduction, self).create(values)
         # context = self.env.context
-        sale_id = self.env['sale.order'].search([('name', '=', values.get('origin',''))], limit=1)
+        sale_id = self.env['sale.order'].search([('name', '=', values.get('origin', ''))], limit=1)
         res['sale_id'] = sale_id.id
         if sale_id:
             sale_id.write({
-                'manufacturing_ids': [(4,res.id)]
+                'manufacturing_ids': [(4, res.id)]
                 })
         return res
 
     def open_produce_product(self):
         res = super(MrpProduction, self).open_produce_product()
-        mrp_ids = self.search([('origin','=', self.sale_id.name),('state','=', 'confirmed')])
+        mrp_ids = self.search([('origin', '=', self.sale_id.name), ('state', '=', 'confirmed')])
         if len(mrp_ids.ids) == 1:
             mrp_ids.sale_id.mo_status = 'manufacturing_in_progress'
         return res
 
     def button_mark_done(self):
-        mrp_ids = self.search([('origin','=', self.sale_id.name),('state','=', 'to_close')])
+        mrp_ids = self.search([('origin', '=', self.sale_id.name), ('state', '=', 'to_close')])
         if len(mrp_ids.ids) == 1:
             mrp_ids.sale_id.mo_status = 'ready_to_ship'
         res = super(MrpProduction, self).button_mark_done()

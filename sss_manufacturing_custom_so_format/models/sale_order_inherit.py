@@ -18,9 +18,13 @@ class SaleOrderInherit(models.Model):
     def action_confirm(self):
         res = super(SaleOrderInherit, self).action_confirm()
         for rec in self.order_line:
-            for routes in rec.product_id.route_ids:
-                if routes.name in ['Manufacture', 'Replenish on Order (MTO)']:
-                    rec.order_id.mo_status = 'pending_manufacturing'
+            routes = []
+            route_ids = self.env['stock.location.route'].search([('name', '=', 'Replenish on Order (MTO)')])
+            route_idss = self.env['stock.location.route'].search([('name', '=', 'Manufacture')])
+            routes.append(route_ids.id)
+            routes.append(route_idss.id)
+            if routes == rec.product_id.route_ids.ids and rec.available_qty <= rec.product_uom_qty:
+                rec.order_id.mo_status = 'pending_manufacturing'
         return res
 
     @api.depends('manufacturing_ids')
