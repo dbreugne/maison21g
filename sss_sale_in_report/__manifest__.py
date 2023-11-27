@@ -8,7 +8,7 @@
     'summary': 'sss sale in report',
     'author': 'Spellbound Soft Solution',
     'website': 'http://spellboundss.com',
-    'depends': ['point_of_sale','account','sale'],
+    'depends': ['point_of_sale', 'account', 'sale'],
     'data': [
         'security/ir.model.access.csv',
         'views/account_move_view.xml',

@@ -6,10 +6,12 @@
 	        <field name="model">sale.in.reports</field>
 	        <field name="arch" type="xml">
 	            <pivot string="Sale In Report" disable_linking="True">
+                    <field name="order_date" type="row"/>
                     <field name="product_category_id" type="row"/>
                     <field name="product_id"/>
                     <field name="industry_id" type="col"/>
                     <field name="partner_id" type="col"/>
+                    <field name="team_id" />
                     <field name="total_price" type="measure" widget="monetary"/>
                     <field name="actual_selling_price" type="measure"/>
 	           		<field name="total_revenue" type="measure"/>
@@ -31,6 +33,8 @@
                 <search string="Sale In Reports">
                     <filter string="Customer" name="partner_id"
                             domain="[('partner_id', 'in', [194420,238589,40524,53334,134293,172463,29959,292780,73961,61248,32471,286273,307513,145594])]"/>
+                    <filter string="Date" name="order_date"
+                            domain="[('order_date', '>=', '2023/01/01')]"/>
                 </search>
             </field>
         </record>
