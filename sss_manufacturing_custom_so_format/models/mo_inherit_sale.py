@@ -22,8 +22,8 @@ class MrpProduction(models.Model):
         return {
             'name': 'Sale Orders',
             'res_model': 'sale.order',
-            'view_mode': 'tree, form',
-            'target': 'current',
+            'view_mode': 'tree,form',
+            'target':'current',
             'domain': [('id', '=', self.sale_id.id)],
             'type': 'ir.actions.act_window'
         }
