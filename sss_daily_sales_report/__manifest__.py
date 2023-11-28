@@ -3,7 +3,7 @@
 
 {
 	'name': 'SSS DAILY SALES REPORT',
-	'version': '0.3',
+	'version': '0.4',
 	'sequence': 1,
 	'category': 'Daily Sales Report',
 	'description': 

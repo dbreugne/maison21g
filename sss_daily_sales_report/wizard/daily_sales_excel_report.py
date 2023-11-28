@@ -15,7 +15,6 @@ class DailySaleReport(models.TransientModel):
 	myfile = fields.Char('Excel File', size=64)
 	date = fields.Date('Date', default=lambda self: fields.Date.context_today(self), required=True)
 	config_id = fields.Many2one('pos.config', 'Point Of Sale')
-	salesperson_id = fields.Many2one('res.users', 'Sales Person')
 
 	def daily_sales_report(self):
 		output = io.BytesIO()
@@ -44,8 +43,6 @@ class DailySaleReport(models.TransientModel):
 		domain = [('date_order', '>=', start_date), ('date_order', '<=', end_date)]
 		if self.config_id:
 			domain.append(('config_id', '=', self.config_id.id))
-		if self.salesperson_id:
-			domain.append(('session_id.user_id', '=', self.salesperson_id.id))
 		pos_order_ids = self.env['pos.order'].search(domain)
 
 		row = 4
@@ -63,7 +60,7 @@ class DailySaleReport(models.TransientModel):
 			worksheet.write(row, 4, rec.lines.tax_ids_after_fiscal_position.name, data_border_format)
 			worksheet.write(row, 5, rec.amount_tax, data_border_format_right)
 			worksheet.write(row, 6, rec.payment_ids.payment_method_id.name, data_border_format)
-			worksheet.write(row, 7, rec.session_id.user_id.name, data_border_format)
+			worksheet.write(row, 7, rec.employee_id.name, data_border_format)
 			worksheet.set_column('A:A', 25)
 			worksheet.set_column('B:B', 18)
 			worksheet.set_column('C:C', 20)

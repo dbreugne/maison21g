@@ -14,9 +14,6 @@
 							<field name="document" invisible="1"/>
 							<field name="myfile" invisible="1"/>
 						</group>
-						<group>
-							<field name="salesperson_id"/>
-						</group>
 					</group>
 					<footer>
 						<button string="Sales Report" class="btn-success" name="daily_sales_report" type="object" />
