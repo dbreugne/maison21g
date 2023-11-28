@@ -13,8 +13,9 @@ class DailySaleReport(models.TransientModel):
 	file = fields.Binary()
 	document = fields.Binary('Excel Report')
 	myfile = fields.Char('Excel File', size=64)
-	date = fields.Date('Date', default=lambda self: fields.Date.context_today(self))
+	date = fields.Date('Date', default=lambda self: fields.Date.context_today(self), required=True)
 	config_id = fields.Many2one('pos.config', 'Point Of Sale')
+	salesperson_id = fields.Many2one('res.users', 'Sales Person')
 
 	def daily_sales_report(self):
 		output = io.BytesIO()
@@ -40,8 +41,12 @@ class DailySaleReport(models.TransientModel):
 
 		start_date = datetime.datetime.strptime(str(self.date) + " 00:00:00", "%Y-%m-%d %H:%M:%S")
 		end_date = datetime.datetime.strptime(str(self.date) + " 23:59:59", "%Y-%m-%d %H:%M:%S")
-
-		pos_order_ids = self.env['pos.order'].sudo().search([('date_order', '>=', start_date), ('date_order', '<=', end_date), ('config_id', '=', self.config_id.id)])
+		domain = [('date_order', '>=', start_date), ('date_order', '<=', end_date)]
+		if self.config_id:
+			domain.append(('config_id', '=', self.config_id.id))
+		if self.salesperson_id:
+			domain.append(('session_id.user_id', '=', self.salesperson_id.id))
+		pos_order_ids = self.env['pos.order'].search(domain)
 
 		row = 4
 		indexing = 1
