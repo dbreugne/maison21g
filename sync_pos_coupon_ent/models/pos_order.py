@@ -55,6 +55,12 @@ class PosOrder(models.Model):
         if order.get('data', False):
             if order['data'].get('applied_coupons', False):
                 pos_order_id.applied_coupon_ids += SaleCoupon.browse(order['data']['applied_coupons'])
+                for rec in pos_order_id.lines:
+                    if rec.product_id.id == pos_order_id.applied_coupon_ids.program_id.discount_line_product_id.id:
+                        rec.promo_code = pos_order_id.applied_coupon_ids.code
+                # for rec in order.get('data').get('lines'):
+                #     if rec[2].get('product_id') == pos_order_id.applied_coupon_ids.program_id.discount_line_product_id.id:
+                #         rec[2].update({'promo_code': pos_order_id.applied_coupon_ids.code})
                 SaleCoupon.search([('id', 'in', pos_order_id.applied_coupon_ids.ids)]).write({'pos_order_id': pos_order_id.id})
 
             if order['data'].get('generated_coupons_ids', False):
@@ -76,7 +82,9 @@ class PosOrder(models.Model):
             for coupon in self.generated_coupon_ids:
                 template.send_mail(coupon.id, force_send=True, notif_layout='mail.mail_notification_light')
 
+
 class PosOrderLine(models.Model):
     _inherit = 'pos.order.line'
 
     is_reward_line = fields.Boolean('Is a program reward line')
+    promo_code = fields.Char('Promo Code')
