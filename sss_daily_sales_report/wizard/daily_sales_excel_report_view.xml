@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="daily_sale_report_form_view" model="ir.ui.view">
+			<field name="name">Daily Sale Report</field>
+			<field name="model">daily.sale.report</field>
+			<field name="arch" type="xml">
+				<form string="Compare Stocks">
+					<group>
+						<group>
+							<field name="date"/>
+							<field name="config_id"/>
+							<field name="file" options="{'accepted_file_extensions': '.xlsx,.csv'}" invisible='1'/>
+							<field name="document" invisible="1"/>
+							<field name="myfile" invisible="1"/>
+						</group>
+					</group>
+					<footer>
+						<button string="Sales Report" class="btn-success" name="daily_sales_report" type="object" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_daily_sales_report" model="ir.actions.act_window">
+				<field name="name">Daliy Sales Report</field>
+				<field name="res_model">daily.sale.report</field>   
+				<field name="view_mode">form</field>
+				<field name="target">new</field>
+		</record>
+
+		<menuitem action="action_daily_sales_report"
+				id="menu_custom_inventory_stock"
+				sequence="150"
+				parent="point_of_sale.menu_point_rep" 
+				name="Daily Sale Report"/>
+	</data>
+</odoo>
