@@ -58,7 +58,7 @@ class MrpProduction(models.Model):
 class MrpProductProduce(models.TransientModel):
     _inherit = 'mrp.product.produce'
 
-    expairy_date = fields.Datetime('Expairy Date')
+    expairy_date = fields.Date('Expiry Date')
 
     @api.model
     def default_get(self, fields):
