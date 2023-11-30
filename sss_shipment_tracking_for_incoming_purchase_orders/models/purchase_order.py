@@ -93,8 +93,9 @@ class PurchaseOrder(models.Model):
         template_id.attachment_ids = [(5, 0, [])]
         template_id.attachment_ids = [(4, attachment_id.id)]
 
-        email_to_send_ids = ["wendy@maison21g.com", "xintong@maison21g.com", "rick@maison21g.com",
-                             "jonathan@maison21g.com", " muhamand@maison21g.com", "muhammad@maison21g.com", "manisha@maison21g.com"]
+        # email_to_send_ids = ["wendy@maison21g.com", "xintong@maison21g.com", "rick@maison21g.com",
+        #                      "jonathan@maison21g.com", " muhamand@maison21g.com", "muhammad@maison21g.com", "manisha@maison21g.com"]
+        email_to_send_ids = ["wendy@maison21g.com", "aneri.spellbound@gmail.com"]
         for email_to in email_to_send_ids:
             email_values = {
                 'email_to': email_to,

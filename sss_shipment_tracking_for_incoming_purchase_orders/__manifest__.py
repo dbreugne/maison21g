@@ -5,7 +5,7 @@
     'name': 'sss shipment tracking for incoming purchase_orders',
     'description': """sss_shipment_tracking_for_incoming_purchase_orders""",
     'category': 'Purchase',
-    'version': '13.0.1',
+    'version': '13.0.2',
     'author': 'Linserv Aktiebolag',
     'website': 'https://www.linserv.se',
     'summary': '',
