@@ -57,7 +57,7 @@ class PosOrder(models.Model):
                 pos_order_id.applied_coupon_ids += SaleCoupon.browse(order['data']['applied_coupons'])
                 for rec in pos_order_id.lines:
                     if rec.product_id.id == pos_order_id.applied_coupon_ids.program_id.discount_line_product_id.id:
-                        rec.promo_code = pos_order_id.applied_coupon_ids.code
+                        rec.promo_code = pos_order_id.applied_coupon_ids.program_id.name
                 # for rec in order.get('data').get('lines'):
                 #     if rec[2].get('product_id') == pos_order_id.applied_coupon_ids.program_id.discount_line_product_id.id:
                 #         rec[2].update({'promo_code': pos_order_id.applied_coupon_ids.code})
