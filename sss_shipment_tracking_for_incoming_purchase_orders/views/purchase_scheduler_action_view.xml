@@ -9,7 +9,7 @@
         <field name="code">model._cron_generate_mail()</field>
         <field name="interval_number">1</field>
         <field name="interval_type">weeks</field>
-        <field name="nextcall" eval="(DateTime.now() + timedelta(days=5)).strftime('%Y-%m-%d 02:30:00')"/>
+        <field name="nextcall" eval="(DateTime.now() + timedelta(days=4)).strftime('%Y-%m-%d 02:30:00')"/>
         <field name="numbercall">1</field>
         <field name="doall" eval="False"/>
       </record>
