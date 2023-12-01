@@ -8,7 +8,7 @@
                <group string="Developer Estimation">
                     <field name="hours"/>
                     <field name="amount"/>
-                    <field name="total_amount"/>
+                    <field name="total_amount" invisible="1"/>
                </group>
             </xpath>
         </field>
@@ -22,7 +22,7 @@
             <field name="user_id" position="after">
                 <field name="hours"/>
                 <field name="amount"/>
-                <field name="total_amount"/>
+                <field name="total_amount" invisible="1"/>
             </field>
         </field>
     </record>
@@ -39,8 +39,8 @@
                 <br/>
                 <label><strong>Estimated Amount:</strong></label>
                 <field name="amount"/>
-                <label><strong>Total Amount:</strong></label>
-                <field name="total_amount"/>
+                <!-- <label><strong>Total Amount:</strong></label>
+                <field name="total_amount"/> -->
             </xpath>
         </field>
     </record>
