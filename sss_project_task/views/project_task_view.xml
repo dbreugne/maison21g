@@ -8,6 +8,7 @@
                <group string="Developer Estimation">
                     <field name="hours"/>
                     <field name="amount"/>
+                    <field name="total_amount"/>
                </group>
             </xpath>
         </field>
@@ -21,6 +22,7 @@
             <field name="user_id" position="after">
                 <field name="hours"/>
                 <field name="amount"/>
+                <field name="total_amount"/>
             </field>
         </field>
     </record>
@@ -32,11 +34,13 @@
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="after">
                 <br/>
-                <label><strong>Hour:</strong></label> 
+                <label><strong>Estimated Hour:</strong></label> 
                 <field name="hours"/>
                 <br/>
-                <label><strong>Amount:</strong></label>
+                <label><strong>Estimated Amount:</strong></label>
                 <field name="amount"/>
+                <label><strong>Total Amount:</strong></label>
+                <field name="total_amount"/>
             </xpath>
         </field>
     </record>
