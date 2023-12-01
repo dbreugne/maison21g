@@ -37,7 +37,7 @@
             <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="after">
                 <br/>
                 <label><strong>Estimated Hour:</strong></label> 
-                <field name="est_hours"/>
+                <field name="est_hours" widget="float_time"/>
                 <br/>
                 <label><strong>Estimated Amount:</strong></label>
                 <field name="amount"/>
@@ -56,7 +56,7 @@
             
         <field name="arch" type="xml">
             <xpath expr="//field[@name='stage_id']" position="after">
-                <field name="est_hours" string="Estimated Hours"/>
+                <field name="est_hours" string="Estimated Hours" widget="float_time"/>
                 <!-- <field name="amount" string="Estimated Amount"/> -->
             </xpath>
         </field>
