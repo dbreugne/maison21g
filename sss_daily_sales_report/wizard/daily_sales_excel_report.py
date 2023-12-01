@@ -125,12 +125,12 @@ class DailySaleReport(models.TransientModel):
         worksheet.write(row+7, 4, amex_total, data_border_format_right)
         row += 8 
         for person in sale_order_count:
-                worksheet.write(row, 3, self.env["res.users"].browse(person).name, data_border_format)
-                worksheet.write(row, 4, (len(pos_order_ids.filtered(lambda x: x.session_id.user_id.id == person))), data_border_format_right)
-                worksheet.write(row, 5, 'Transaction', data_border_format)
-                worksheet.write(row, 6, 'Qty', data_border_format)
-                worksheet.write(row, 7, (sum(pos_order_ids.filtered(lambda x: x.session_id.user_id.id == person).lines.mapped("qty"))), data_border_format_right)
-                row += 1
+            worksheet.write(row, 3, self.env["res.users"].browse(person).name, data_border_format)
+            worksheet.write(row, 4, (len(pos_order_ids.filtered(lambda x: x.session_id.user_id.id == person))), data_border_format_right)
+            worksheet.write(row, 5, 'Transaction', data_border_format)
+            worksheet.write(row, 6, 'Qty', data_border_format)
+            worksheet.write(row, 7, (sum(pos_order_ids.filtered(lambda x: x.session_id.user_id.id == person).lines.mapped("qty"))), data_border_format_right)
+            row += 1
 
         workbook.close()
         output.seek(0)

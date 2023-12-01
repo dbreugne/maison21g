@@ -7,6 +7,7 @@
             <xpath expr="//notebook/page[@name='extra_info']/group" position="inside">
                <group string="Developer Estimation">
                     <field name="hours"/>
+                    <field name="est_hours" widget="float_time"/>
                     <field name="amount"/>
                     <field name="total_amount" invisible="1"/>
                </group>
@@ -21,7 +22,8 @@
         <field name="arch" type="xml">
             <field name="user_id" position="after">
                 <field name="hours"/>
-                <field name="amount"/>
+                <field name="est_hours" widget="float_time" sum="Total Hours"/>
+                <field name="amount" sum="Total Amount"/>
                 <field name="total_amount" invisible="1"/>
             </field>
         </field>
@@ -36,6 +38,7 @@
                 <br/>
                 <label><strong>Estimated Hour:</strong></label> 
                 <field name="hours"/>
+                <field name="est_hours"/>
                 <br/>
                 <label><strong>Estimated Amount:</strong></label>
                 <field name="amount"/>
@@ -44,4 +47,20 @@
             </xpath>
         </field>
     </record>
+
+    <record id="view_project_task_pivot_inherit" model="ir.ui.view">
+        <field name="name">project.task.pivot.inherit</field>
+            
+        <field name="model">project.task</field>
+            
+        <field name="inherit_id" ref="project.view_project_task_pivot"/>
+            
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='stage_id']" position="after">
+                <field name="est_hours" string="Estimated Hours"/>
+                <!-- <field name="amount" string="Estimated Amount"/> -->
+            </xpath>
+        </field>
+    </record>
+
 </odoo>
