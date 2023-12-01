@@ -1,7 +1,11 @@
+# -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+
+
 {
     'name': "Maison - Contacts",
     'summary': "Customization in contact",
-    'version': '13.0.1.0.0',
+    'version': '13.0.2.0.0',
     'description': """
         v 1.0.0 (mfm) \n
         - Change field label of industry on sale report and contact form \n
