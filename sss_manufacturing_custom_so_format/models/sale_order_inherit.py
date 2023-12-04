@@ -25,6 +25,26 @@ class SaleOrderInherit(models.Model):
             routes.append(route_idss.id)
             if routes == rec.product_id.route_ids.ids and rec.available_qty <= rec.product_uom_qty:
                 rec.order_id.mo_status = 'pending_manufacturing'
+            elif rec.available_qty <= rec.product_uom_qty and rec.product_id.bom_ids and routes != rec.product_id.route_ids.ids:
+                mo_values = {
+                    'origin': self.name,
+                    'product_id': rec.product_id.id,
+                    'product_qty': rec.product_uom_qty,
+                    'product_uom_id': rec.product_uom.id,
+                    'bom_id': rec.product_id.bom_ids.id,
+                    'date_deadline': self.date_order,
+                    'date_planned_finished': self.date_order,
+                    'date_planned_start': self.date_order,
+                    'procurement_group_id': False,
+                    'propagate_date': self.date_order,
+                    'company_id': self.company_id.id,
+                    'user_id': False,
+                }
+                mrp_id = self.env['mrp.production'].create(mo_values)
+                mrp_id._onchange_move_raw()
+                mrp_id._onchange_location()
+                mrp_id.action_confirm()
+                rec.order_id.mo_status = 'pending_manufacturing'
         return res
 
     @api.depends('manufacturing_ids')

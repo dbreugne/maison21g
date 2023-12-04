@@ -8,3 +8,10 @@ class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
     address = fields.Text(string="Address")
+
+
+class SaleOrder(models.Model):
+	_inherit = "sale.order"
+
+	address = fields.Text(string="Address")
+	
