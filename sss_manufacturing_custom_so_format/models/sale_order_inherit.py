@@ -9,7 +9,7 @@ class SaleOrderInherit(models.Model):
     _inherit = 'sale.order'
 
     mo_status = fields.Selection([('pending_manufacturing', 'Pending Manufacturing'), ('manufacturing_in_progress',
-                                 'Manufacturing in Progress'), ('ready_to_ship', 'Ready to Ship')], string="MO Status", copy=False, readonly=True)
+                                 'Manufacturing in Progress'), ('ready_to_ship', 'Ready to Ship'), ('partially_under_manufacturing', 'Partially Under Manufacturing'), ('partially_manufactured','Partially Manufactured')], string="MO Status", copy=False, readonly=True)
     manufacturing_count = fields.Integer(
         string="Manufacturing Order", compute="_compute_manufacturing_count", copy=False)
     manufacturing_ids = fields.Many2many('mrp.production', 'manufacturing_order_type',
@@ -21,6 +21,7 @@ class SaleOrderInherit(models.Model):
             routes = []
             route_ids = self.env['stock.location.route'].search([('name', '=', 'Replenish on Order (MTO)')])
             route_idss = self.env['stock.location.route'].search([('name', '=', 'Manufacture')])
+            route_idsss = self.env['stock.location.route'].search([('name', '=', 'Buy')])
             routes.append(route_ids.id)
             routes.append(route_idss.id)
             if routes == rec.product_id.route_ids.ids and rec.available_qty <= rec.product_uom_qty:
@@ -61,6 +62,7 @@ class SaleOrderInherit(models.Model):
             'view_mode': 'tree,form',
             'target': 'current',
             'domain': [('id', 'in', self.manufacturing_ids.ids)],
+            'context': {'is_mrp_production': True},
             'type': 'ir.actions.act_window'
         }
 
@@ -69,16 +71,13 @@ class StockMove(models.Model):
     _inherit = 'stock.move'
 
     def unlink(self):
-        if self.env.context.get('params'):
-            if self.env.context.get('params').get('model') == 'mrp.production':
-                try:
-                    return super(StockMove, self).unlink()
-                except (UserError):
-                    if any(move.state in ('done', 'assigned') for move in self):
-                        raise UserError(_('You can only delete draft moves.'))
-                    self.state = "draft"
-                    return super(StockMove, self).unlink()
-            else:
+        if self.env.context.get('is_mrp_production'):
+            try:
+                return super(StockMove, self).unlink()
+            except (UserError):
+                if any(move.state in ('done', 'assigned') for move in self):
+                    raise UserError(_('You can only delete draft moves.'))
+                self.state = "draft"
                 return super(StockMove, self).unlink()
         else:
             return super(StockMove, self).unlink()

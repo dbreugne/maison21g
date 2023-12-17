@@ -25,6 +25,7 @@ class MrpProduction(models.Model):
             'view_mode': 'tree,form',
             'target':'current',
             'domain': [('id', '=', self.sale_id.id)],
+            'context': {'is_mrp_production': True},
             'type': 'ir.actions.act_window'
         }
 
@@ -45,12 +46,17 @@ class MrpProduction(models.Model):
         mrp_ids = self.search([('origin', '=', self.sale_id.name), ('state', '=', 'confirmed')])
         if len(mrp_ids.ids) == 1:
             mrp_ids.sale_id.mo_status = 'manufacturing_in_progress'
+        else:
+            mrp_ids.sale_id.mo_status =  'partially_under_manufacturing'
         return res
 
     def button_mark_done(self):
-        mrp_ids = self.search([('origin', '=', self.sale_id.name), ('state', '=', 'to_close')])
+        mrp_ids = self.search([('origin', '=', self.sale_id.name), '|', ('state', '=', 'to_close'),  ('state', '=', 'confirmed')])
         if len(mrp_ids.ids) == 1:
             mrp_ids.sale_id.mo_status = 'ready_to_ship'
+        else:
+            mrp_ids.sale_id.mo_status = 'partially_manufactured'
+
         res = super(MrpProduction, self).button_mark_done()
         return res
 
@@ -58,13 +64,45 @@ class MrpProduction(models.Model):
 class MrpProductProduce(models.TransientModel):
     _inherit = 'mrp.product.produce'
 
-    expairy_date = fields.Datetime('Expairy Date')
+    expairy_date = fields.Date('Expiry Date')
 
     @api.model
     def default_get(self, fields):
         res = super(MrpProductProduce, self).default_get(fields)
         current_date = datetime.now()
         three_years_later = current_date + relativedelta(years=3)
+        mrp_seq = self.env['ir.sequence'].next_by_code('stock.production.lot.mrp')
+
+        current_year = datetime.now().year
+        # current_month = datetime.now().month
+        current_month = datetime.now().strftime('%B')
+        if current_month == 'January':
+            current_months = 'A'
+        elif current_month == 'February':
+            current_months = 'B'
+        elif current_month == 'March':
+            current_months = 'C'
+        elif current_month == 'April':
+            current_months = 'D'
+        elif current_month == 'May':
+            current_months = 'E'
+        elif current_month == 'June':
+            current_months = 'F'
+        elif current_month == 'July':
+            current_months = 'G'
+        elif current_month == 'August':
+            current_months = 'H'
+        elif current_month == 'Seprember':
+            current_months = 'I'
+        elif current_month == 'October':
+            current_months = 'J'
+        elif current_month == 'November':
+            current_months = 'K'
+        elif current_month == 'December':
+            current_months = 'L'
+
+
+        lst = str(current_year)[-1] + current_months + str(datetime.now().date())[-2:]
         if res.get('product_id'):
             lot_id = self.env['stock.production.lot'].create({
                 'product_id': res.get('product_id'),
@@ -72,7 +110,7 @@ class MrpProductProduce(models.TransientModel):
                 'product_uom_id': res.get('product_uom_id'),
                 'company_id': self.env.company.id,
                 'life_date': three_years_later,
-                'name': self.env['ir.sequence'].next_by_code('stock.production.lot.mrp')})
+                'name': lst + self.env['ir.sequence'].next_by_code('stock.production.lot.mrp')})
             res['finished_lot_id'] = lot_id.id
             res['expairy_date'] = three_years_later
         return res

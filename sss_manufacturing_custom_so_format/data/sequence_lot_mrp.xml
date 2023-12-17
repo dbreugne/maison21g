@@ -5,8 +5,8 @@
 	        <field name="name">Lot Serial Sequence mrp</field>
 	        <field name="code">stock.production.lot.mrp</field>
 	    	<field name="number_next_actual">01</field>
-	        <!-- <field name="prefix">IVR/%(year)s/</field> -->
-	        <field name="padding">5</field>
+	        <field name="prefix"></field>
+	        <field name="padding">1</field>
         </record>
 	</data>
 </odoo>
