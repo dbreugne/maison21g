@@ -71,7 +71,7 @@ class MrpProductProduce(models.TransientModel):
         res = super(MrpProductProduce, self).default_get(fields)
         current_date = datetime.now()
         three_years_later = current_date + relativedelta(years=3)
-        mrp_seq = self.env['ir.sequence'].next_by_code('stock.production.lot.mrp')
+        # mrp_seq = self.env['ir.sequence'].next_by_code('stock.production.lot.mrp')
 
         current_year = datetime.now().year
         # current_month = datetime.now().month
@@ -100,17 +100,38 @@ class MrpProductProduce(models.TransientModel):
             current_months = 'K'
         elif current_month == 'December':
             current_months = 'L'
-
-
         lst = str(current_year)[-1] + current_months + str(datetime.now().date())[-2:]
+        mrp_id = self.env['mrp.production'].search([('id', '=', self._context.get('active_id'))])
+        for rec in mrp_id.move_raw_ids:
+            if rec.product_id.tracking  == 'lot':
+                lot_ids = self.env['stock.production.lot'].search([('name', '=', lst), ('product_id', '=', rec.move_line_ids.product_id.id)], limit=1)
+                if not lot_ids:
+                    lot_id = self.env['stock.production.lot'].create({
+                        'product_id': rec.move_line_ids.product_id.id,
+                        'product_qty': rec.move_line_ids.product_qty,
+                        'product_uom_id': rec.move_line_ids.product_uom_id.id,
+                        'company_id': self.env.company.id,
+                        'life_date': three_years_later,
+                        'name': lst})
+                    
+                    rec.move_line_ids.lot_id = lot_id.id
+                else:
+                    rec.move_line_ids.lot_id = lot_ids.id
+
+        
         if res.get('product_id'):
-            lot_id = self.env['stock.production.lot'].create({
-                'product_id': res.get('product_id'),
-                'product_qty': res.get('qty_producing'),
-                'product_uom_id': res.get('product_uom_id'),
-                'company_id': self.env.company.id,
-                'life_date': three_years_later,
-                'name': lst + self.env['ir.sequence'].next_by_code('stock.production.lot.mrp')})
-            res['finished_lot_id'] = lot_id.id
+            lot_ids = self.env['stock.production.lot'].search([('name', '=', lst)], limit=1)
+            if not lot_ids:
+                lot_id = self.env['stock.production.lot'].create({
+                    'product_id': res.get('product_id'),
+                    'product_qty': res.get('qty_producing'),
+                    'product_uom_id': res.get('product_uom_id'),
+                    'company_id': self.env.company.id,
+                    'life_date': three_years_later,
+                    'name': lst})
+                res['finished_lot_id'] = lot_id.id
+            else:
+                res['finished_lot_id'] = lot_ids.id
+
             res['expairy_date'] = three_years_later
         return res
