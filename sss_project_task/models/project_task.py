@@ -3,6 +3,7 @@
 
 from odoo import fields, models, api
 
+
 class ProjectTask(models.Model):
 	_inherit = "project.task"
 
@@ -17,4 +18,3 @@ class ProjectTask(models.Model):
 			rec.amount = 0
 			if rec.est_hours:
 				rec.amount = float(rec.est_hours) * 25
-
