@@ -2,10 +2,10 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 {
-    'name': 'Project Task', 
-    'version': '13.0.7',
+    'name': 'Project Task',
+    'version': '13.0.8',
     'sequence': 1,
-    'category': 'Project Task', 
+    'category': 'Project Task',
     'description':
         """
         Project Task.
