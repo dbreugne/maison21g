@@ -3,9 +3,9 @@
 
 from odoo import models, api
 
+
 class PurchaseOrderLineInherit(models.Model):
     _inherit = "purchase.order.line"
-
 
     @api.onchange('product_id')
     def onchange_product_id(self):
@@ -37,10 +37,9 @@ class PurchaseOrder(models.Model):
         for rec in self.order_line:
             if rec.product_id and not rec.order_id.partner_id.country_id.name == 'Singapore':
                 rec.taxes_id = False
-        return res
+        # return res
 
-
-    def button_approve(self, force= False):
+    def button_approve(self, force=False):
         res = super(PurchaseOrder, self).button_approve(force=force)
         if self.amount_total > 1000 and self.partner_id.country_id.name == 'China':
             payment_term_id = self.env.ref('sss_vendor_payment_term.account_payment_term_30%deposite70%payment')
@@ -48,7 +47,7 @@ class PurchaseOrder(models.Model):
             base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             action_id = self.env.ref('purchase.purchase_rfq')
             menu_id = self.env.ref('purchase.menu_purchase_root')
-            base_url += "/web#id=%s&action=%s&model=purchase.order&view_type=form&cids=%s&menu_id=%s"%(self.id, action_id.id, self.company_id.id, menu_id.id)
+            base_url += "/web#id=%s&action=%s&model=purchase.order&view_type=form&cids=%s&menu_id=%s" % (self.id, action_id.id, self.company_id.id, menu_id.id)
             partner = self.env['res.users'].browse(self._context.get('uid'))
             template_id = self.env.ref('sss_vendor_payment_term.email_send_account_payment_term')
             to_send_email_ids = ["accounting@maison21g.com"]
@@ -69,7 +68,7 @@ class PurchaseOrder(models.Model):
             base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             action_id = self.env.ref('purchase.purchase_rfq')
             menu_id = self.env.ref('purchase.menu_purchase_root')
-            base_url += "/web#id=%s&action=%s&model=purchase.order&view_type=form&cids=%s&menu_id=%s"%(self.id, action_id.id, self.company_id.id, menu_id.id)
+            base_url += "/web#id=%s&action=%s&model=purchase.order&view_type=form&cids=%s&menu_id=%s" % (self.id, action_id.id, self.company_id.id, menu_id.id)
             partner = self.env['res.users'].browse(self._context.get('uid'))
             template_id = self.env.ref('sss_vendor_payment_term.email_send_account_100%payment_term')
             to_send_email_ids = ["accounting@maison21g.com"]
@@ -85,7 +84,6 @@ class PurchaseOrder(models.Model):
                 }
                 template_id.with_context(partner_from_name=partner.name, partner_from_email=partner.email, my_url=base_url, user_name=users_name.name).send_mail(self.id, force_send=True, email_values=email_values)
         return res
-
 
 
 # class PurchaseAdvancePaymentInv(models.TransientModel):

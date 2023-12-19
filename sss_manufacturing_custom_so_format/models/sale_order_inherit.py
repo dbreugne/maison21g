@@ -9,7 +9,7 @@ class SaleOrderInherit(models.Model):
     _inherit = 'sale.order'
 
     mo_status = fields.Selection([('pending_manufacturing', 'Pending Manufacturing'), ('manufacturing_in_progress',
-                                 'Manufacturing in Progress'), ('ready_to_ship', 'Ready to Ship'), ('partially_under_manufacturing', 'Partially Under Manufacturing'), ('partially_manufactured','Partially Manufactured')], string="MO Status", copy=False, readonly=True)
+                                 'Manufacturing in Progress'), ('ready_to_ship', 'Ready to Ship'), ('partially_under_manufacturing', 'Partially Under Manufacturing'), ('partially_manufactured', 'Partially Manufactured'), ('cancel', 'Cancel Manufacturing')], string="MO Status", copy=False, readonly=True)
     manufacturing_count = fields.Integer(
         string="Manufacturing Order", compute="_compute_manufacturing_count", copy=False)
     manufacturing_ids = fields.Many2many('mrp.production', 'manufacturing_order_type',
@@ -52,6 +52,16 @@ class SaleOrderInherit(models.Model):
     def _compute_manufacturing_count(self):
         for order in self:
             order.manufacturing_count = len(order.manufacturing_ids)
+
+    def action_cancel(self):
+        res = super(SaleOrderInherit, self).action_cancel()
+        if self.manufacturing_ids:
+            for mrp in self.manufacturing_ids:
+                mrp.write({'state': 'cancel'})
+                mrp.sale_id.mo_status = 'cancel'
+                for sale in mrp.move_raw_ids:
+                    sale.state = 'cancel'
+        return res
 
     def action_view_manufacturing(self):
         self.ensure_one()

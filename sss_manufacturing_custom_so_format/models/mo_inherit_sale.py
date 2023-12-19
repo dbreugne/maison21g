@@ -23,7 +23,7 @@ class MrpProduction(models.Model):
             'name': 'Sale Orders',
             'res_model': 'sale.order',
             'view_mode': 'tree,form',
-            'target':'current',
+            'target': 'current',
             'domain': [('id', '=', self.sale_id.id)],
             'context': {'is_mrp_production': True},
             'type': 'ir.actions.act_window'
@@ -32,7 +32,6 @@ class MrpProduction(models.Model):
     @api.model
     def create(self, values):
         res = super(MrpProduction, self).create(values)
-        # context = self.env.context
         sale_id = self.env['sale.order'].search([('name', '=', values.get('origin', ''))], limit=1)
         res['sale_id'] = sale_id.id
         if sale_id:
@@ -47,7 +46,7 @@ class MrpProduction(models.Model):
         if len(mrp_ids.ids) == 1:
             mrp_ids.sale_id.mo_status = 'manufacturing_in_progress'
         else:
-            mrp_ids.sale_id.mo_status =  'partially_under_manufacturing'
+            mrp_ids.sale_id.mo_status = 'partially_under_manufacturing'
         return res
 
     def button_mark_done(self):
@@ -76,6 +75,7 @@ class MrpProductProduce(models.TransientModel):
         current_year = datetime.now().year
         # current_month = datetime.now().month
         current_month = datetime.now().strftime('%B')
+        current_months = ''
         if current_month == 'January':
             current_months = 'A'
         elif current_month == 'February':
@@ -101,26 +101,8 @@ class MrpProductProduce(models.TransientModel):
         elif current_month == 'December':
             current_months = 'L'
         lst = str(current_year)[-1] + current_months + str(datetime.now().date())[-2:]
-        mrp_id = self.env['mrp.production'].search([('id', '=', self._context.get('active_id'))])
-        for rec in mrp_id.move_raw_ids:
-            if rec.product_id.tracking  == 'lot':
-                lot_ids = self.env['stock.production.lot'].search([('name', '=', lst), ('product_id', '=', rec.move_line_ids.product_id.id)], limit=1)
-                if not lot_ids:
-                    lot_id = self.env['stock.production.lot'].create({
-                        'product_id': rec.move_line_ids.product_id.id,
-                        'product_qty': rec.move_line_ids.product_qty,
-                        'product_uom_id': rec.move_line_ids.product_uom_id.id,
-                        'company_id': self.env.company.id,
-                        'life_date': three_years_later,
-                        'name': lst})
-                    
-                    rec.move_line_ids.lot_id = lot_id.id
-                else:
-                    rec.move_line_ids.lot_id = lot_ids.id
-
-        
         if res.get('product_id'):
-            lot_ids = self.env['stock.production.lot'].search([('name', '=', lst)], limit=1)
+            lot_ids = self.env['stock.production.lot'].search([('name', '=', lst), ('product_id', '=', res.get('product_id'))], limit=1)
             if not lot_ids:
                 lot_id = self.env['stock.production.lot'].create({
                     'product_id': res.get('product_id'),
@@ -134,4 +116,61 @@ class MrpProductProduce(models.TransientModel):
                 res['finished_lot_id'] = lot_ids.id
 
             res['expairy_date'] = three_years_later
+        return res
+
+
+class MrpAbstractWorkorder(models.AbstractModel):
+    _inherit = "mrp.abstract.workorder"
+
+    def _update_workorder_lines(self):
+        res = super(MrpAbstractWorkorder, self)._update_workorder_lines()
+        current_date = datetime.now()
+        three_years_later = current_date + relativedelta(years=3)
+        # mrp_seq = self.env['ir.sequence'].next_by_code('stock.production.lot.mrp')
+
+        current_year = datetime.now().year
+        # current_month = datetime.now().month
+        current_month = datetime.now().strftime('%B')
+        current_months = ''
+        if current_month == 'January':
+            current_months = 'A'
+        elif current_month == 'February':
+            current_months = 'B'
+        elif current_month == 'March':
+            current_months = 'C'
+        elif current_month == 'April':
+            current_months = 'D'
+        elif current_month == 'May':
+            current_months = 'E'
+        elif current_month == 'June':
+            current_months = 'F'
+        elif current_month == 'July':
+            current_months = 'G'
+        elif current_month == 'August':
+            current_months = 'H'
+        elif current_month == 'Seprember':
+            current_months = 'I'
+        elif current_month == 'October':
+            current_months = 'J'
+        elif current_month == 'November':
+            current_months = 'K'
+        elif current_month == 'December':
+            current_months = 'L'
+        lst = str(current_year)[-1] + current_months + str(datetime.now().date())[-2:]
+        for rec in res.get('to_create'):
+            lot_ids = self.env['stock.production.lot'].search([('name', '=', lst), ('product_id', '=', rec.get('product_id'))], limit=1)
+            product_id = self.env['product.product'].browse(rec.get('product_id'))
+            if product_id.tracking == 'lot':
+                if not lot_ids:
+                    lot_id = self.env['stock.production.lot'].create({
+                        'product_id': rec.get('product_id'),
+                        'product_qty': rec.get('qty_done'),
+                        'product_uom_id': rec.get('product_uom_id'),
+                        'company_id': self.env.company.id,
+                        'life_date': three_years_later,
+                        'name': lst})
+                    
+                    rec.update({'lot_id': lot_id.id})
+                else:
+                    rec.update({'lot_id': lot_ids.id})
         return res
