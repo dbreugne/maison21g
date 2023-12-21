@@ -52,14 +52,15 @@ class DailySaleReport(models.TransientModel):
         for rec in pos_order_ids:
             if not rec.session_id.user_id.id in sale_order_count:
                 sale_order_count.append(rec.session_id.user_id.id)
-
             worksheet.write(row, 0, indexing, data_border_format)
             worksheet.write(row, 1, rec.session_id.name, data_border_format)
             worksheet.write(row, 2, rec.name, data_border_format)
             worksheet.write(row, 3, rec.amount_total, data_border_format_right)
-            worksheet.write(row, 4, rec.lines.tax_ids_after_fiscal_position.name, data_border_format)
+            # worksheet.write(row, 4, rec.lines.tax_ids_after_fiscal_position.name, data_border_format)
+            worksheet.write(row, 4, [tax.name for tax in rec.lines.tax_ids_after_fiscal_position][0], data_border_format)
             worksheet.write(row, 5, rec.amount_tax, data_border_format_right)
-            worksheet.write(row, 6, rec.payment_ids.payment_method_id.name, data_border_format)
+            # worksheet.write(row, 6, rec.payment_ids.payment_method_id.name, data_border_format)
+            worksheet.write(row, 6, str(tuple([payment.payment_method_id.name for payment in rec.payment_ids])) if len(rec.payment_ids.ids) > 1 else rec.payment_ids.payment_method_id.name, data_border_format)
             worksheet.write(row, 7, rec.employee_id.name, data_border_format)
             worksheet.set_column('A:A', 25)
             worksheet.set_column('B:B', 18)
@@ -121,8 +122,8 @@ class DailySaleReport(models.TransientModel):
         worksheet.write(row+3, 4, counter, data_border_format_right)
         worksheet.write(row+4, 4, qty_total, data_border_format_right)
         worksheet.write(row+5, 4, visamaster_total, data_border_format_right)
-        worksheet.write(row+6, 4, cash_total, data_border_format_right)
-        worksheet.write(row+7, 4, amex_total, data_border_format_right)
+        worksheet.write(row+6, 4, amex_total, data_border_format_right)
+        worksheet.write(row+7, 4, cash_total, data_border_format_right)
         row += 8 
         for person in sale_order_count:
             worksheet.write(row, 3, self.env["res.users"].browse(person).name, data_border_format)
