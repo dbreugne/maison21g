@@ -50,7 +50,7 @@ class DailySaleReport(models.TransientModel):
         counter = 0
         sale_order_count = []
         for rec in pos_order_ids:
-            if not rec.session_id.user_id.id in sale_order_count:
+            if rec.session_id.user_id.id not in sale_order_count:
                 sale_order_count.append(rec.session_id.user_id.id)
             worksheet.write(row, 0, indexing, data_border_format)
             worksheet.write(row, 1, rec.session_id.name, data_border_format)
