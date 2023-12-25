@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="email_send_first_approval" model="mail.template">
+            <field name="name">Email Send First Approval</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="email_from">${ctx['partner_from_email']}</field>
+            <field name="email_to">${object.email}</field>
+            <field name="subject">Purchase Order First Level Approval</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear ${ctx['user_name']},
+                            <br/>
+                            <br/>
+                                Purchase Order has been Created. Please Approvel it.
+                            <br/>
+                            <br/>
+                            Regards,
+                            <br/>
+                            ${ctx['partner_from_name']}
+                            <br/>
+                        </p>
+                        <br/>
+                            <p>Reference :- ${ctx['my_url']}</p>
+                        <br/>
+                    </div>
+                </div>
+            </field>
+    </record>
+
+    <record id="email_send_second_approval" model="mail.template">
+            <field name="name">Email Send Second Approval</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="email_from">${ctx['partner_from_email']} </field>
+            <field name="email_to">${object.email}</field>
+            <field name="subject">Purchase Order Second Level Approval</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear ${ctx['user_name']},
+                            <br/>
+                            <br/>
+                            <br/>
+                                Purchase Order First level approvel is done. Please Approve for second level.
+                            <br/>
+                            <br/>
+                            Regards,
+                            <br/>
+                            ${ctx['partner_from_name']}
+                            <br/>
+                        </p>
+                        <br/>
+                        <p>Reference :- ${ctx['my_url']}</p>
+                        <br/>
+                    </div>
+                </div>
+            </field>
+    </record>
+
+    <record id="email_send_approved" model="mail.template">
+            <field name="name">Email Send Po Approved</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="email_from">${ctx['partner_from_email']} </field>
+            <field name="email_to">${object.email}</field>
+            <field name="subject">Purchase Order Approval Is Done</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear ${ctx['user_name']},
+                            <br/>
+                            <br/>
+                               Purchase Order Approval Process Is Done.
+                            <br/>
+                            <br/>
+                            Regards,
+                            <br/>
+                            ${ctx['partner_from_name']}
+                            <br/>
+                        </p>
+                        <br/>
+                            <p>Reference :- ${ctx['my_url']}</p>
+                        <br/>
+                    </div>
+                </div>
+            </field>
+    </record>
+
+    <record id="email_send_second_approval_pending" model="mail.template">
+            <field name="name">Email Send Second Approval Pending</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="email_from">${ctx['partner_from_email']}</field>
+            <field name="email_to">${object.email}</field>
+            <field name="subject">Purchase Order Second Approval Pending</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear 
+                        ${ctx['user_name']},
+                            <br/>
+                            <br/>
+                               Purchase Order Second Level Approval Pendding Lists.
+                            <br/>
+                            <br/>
+                            Regards,
+                            <br/>
+                            ${ctx['partner_from_name']}
+                            <br/>
+                        </p>
+                    </div>
+                </div>
+            </field>
+    </record>
+
+    <record id="email_send_all_status_po" model="mail.template">
+            <field name="name">All Status PO</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="email_from">${ctx['partner_from_email']}</field>
+            <field name="email_to">${object.email}</field>
+            <field name="subject">All Purchase Order List in varius status</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear 
+                        ${ctx['user_name']},
+                            <br/>
+                            <br/>
+                               All Purchase Order List In Varius Status.
+                            <br/>
+                            <br/>
+                            Regards,
+                            <br/>
+                            ${ctx['partner_from_name']}
+                            <br/>
+                        </p>
+                    </div>
+                </div>
+            </field>
+    </record>
+
+</odoo>
