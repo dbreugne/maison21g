@@ -33,9 +33,7 @@ class SaleCouponProgram(models.Model):
         for program in self:
             program.pos_order_count = mapped_data.get(program.discount_line_product_id.id, 0)
 
-    used_in = fields.Selection([('sale', "Sale"),
-        ('pos', "Point of Sale"),
-        ('all', "Both")], string='Available For', default='sale')
+    used_in = fields.Selection([('sale', "Sale"), ('pos', "Point of Sale"), ('all', "Both")], string='Available For', default='sale')
     pos_order_line_ids = fields.Many2many('pos.order.line', store=False, search='_search_pos_order_line_ids')
     sale_order_count = fields.Integer(compute='_compute_sale_order_count')
     pos_order_count = fields.Integer(compute='_compute_pos_order_count')
