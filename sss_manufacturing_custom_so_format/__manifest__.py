@@ -3,7 +3,7 @@
 
 {
     'name': 'Manufacturing Order Report',
-    'version': '0.10',
+    'version': '0.11',
     'sequence': 1,
     'category': 'Manufacturing Order Report',
     'description': 
@@ -13,7 +13,7 @@
     'summary': 'Manufacturing Order Report',
     'author': 'Spellbound Soft Solutions',
     'website': 'http://spellboundss.com/',
-    'depends': ['mrp', 'sale'],
+    'depends': ['mrp', 'sale', 'stock'],
     'data': [
         'report/mo_inherit_report.xml',
         'data/sequence_lot_mrp.xml',

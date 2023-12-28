@@ -11,6 +11,8 @@ class MrpProduction(models.Model):
 
     sale_id = fields.Many2one('sale.order', string="Sale Order", copy=False)
     order_count = fields.Integer(string="Sale Order", compute="_compute_order_count", copy=False)
+    lot_id = fields.Many2one('stock.production.lot', string="Lot Number")
+    expiry_date = fields.Date(string="Expiry Date")
 
     @api.depends('sale_id')
     def _compute_order_count(self):
@@ -58,6 +60,19 @@ class MrpProduction(models.Model):
 
         res = super(MrpProduction, self).button_mark_done()
         return res
+
+    # @api.depends('move_finished_ids.move_line_ids')
+    # def _compute_lines(self):
+    #     res = super(MrpProduction, self)._compute_lines()
+    #     for production in self:
+    #         for move_line in production.finished_move_line_ids:
+    #             move_line.lot_id = production.lot_id.id
+    #     return res
+
+    # def _get_finished_move_value(self, product_id, product_uom_qty, product_uom, operation_id=False, byproduct_id=False):
+    #     res = super(MrpProduction, self)._get_finished_move_value(product_id, product_uom_qty, product_uom, operation_id, byproduct_id)
+    #     res.update({'order_finished_lot_ids': [(4,self.lot_id.id)]})
+    #     return res
 
 
 class MrpProductProduce(models.TransientModel):
@@ -116,6 +131,20 @@ class MrpProductProduce(models.TransientModel):
                 res['finished_lot_id'] = lot_ids.id
 
             res['expairy_date'] = three_years_later
+        return res
+
+    def do_produce(self):
+        res = super(MrpProductProduce, self).do_produce()
+        # self._context.get('active_id')
+        mrp_production = self.env['mrp.production'].browse(self._context.get('active_id'))
+        mrp_production.lot_id = self.finished_lot_id.id 
+        mrp_production.expiry_date = self.expairy_date
+        self.production_id.move_finished_ids.move_line_ids.lot_id = self.finished_lot_id.id
+        return res
+
+    def _record_production(self):
+        self.production_id.move_finished_ids.move_line_ids.lot_id = self.finished_lot_id.id
+        res = super(MrpProductProduce, self)._record_production()
         return res
 
 
