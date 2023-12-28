@@ -140,6 +140,8 @@ class MrpProductProduce(models.TransientModel):
         mrp_production.lot_id = self.finished_lot_id.id 
         mrp_production.expiry_date = self.expairy_date
         self.production_id.move_finished_ids.move_line_ids.lot_id = self.finished_lot_id.id
+        self.production_id.sale_id.lot_ids = [(4,self.finished_lot_id.id)]
+        self.production_id.sale_id.expiry_date = self.expairy_date
         return res
 
     def _record_production(self):

@@ -18,6 +18,18 @@
             </field>
         </record>
 
+        <record id="view_order_tree_inherit_sale_stock" model="ir.ui.view">
+            <field name="name">sale.order.tree.sale.stock</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_status']" position="before">
+                    <field name="lot_ids" widget="many2many_tags"/>
+                    <field name="expiry_date"/>
+                </xpath>
+            </field>
+        </record>
+
         <record id="view_order_form_inherit_manufacturing_stock" model="ir.ui.view">
             <field name="name">mrp.production.form.manufacturing.stock</field>
             <field name="model">mrp.production</field>
@@ -37,6 +49,7 @@
                 <xpath expr="//field[@name='finished_move_line_ids']/tree/field[@name='lot_id']" position="attributes">
                     <attribute name="context">{}</attribute>
                     <attribute name="domain">[]</attribute>
+                    <attribute name="groups"></attribute>
                 </xpath>
             </field>
         </record>

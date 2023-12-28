@@ -14,6 +14,8 @@ class SaleOrderInherit(models.Model):
         string="Manufacturing Order", compute="_compute_manufacturing_count", copy=False)
     manufacturing_ids = fields.Many2many('mrp.production', 'manufacturing_order_type',
                                          'saleorder_id', 'mrpproduction_id', string='Manufacturing Orders', copy=False)
+    lot_ids = fields.Many2many('stock.production.lot', 'lot_sale_rel', 'lot_id', 'sale_id', string="Lot Numbers")
+    expiry_date = fields.Date(string="Expiry Date")
 
     def action_confirm(self):
         res = super(SaleOrderInherit, self).action_confirm()
