@@ -50,6 +50,7 @@
                     <attribute name="context">{}</attribute>
                     <attribute name="domain">[]</attribute>
                     <attribute name="groups"></attribute>
+                    <attribute name="invisible">{}</attribute>
                 </xpath>
             </field>
         </record>
