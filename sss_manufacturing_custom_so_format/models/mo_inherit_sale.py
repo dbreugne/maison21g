@@ -205,3 +205,14 @@ class MrpAbstractWorkorder(models.AbstractModel):
                 else:
                     rec.update({'lot_id': lot_ids.id})
         return res
+
+
+class StockMoveLine(models.Model):
+    _inherit = 'stock.move.line'
+
+    @api.depends('picking_id.picking_type_id', 'product_id.tracking')
+    def _compute_lots_visible(self):
+        res = super(StockMoveLine, self)._compute_lots_visible()
+        if self.lot_id:
+            self.lots_visible = True
+        return res

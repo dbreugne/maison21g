@@ -3,11 +3,11 @@
 
 {
     'name': 'Manufacturing Order Report',
-    'version': '0.13',
+    'version': '0.14',
     'sequence': 1,
     'category': 'Manufacturing Order Report',
-    'description': 
-        """ 
+    'description':
+        """
         Manufacturing Order Report.
     """,
     'summary': 'Manufacturing Order Report',
