@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="view_order_form_inherit_sale_stock" model="ir.ui.view">
+            <field name="name">sale.order.form.sale.stock</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button type="object"
+                        name="action_view_manufacturing"
+                        class="oe_stat_button"
+                        attrs="{'invisible': [('manufacturing_count', '=', 0)]}">
+                        <field name="manufacturing_count" string="Manufacturing Order"
+                            widget="statinfo" />
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_order_tree_inherit_sale_stock" model="ir.ui.view">
+            <field name="name">sale.order.tree.sale.stock</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_status']" position="before">
+                    <field name="lot_ids" widget="many2many_tags"/>
+                    <field name="expiry_date"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_order_form_inherit_manufacturing_stock" model="ir.ui.view">
+            <field name="name">mrp.production.form.manufacturing.stock</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button type="object"
+                        name="action_view_saleorder"
+                        class="oe_stat_button" attrs="{'invisible': [('order_count', '=', 0)]}">
+                        <field name="order_count" string="Sale Order" widget="statinfo" />
+                    </button>
+                </xpath>
+                <!-- <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="lot_id"/>
+                    <field name="expiry_date"/>
+                </xpath> -->
+                <xpath expr="//field[@name='finished_move_line_ids']/tree/field[@name='lot_id']" position="attributes">
+                    <attribute name="context">{}</attribute>
+                    <attribute name="domain">[]</attribute>
+                    <attribute name="groups"></attribute>
+                    <attribute name="invisible">{}</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_order_tree_inherit_manufacturing_stock" model="ir.ui.view">
+            <field name="name">mrp.production.tree.manufacturing.stock</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_tree_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_qty']" position="after">
+                    <field name="lot_id"/>
+                    <field name="expiry_date"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
