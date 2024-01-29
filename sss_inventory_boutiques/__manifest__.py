@@ -17,7 +17,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/inventory_boutiques.xml',
-        'views/stock_picking_view.xml',
+        # 'views/stock_picking_view.xml',
         # 'views/sale_order_inherit.xml',
         # 'views/mo_inherit_sale.xml',
     ],

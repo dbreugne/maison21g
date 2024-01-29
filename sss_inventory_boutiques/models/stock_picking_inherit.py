@@ -29,34 +29,34 @@ class StockPickingInerit(models.Model):
     def reject_button(self):
         self.state = 'reject'
 
-    @api.depends('state', 'is_locked')
-    def _compute_show_validate(self):
-        res = super(StockPickingInerit, self)._compute_show_validate()
-        for picking in self:
-            if picking.picking_type_code == 'internal':
-                if not (picking.immediate_transfer) and picking.state == 'draft':
-                    picking.show_validate = False
-                elif picking.state not in ('draft', 'waiting', 'confirmed', 'assigned', 'approve', 'reject') or not picking.is_locked:
-                    picking.show_validate = False
-                else:
-                    picking.show_validate = True
-            else:
-                return res
+    # @api.depends('state', 'is_locked')
+    # def _compute_show_validate(self):
+    #     res = super(StockPickingInerit, self)._compute_show_validate()
+    #     for picking in self:
+    #         if picking.picking_type_code == 'internal':
+    #             if not (picking.immediate_transfer) and picking.state == 'draft':
+    #                 picking.show_validate = False
+    #             elif picking.state not in ('draft', 'waiting', 'confirmed', 'assigned', 'approve', 'reject') or not picking.is_locked:
+    #                 picking.show_validate = False
+    #             else:
+    #                 picking.show_validate = True
+    #         else:
+    #             return res
 
-    def _compute_show_check_availability(self):
-        """ According to `picking.show_check_availability`, the "check availability" button will be
-        displayed in the form view of a picking.
-        """
-        res = super(StockPickingInerit, self)._compute_show_check_availability()
-        for picking in self:
-            if picking.picking_type_code == 'internal':
-                if picking.immediate_transfer or not picking.is_locked or picking.state not in ('confirmed', 'waiting', 'assigned', 'approve'):
-                    picking.show_check_availability = False
-                    continue
-                picking.show_check_availability = any(
-                    move.state in ('waiting', 'confirmed', 'partially_available', 'approve') and
-                    float_compare(move.product_uom_qty, 0, precision_rounding=move.product_uom.rounding)
-                    for move in picking.move_lines
-                )
-            else:
-                return res
+    # def _compute_show_check_availability(self):
+    #     """ According to `picking.show_check_availability`, the "check availability" button will be
+    #     displayed in the form view of a picking.
+    #     """
+    #     res = super(StockPickingInerit, self)._compute_show_check_availability()
+    #     for picking in self:
+    #         if picking.picking_type_code == 'internal':
+    #             if picking.immediate_transfer or not picking.is_locked or picking.state not in ('confirmed', 'waiting', 'assigned', 'approve'):
+    #                 picking.show_check_availability = False
+    #                 continue
+    #             picking.show_check_availability = any(
+    #                 move.state in ('waiting', 'confirmed', 'partially_available', 'approve') and
+    #                 float_compare(move.product_uom_qty, 0, precision_rounding=move.product_uom.rounding)
+    #                 for move in picking.move_lines
+    #             )
+    #         else:
+    #             return res
