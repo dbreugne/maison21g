@@ -53,12 +53,7 @@
 		<field name="arch" type="xml">
 			<xpath expr="//field[@name='move_raw_ids']" position="attributes">
 				<attribute name="attrs">{'readonly': [('state', 'not in', ['draft','confirmed'])]}</attribute>
-				<attribute name="context">{'final_lots': show_final_lots, 'tree_view_ref':
-					'mrp.view_stock_move_raw_tree', 'form_view_ref': 'mrp.view_stock_move_lots',
-					'default_location_id': location_src_id, 'default_location_dest_id':
-					production_location_id, 'default_state': 'draft',
-					'default_raw_material_production_id': id, 'default_picking_type_id':
-					picking_type_id, 'is_mrp_component': True}</attribute>
+					<attribute name="context">{'final_lots': show_final_lots, 'tree_view_ref': 'mrp.view_stock_move_raw_tree', 'form_view_ref': 'mrp.view_stock_move_lots', 'default_location_id': location_src_id, 'default_location_dest_id': production_location_id, 'default_state': 'draft', 'default_raw_material_production_id': id, 'default_picking_type_id': picking_type_id,'is_mrp_component': True}</attribute>
 			</xpath>
 		</field>
 	</record>
