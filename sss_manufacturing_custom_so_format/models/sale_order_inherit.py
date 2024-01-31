@@ -17,13 +17,31 @@ class SaleOrderInherit(models.Model):
     lot_ids = fields.Many2many('stock.production.lot', 'lot_sale_rel', 'lot_id', 'sale_id', string="Lot Numbers")
     expiry_date = fields.Date(string="Expiry Date")
 
+    @api.model
+    def _get_default_picking_type(self):
+        company_id = self.env.context.get('default_company_id', self.env.company.id)
+        return self.env['stock.picking.type'].search([
+            ('code', '=', 'mrp_operation'),
+            ('warehouse_id.company_id', '=', company_id),
+        ], limit=1).id
+
+    @api.model
+    def _get_default_location_src_id(self):
+        location = False
+        company_id = self.env.context.get('default_company_id', self.env.company.id)
+        if self.env.context.get('default_picking_type_id'):
+            location = self.env['stock.picking.type'].browse(self.env.context['default_picking_type_id']).default_location_src_id
+        if not location:
+            location = self.env['stock.warehouse'].search([('company_id', '=', company_id)], limit=1).lot_stock_id
+        # a
+        return location and location.id or False
+
     def action_confirm(self):
         res = super(SaleOrderInherit, self).action_confirm()
         for rec in self.order_line:
             routes = []
             route_ids = self.env['stock.location.route'].search([('name', '=', 'Replenish on Order (MTO)')])
             route_idss = self.env['stock.location.route'].search([('name', '=', 'Manufacture')])
-            route_idsss = self.env['stock.location.route'].search([('name', '=', 'Buy')])
             routes.append(route_ids.id)
             routes.append(route_idss.id)
             if routes == rec.product_id.route_ids.ids and rec.available_qty <= rec.product_uom_qty:
@@ -41,9 +59,11 @@ class SaleOrderInherit(models.Model):
                     'procurement_group_id': False,
                     'propagate_date': self.date_order,
                     'company_id': self.company_id.id,
+                    # 'location_src_id': self._get_default_location_src_id(),
                     'user_id': False,
                 }
                 mrp_id = self.env['mrp.production'].create(mo_values)
+                mrp_id.write({'location_src_id': mrp_id.picking_type_id.default_location_src_id})
                 mrp_id._onchange_move_raw()
                 mrp_id._onchange_location()
                 mrp_id.action_confirm()
