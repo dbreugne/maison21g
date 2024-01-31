@@ -49,9 +49,8 @@ class MrpProduction(models.Model):
         product_uom_qty = sum(self.move_raw_ids.filtered(lambda x: x.product_uom_qty).mapped('product_uom_qty'))
         reserved_availability = sum(self.move_raw_ids.filtered(lambda x: x.reserved_availability).mapped('reserved_availability'))
         if product_uom_qty != reserved_availability:
-            raise UserError(_("You cannot Start Production for this Finished Goods because Don't have Insufficient Raw Material."))
+            raise UserError(_("You cannot Start Production for this Finished Goods because Don't have sufficient Raw Material. if no quantites are reserved nor done."))
             # raise UserError(_('You cannot Start Production a Manufacturing Raw Material if no quantites are reserved nor done.'))
-
         if len(mrp_ids.ids) == 1:
             mrp_ids.sale_id.mo_status = 'manufacturing_in_progress'
         else:
@@ -64,7 +63,6 @@ class MrpProduction(models.Model):
             mrp_ids.sale_id.mo_status = 'ready_to_ship'
         else:
             mrp_ids.sale_id.mo_status = 'partially_manufactured'
-
         res = super(MrpProduction, self).button_mark_done()
         return res
 
@@ -80,7 +78,6 @@ class MrpProductProduce(models.TransientModel):
         current_date = datetime.now()
         three_years_later = current_date + relativedelta(years=3)
         # mrp_seq = self.env['ir.sequence'].next_by_code('stock.production.lot.mrp')
-
         current_year = datetime.now().year
         # current_month = datetime.now().month
         current_month = datetime.now().strftime('%B')
