@@ -1,7 +1,7 @@
 
 {
     'name': 'Gernal Ledger Report Account Analytic', 
-    'version': '13.0.0',
+    'version': '13.0.1',
     'sequence': 1, 
     'category': 'Gernal Ledger Report Account Analytic', 
     'description': 

@@ -475,3 +475,9 @@ class AccountGeneralLedgerReport(models.AbstractModel):
             ],
             'level': 4,
         }
+
+    @api.model
+    def _get_total_line(self, options, debit, credit, balance):
+        res = super(AccountGeneralLedgerReport, self)._get_total_line(options, debit, credit, balance)
+        res.update({'colspan' : 6})
+        return res
