@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sss_top_5_discounted_product_pos.access_top_discount_product_pos,access_top_discount_product_pos,sss_top_5_discounted_product_pos.model_top_discount_product_pos,base.group_user,1,1,1,1

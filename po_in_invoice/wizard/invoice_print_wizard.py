@@ -3,7 +3,9 @@ from odoo.exceptions import UserError,ValidationError
 
 
 class CustomerDataWizard(models.TransientModel):
+    """Create a new wizard customer.data.wizard"""
     _name = 'customer.data.wizard'
+    _description = 'Wizard to generate the customer data report'
 
     partner_id = fields.Many2one('res.partner', string='Customer', required=True)
 

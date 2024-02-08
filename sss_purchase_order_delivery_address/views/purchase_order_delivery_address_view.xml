@@ -1,0 +1,23 @@
+<odoo>
+    <record id="purchase_order_delivery_address_form" model="ir.ui.view">
+        <field name="name">Purchase Order Delivery Address</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='picking_type_id']" position="after">
+                <field name="address"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_delivery_address_form" model="ir.ui.view">
+        <field name="name">Sale Order Delivery Address</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_shipping_id']" position="after">
+                <field name="address"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

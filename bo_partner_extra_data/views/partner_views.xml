@@ -5,12 +5,15 @@
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='function']" position="replace">
-                <field name="birthdate" required="1"/>
-                <field name="gender" widget="radio"/>
-                <field name="married" widget="radio"/>
-                <field name="date_wedding"  attrs="{'invisible':[('married','=','no')]}"/>
-                <field name="children" widget="radio"/>
-                <field name="no_children"  attrs="{'invisible':[('children','=','no')]}"/>
+                <field name="birthdate" required="0" invisible="1"/>
+                <field name="gender" widget="radio" invisible="1"/>
+                <field name="married" widget="radio" invisible="1"/>
+                <field name="date_wedding"  attrs="{'invisible':[('married','=','no')]}" invisible="1"/>
+                <field name="children" widget="radio" invisible="1"/>
+                <field name="no_children"  attrs="{'invisible':[('children','=','no')]}" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="membership"/>
             </xpath>
         </field>
     </record>

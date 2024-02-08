@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_inherit_id_1" model="ir.ui.view">
+        <field name="name">purchase.order.view.form.inherited</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_ref']" position="after">
+                <field name="user_id" invisible="1"/>
+                <field name="login_user" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@id='bid_confirm']" position="replace">
+                <button name="button_confirm" type="object" states="sent" string="Confirm Order" class="oe_highlight" id="bid_confirm" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@id='draft_confirm']" position="replace">
+                 <button name="button_confirm" type="object" string="Confirm Order" id="draft_confirm" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@name='button_confirm']" position="after">
+                <button name="button_first_approve" type="object" string="First Level Approvel" attrs="{'invisible': ['|', ('login_user', '=', False), ('state', '!=',  'draft')]}"/>
+            </xpath>
+            <!-- <xpath expr="//button[@name='action_rfq_send'][1]" position="replace">
+                <button name="action_rfq_send" states="draft" string="Send by Email" type="object" class="oe_highlight" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@name='action_rfq_send'][2]" position="replace">
+                <button name="action_rfq_send" states="sent" string="Re-Send by Email" type="object" context="{'send_rfq':True}" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@name='action_rfq_send'][3]" position="replace">
+                <button name="action_rfq_send" states="purchase" string="Send PO by Email" type="object" context="{'send_rfq':False}" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@name='print_quotation'][1]" position="replace">
+                <button name="print_quotation" string="Print RFQ" type="object" states="draft" class="oe_highlight" groups="base.group_user" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@name='print_quotation'][2]" position="replace">
+                <button name="print_quotation" string="Print RFQ" type="object" states="sent" groups="base.group_user" invisible="1"/>
+            </xpath> -->
+<!--            <xpath expr="//button[@name='action_rfq_send'][2]" position="attributes">
+                <attribute name="attrs">{'invisible': [('login_user', '!=', True)]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_rfq_send'][3]" position="attributes">
+                <attribute name="attrs">{'invisible': [('login_user', '!=', True)]}</attribute>
+            </xpath>
+ -->        </field>
+    </record>
+</odoo>

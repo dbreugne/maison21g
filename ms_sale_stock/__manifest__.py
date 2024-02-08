@@ -5,6 +5,7 @@
     'description': """
         v 1.0.0 (godelivadiva) \n
         - Sale coupon report \n
+        - Available qty on stock quant \n
     """,
     'author': "Portcities",
     'website': "http://portcities.net",
@@ -13,6 +14,7 @@
     'data': [
         'views/stock_picking_views.xml',
         'views/sale_order_views.xml',
+        'views/stock_quant_views.xml'
     ],
     'installable': True,
     'application': False,

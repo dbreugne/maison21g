@@ -3,7 +3,7 @@
 
 {
     'name': 'POS Coupons & Promotions',
-    'version': '1.0',
+    'version': '1.2',
     'summary': """Allows to use discount coupons and promotions in pos orders.
     
     

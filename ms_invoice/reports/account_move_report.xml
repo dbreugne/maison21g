@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="ms_inherit_report_invoice_document" name="MS Inherit Invoices Report" inherit_id="account.report_invoice_document">
+            <xpath expr="//th[@name='th_subtotal']" position="attributes">
+                <attribute name="class">text-right d-none</attribute>
+            </xpath>
+            <xpath expr="//th[@name='th_subtotal']" position="before">
+                <th name="th_subtotal" class="text-right subtotal_non_tax">
+                    <span groups="account.group_show_line_subtotals_tax_excluded">Amount</span>
+                    <span groups="account.group_show_line_subtotals_tax_included">Subtotal</span>
+                </th>
+            </xpath>
+            <xpath expr="//t[@name='account_invoice_line_accountable']/td[hasclass('o_price_total')]" position="attributes">
+                <attribute name="class">text-right o_price_total d-none</attribute>
+            </xpath>
+            <xpath expr="//t[@name='account_invoice_line_accountable']/td[hasclass('o_price_total')]" position="before">
+                <td class="text-right o_price_total subtotal_non_tax">
+                    <span class="text-nowrap" t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                    <span class="text-nowrap" t-field="line.subtotal_non_tax" groups="account.group_show_line_subtotals_tax_included"/>
+                </td>
+            </xpath>
+        </template>
+    </data>
+</odoo>

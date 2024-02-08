@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <report
+            id="bom_report_xlsx_action"
+            model="mrp.bom"
+            string="BOM Excel Report"
+            report_type="xlsx"
+            name="sss_bom_excel_report.bom_report_xlsx"
+            file="sss_bom_excel_report.bom_report_xlsx"
+    />
+
+
+</odoo>

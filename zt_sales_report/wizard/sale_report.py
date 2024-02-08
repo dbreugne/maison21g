@@ -3,8 +3,10 @@ from odoo.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class SalesTeamXlsx(models.AbstractModel):
+    """Create a new report sales team xlsx"""
     _name = 'report.zt_sales_report.sale_order_xlsx'
     _inherit = 'report.report_xlsx.abstract'
+    _description = 'Generate report for sale order in xlsx file'
 
     def generate_xlsx_report(self, workbook, data, partners):
         start_date = data['date_start']

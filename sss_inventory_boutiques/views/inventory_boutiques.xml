@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="sale_in_report_pivot_view" model="ir.ui.view">
+	        <field name="name">inventory.boutiques.pivot.view</field>
+	        <field name="model">inventory.boutiques</field>
+	        <field name="arch" type="xml">
+	        	<pivot string="Inventory Boutiques" disable_linking="True">
+	        		<field name="warehouse_id" type="row"/>
+	        		<field name="available_qty" type="measure"/>
+	        		<!-- <field name="internal_ref" type="col"/> -->
+	        	</pivot>
+	        </field>
+	    </record>
+
+		<record id="action_inventory_boutiques" model="ir.actions.act_window">
+	        <field name="name">Inventory Boutiques</field>
+	        <field name="res_model">inventory.boutiques</field>
+	        <field name="binding_view_types">pivot</field>  
+	        <!-- <field name="view_id" eval="sale_in_report_pivot_view"></field> -->
+	        <field name="view_mode">pivot</field>
+	    </record>
+
+		<menuitem action="action_inventory_boutiques"
+				id="menu_inventory_boutiques"
+				parent="point_of_sale.menu_point_rep" 
+				name="Inventory Boutiques"/>
+	</data>
+</odoo>

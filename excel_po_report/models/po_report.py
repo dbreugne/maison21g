@@ -4,6 +4,7 @@ from odoo import models, fields, api
 class PartnerXlsx(models.AbstractModel):
     _name = 'report.excel_po_report.po_order_product_xlsx'
     _inherit = 'report.report_xlsx.abstract'
+    _description = 'Report PO Product XLSX'
 
     def generate_xlsx_report(self, workbook, data, partners):
 
