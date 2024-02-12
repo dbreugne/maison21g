@@ -3,7 +3,6 @@
 
 from odoo import models, fields, api, _
 from odoo.tools.misc import format_date, DEFAULT_SERVER_DATE_FORMAT
-from datetime import timedelta
 
 
 class AccountGeneralLedgerReport(models.AbstractModel):
@@ -12,11 +11,10 @@ class AccountGeneralLedgerReport(models.AbstractModel):
     @api.model
     def _get_columns_name(self, options):
         res = super(AccountGeneralLedgerReport, self)._get_columns_name(options)
-        res.insert(4,{'name': 'Analytic'}) 
+        res.insert(4, {'name': 'Analytic'})
         return res
 
-
-    # @api.model
+# @api.model
     # def _get_query_sums(self, options_list, expanded_account=None):
     #   res = super(AccountGeneralLedgerReport, self)._get_query_sums(options_list, expanded_account)
     #   print("::::S:AAAAAAAAAAA:::SAAAAAAAA::::::::::::;",res)
@@ -329,7 +327,7 @@ class AccountGeneralLedgerReport(models.AbstractModel):
             has_lines = max_date and max_date >= date_from or False
             amount_currency = account_sum.get('amount_currency', 0.0) + account_un_earn.get('amount_currency', 0.0)
             if account_sum.get('analytic_account_code') and account_sum.get('analytic_account'):
-                analytic_account_name = '['+account_sum.get('analytic_account_code', '')+']'+ ' - ' + account_sum.get('analytic_account')
+                analytic_account_name = '['+account_sum.get('analytic_account_code', '')+']' + ' - ' + account_sum.get('analytic_account')
             else:
                 analytic_account_name = ''
 
@@ -438,11 +436,11 @@ class AccountGeneralLedgerReport(models.AbstractModel):
     @api.model
     def _get_initial_balance_line(self, options, account, amount_currency, debit, credit, balance):
         res = super()._get_initial_balance_line(options, account, amount_currency, debit, credit, balance)
-        res.update({'colspan' : 5})
+        res.update({'colspan': 5})
         return res
 
     @api.model
-    def _get_aml_line(self, options, account, aml, cumulated_balance,analytic_account_name):
+    def _get_aml_line(self, options, account, aml, cumulated_balance, analytic_account_name):
         if aml['payment_id']:
             caret_type = 'account.payment'
         elif aml['move_type'] in ('in_refund', 'in_invoice', 'in_receipt'):
@@ -488,5 +486,5 @@ class AccountGeneralLedgerReport(models.AbstractModel):
     @api.model
     def _get_total_line(self, options, debit, credit, balance):
         res = super(AccountGeneralLedgerReport, self)._get_total_line(options, debit, credit, balance)
-        res.update({'colspan' : 6})
+        res.update({'colspan': 6})
         return res
