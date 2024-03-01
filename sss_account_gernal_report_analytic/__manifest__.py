@@ -11,7 +11,7 @@
     'summary': 'Gernal Ledger Report Account Analytic',
     'author': 'De ',
     'website': 'http://www.de.com',
-    'depends': ['account','account_reports','web'],
+    'depends': ['account', 'account_reports', 'web'],
     'data': [
     ],
     'installable': True,
