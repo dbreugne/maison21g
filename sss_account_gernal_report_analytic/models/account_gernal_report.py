@@ -102,12 +102,12 @@ class AccountGeneralLedgerReport(models.AbstractModel):
     @api.model
     def _get_aml_line(self, options, account, aml, cumulated_balance):
         res = super()._get_aml_line(options, account, aml, cumulated_balance)
-        if aml['analytic_account'] and aml['analytic_account_code']:
+        # if aml['analytic_account'] and aml['analytic_account_code']:
 
-            accoun_name = "[" + aml['analytic_account_code'] + "]" + "-" + aml['analytic_account']
-        else:
-            accoun_name = ""
-        res.get('columns').insert(3, {'name': accoun_name, 'title': accoun_name, 'class': 'whitespace_print'})
+        #     accoun_name = "[" + aml['analytic_account_code'] + "]" + "-" + aml['analytic_account']
+        # else:
+        #     accoun_name = ""
+        res.get('columns').insert(3, {'name': aml['analytic_account'], 'title': aml['analytic_account'], 'class': 'whitespace_print'})
         return res
 
     @api.model
