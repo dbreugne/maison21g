@@ -4,6 +4,7 @@
 from odoo import fields, models, api, _
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import UserError
 
 
 class MrpProduction(models.Model):
@@ -45,6 +46,11 @@ class MrpProduction(models.Model):
     def open_produce_product(self):
         res = super(MrpProduction, self).open_produce_product()
         mrp_ids = self.search([('origin', '=', self.sale_id.name), ('state', '=', 'confirmed')])
+        product_uom_qty = sum(self.move_raw_ids.filtered(lambda x: x.product_uom_qty).mapped('product_uom_qty'))
+        reserved_availability = sum(self.move_raw_ids.filtered(lambda x: x.reserved_availability).mapped('reserved_availability'))
+        if product_uom_qty != reserved_availability:
+            raise UserError(_("You cannot Start Production for this Finished Goods because Don't have sufficient Raw Material. if no quantites are reserved nor done."))
+            # raise UserError(_('You cannot Start Production a Manufacturing Raw Material if no quantites are reserved nor done.'))
         if len(mrp_ids.ids) == 1:
             mrp_ids.sale_id.mo_status = 'manufacturing_in_progress'
         else:
@@ -57,22 +63,8 @@ class MrpProduction(models.Model):
             mrp_ids.sale_id.mo_status = 'ready_to_ship'
         else:
             mrp_ids.sale_id.mo_status = 'partially_manufactured'
-
         res = super(MrpProduction, self).button_mark_done()
         return res
-
-    # @api.depends('move_finished_ids.move_line_ids')
-    # def _compute_lines(self):
-    #     res = super(MrpProduction, self)._compute_lines()
-    #     for production in self:
-    #         for move_line in production.finished_move_line_ids:
-    #             move_line.lot_id = production.lot_id.id
-    #     return res
-
-    # def _get_finished_move_value(self, product_id, product_uom_qty, product_uom, operation_id=False, byproduct_id=False):
-    #     res = super(MrpProduction, self)._get_finished_move_value(product_id, product_uom_qty, product_uom, operation_id, byproduct_id)
-    #     res.update({'order_finished_lot_ids': [(4,self.lot_id.id)]})
-    #     return res
 
 
 class MrpProductProduce(models.TransientModel):
@@ -86,7 +78,6 @@ class MrpProductProduce(models.TransientModel):
         current_date = datetime.now()
         three_years_later = current_date + relativedelta(years=3)
         # mrp_seq = self.env['ir.sequence'].next_by_code('stock.production.lot.mrp')
-
         current_year = datetime.now().year
         # current_month = datetime.now().month
         current_month = datetime.now().strftime('%B')
@@ -116,7 +107,8 @@ class MrpProductProduce(models.TransientModel):
         elif current_month == 'December':
             current_months = 'L'
         lst = str(current_year)[-1] + current_months + str(datetime.now().date())[-2:]
-        if res.get('product_id'):
+        product_id = self.env['product.product'].browse(res.get('product_id'))
+        if product_id.tracking == 'lot':
             lot_ids = self.env['stock.production.lot'].search([('name', '=', lst), ('product_id', '=', res.get('product_id'))], limit=1)
             if not lot_ids:
                 lot_id = self.env['stock.production.lot'].create({
@@ -130,22 +122,24 @@ class MrpProductProduce(models.TransientModel):
             else:
                 res['finished_lot_id'] = lot_ids.id
 
-            res['expairy_date'] = three_years_later
+        res['expairy_date'] = three_years_later
         return res
 
     def do_produce(self):
         res = super(MrpProductProduce, self).do_produce()
         # self._context.get('active_id')
         mrp_production = self.env['mrp.production'].browse(self._context.get('active_id'))
-        mrp_production.lot_id = self.finished_lot_id.id 
+        if mrp_production.product_id.tracking == 'lot':
+            mrp_production.lot_id = self.finished_lot_id.id 
+            self.production_id.move_finished_ids.move_line_ids.lot_id = self.finished_lot_id.id
+            self.production_id.sale_id.lot_ids = [(4, self.finished_lot_id.id)]
         mrp_production.expiry_date = self.expairy_date
-        self.production_id.move_finished_ids.move_line_ids.lot_id = self.finished_lot_id.id
-        self.production_id.sale_id.lot_ids = [(4, self.finished_lot_id.id)]
         self.production_id.sale_id.expiry_date = self.expairy_date
         return res
 
     def _record_production(self):
-        self.production_id.move_finished_ids.move_line_ids.lot_id = self.finished_lot_id.id
+        if self.product_id.tracking == 'lot':
+            self.production_id.move_finished_ids.move_line_ids.lot_id = self.finished_lot_id.id
         res = super(MrpProductProduce, self)._record_production()
         return res
 
