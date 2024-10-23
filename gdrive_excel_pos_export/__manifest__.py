@@ -10,7 +10,7 @@
     'author': "Portcities",
     'website': "http://portcities.net",
     'category': 'Manufacture',
-    'depends': ['mrp''sale','base','point_of_sale','report_xlsx'],
+    'depends': ['mrp','sale','base','point_of_sale','report_xlsx'],
     'data': [
         #'wizards/mrp_product_produce_views.xml',
     ],
