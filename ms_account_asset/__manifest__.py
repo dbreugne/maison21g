@@ -1,7 +1,7 @@
 {
     'name': "Maison - Account Asset",
     'summary': "Customization in account asset",
-    'version': '13.0.1.0.0',
+    'version': '17.0.1.0.0',
     'description': """
         v 1.0.0 (mfm) \n
         - adding asset info (owner, SN, location)

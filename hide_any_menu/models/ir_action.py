@@ -11,7 +11,7 @@ class IrActions(models.Model):
         lst = result.get('report')
         if lst:
             for item in lst:
-                reports = self.env['ir.actions.report'].sudo().search([('report_name', '=', item.get('report_name'))])
+                reports = self.env['ir.actions.report'].sudo().search([('id', '=', item.get('id'))])
                 if reports:
                     for report in reports:
                         skip_report = False

@@ -1,12 +1,10 @@
 <odoo>
-
-
     <record model="ir.ui.view" id="invoice_order_report_wizard">
         <field name="name">invoice.order.xlsx</field>
         <field name="model">invoice.order.xlsx</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <form >
+            <form>
                 <group>
                     <group>
                         <field name="date_start"/>
@@ -14,12 +12,12 @@
                     <group>
                         <field name="date_end"/>
                     </group>
-                     <group>
-                        <field name="number" widget= "many2many_tags" domain="[('type','=','out_invoice')]" />
+                    <group>
+                        <field name="number" widget="many2many_tags"/>
                     </group>
-<!--                    <group>-->
-<!--                        <field name="team_sales_id"/>-->
-<!--                    </group>-->
+                    <!--                    <group>-->
+                    <!--                        <field name="team_sales_id"/>-->
+                    <!--                    </group>-->
                 </group>
                 <footer>
                     <button name="get_report" string="Generate Report" type="object" class="oe_highlight"/>
@@ -29,22 +27,14 @@
         </field>
     </record>
 
-    <act_window id="action_report_wizard_invoice_mg"
-                name="Invoice Item Report"
-                res_model="invoice.order.xlsx"
-                view_mode="form"
-                target="new"/>
+    <record id="action_report_wizard_invoice_mg" model="ir.actions.act_window">
+        <field name="name">Invoice Item Report</field>
+        <field name="res_model">invoice.order.xlsx</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
 
-    <menuitem action="action_report_wizard_invoice_mg"
-              id="menu_account_mg_report_report"
+
+    <menuitem id="menu_account_mg_report_report" name="Invoice Item Report" action="action_report_wizard_invoice_mg"
               parent="account.account_reports_management_menu"/>
-
-
-
-    <!--    CRM-->
-
-
-
-
-
 </odoo>

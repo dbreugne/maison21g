@@ -120,6 +120,18 @@
 
         </template>
 
+
+
+        <record id="pos_invoice_orders_maison" model="ir.actions.report">
+            <field name="name">Print Invoice</field>
+            <field name="model">pos.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">po_orders_report.po_orders_report_pdf</field>
+            <field name="report_file">po_orders_report.po_orders_report_pdf</field>
+            <field name="binding_model_id" ref="point_of_sale.model_pos_order"/>
+            <field name="binding_type">report</field>
+           
+        </record>
         <report
                 id="pos_invoice_orders_maison"
                 model="pos.order"

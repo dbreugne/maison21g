@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <report
-            id="pos_order_xlsx"
-            model="pos.order"
-            string="Print to XLSX"
-            report_type="xlsx"
-            name="excel_pos_report.pos_order_xlsx"
-            file="pos_order_date_wize_report"
-            attachment_use="False"
-            menu="False"
 
-    />
-
-
+    <record id="pos_order_xlsx" model="ir.actions.report">
+        <field name="name">Print to XLSX</field>
+        <field name="model">pos.order</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">excel_pos_report.pos_order_xlsx</field>
+        <field name="report_file">pos_order_date_wize_report</field>
+        <field name="attachment_use">False</field>
+    </record>
 </odoo>

@@ -25,5 +25,5 @@ class StockQuant(models.Model):
 
             same_uom = related_moves - different_uom
             outgoing_qty += sum(same_uom.mapped('product_uom_qty'))
-            quant.sudo()._compute_inventory_quantity()
+            quant.sudo()._compute_inventory_quantity_auto_apply()
             quant.available_qty = quant.quantity - outgoing_qty

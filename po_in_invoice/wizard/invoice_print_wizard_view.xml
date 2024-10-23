@@ -1,11 +1,11 @@
-
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
     <record id="invoice_data_wizard_form_view" model="ir.ui.view">
         <field name="name">Invoices</field>
         <field name="model">customer.data.wizard</field>
-         <field name="type">form</field>
         <field name="arch" type="xml">
+           
             <form string="Invoices">
                 <sheet>
                     <group>
@@ -14,11 +14,12 @@
                         <field name="to_date"/>
                     </group>
                 </sheet>
-            </form>
             <footer>
                 <button string="Print Invoices" name="print_report" type="object"/>
                 <button string="Cancel" class="btn-secondary" special="cancel" />
             </footer>
+            </form>
+
         </field>
     </record>
 

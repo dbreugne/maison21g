@@ -64,11 +64,12 @@ class IrUiMenu(models.Model):
         return super(IrUiMenu, self).write(values)
 
     @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
+    @api.returns('self')
+    def search(self, domain, offset=0, limit=None, order=None):
         if self.env.user == self.env.ref('base.user_root'):
-            return super(IrUiMenu, self).search(args, offset=0, limit=None, order=order, count=False)
+            return super(IrUiMenu, self).search(domain, offset=offset, limit=limit, order=order)
         else:
-            menus = super(IrUiMenu, self).search(args, offset=0, limit=None, order=order, count=False)
+            menus = super(IrUiMenu, self).search(domain, offset=offset, limit=limit, order=order)
             if menus:
                 menu_ids = [menu for menu in self.env.user.menu_ids]
                 menu_ids2 = [menu for group in self.env.user.groups_id for menu in group.menu_ids]
@@ -79,7 +80,7 @@ class IrUiMenu(models.Model):
                     menus = menus[offset:]
                 if limit:
                     menus = menus[:limit]
-            return len(menus) if count else menus
+            return menus
 
 
 class IrModel(models.Model):
@@ -92,8 +93,9 @@ class FieldConfiguration(models.Model):
     _name = 'field.configuration'
     _description = 'Field Configuration'
 
-    model_id = fields.Many2one('ir.model', string='Model', required=True)
-    field_id = fields.Many2one('ir.model.fields', string='Field', required=True)
+    model_id = fields.Many2one('ir.model', string='Model', required=True, index=True, ondelete='cascade',
+                                   help="The model this field belongs to")
+    field_id = fields.Many2one('ir.model.fields', string='Field', required=True, index=True, ondelete='cascade',)
     field_name = fields.Char(related='field_id.name', string='Technical Name', readonly=True)
     group_ids = fields.Many2many('res.groups', 'field_config_group_rel', 'group_id', 'field_config_id', required=True, string='Groups')
     readonly = fields.Boolean('ReadOnly', default=False)

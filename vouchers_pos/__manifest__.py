@@ -21,7 +21,7 @@
 ###################################################################################
 {
     'name': 'Coupons & Vouchers in Point of Sale',
-    'version': '13.0.1.0.0',
+    'version': '17.0.0.0',
     'category': 'Point of Sale',
     'summary': 'Manage Point of Sale Vouchers & Coupon Codes',
     'author': 'Cybrosys Techno Solutions',
@@ -30,12 +30,11 @@
     'depends': ['point_of_sale'],
     'data': [
              'data/product_data.xml',
-             'views/gift_voucher.xml',
-             'views/applied_coupons.xml',
-             'views/pos_template.xml',
+             # 'views/gift_voucher.xml',
+             # 'views/applied_coupons.xml',
              'security/ir.model.access.csv'
             ],
-    'qweb': ['static/src/xml/coupons.xml'],
+    # 'qweb': ['static/src/xml/coupons.xml'],
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
     'installable': True,

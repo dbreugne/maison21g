@@ -1,7 +1,7 @@
 
 {
     'name': 'Automate Product Cost',
-    'version': '13.0.1.0.0',
+    'version': '17.0.1.0.0',
     'category': 'Manufacturing/Manufacturing',
     'summary': '',
     'description': 'Produce products for multiple manufacturing orders',

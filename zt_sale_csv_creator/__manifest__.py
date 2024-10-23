@@ -3,7 +3,7 @@
     'name': 'Create Sale CSV',
     'category': 'general',
     'summary': ' .',
-    'version': '1.0.0',
+    'version': '17.0.0.1.0',
     'license': 'OPL-1',
     'depends': ['point_of_sale'],
 

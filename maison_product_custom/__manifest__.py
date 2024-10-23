@@ -1,7 +1,7 @@
 
 {
     'name': 'Maison Product',
-    'version': '13.0.2',
+    'version': '17.0.1.0',
     'category': 'General',
     'summary': 'Manage Product View',
     'description': """

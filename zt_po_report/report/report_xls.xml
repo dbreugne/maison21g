@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <report
+
+
+
+    <record id="purchase_order_xlsx" model="ir.actions.report">
+        <field name="name">Print to XLSX</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">zt_po_report.purchase_order_xlsx</field>
+        <field name="report_file">zt_po_report.purchase_order_xlsx</field>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_type">report</field>
+        <field name="attachment_use" eval="False"/>
+    </record>
+    <!-- <report
             id="purchase_order_xlsx"
             model="purchase.order"
             string="Print to XLSX"
@@ -9,7 +22,7 @@
             file="zt_po_report.purchase_order_xlsx"
             attachment_use="False"
             menu="False"
-    />
+    /> -->
 
 
 </odoo>

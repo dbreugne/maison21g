@@ -70,17 +70,20 @@ class MultiMRP(models.Model):
                 location_obj = self.env['stock.location'].search([('usage','not in',['inventory','view']), ('location_id', 'not in', virtual_main)])
             else:
                 location_obj = self.env['stock.location'].search([('usage', 'not in', ['inventory', 'view'])])
-            product_id = self.env['product.product'].search([('product_tmpl_id', '=', all.product_tmpl_id.id)])
+            product_id = self.env['product.product'].search([('product_tmpl_id', '=', all.product_tmpl_id.id)],limit=1)
             for location in location_obj:
                 qty_hand = 0
                 qty_reserved=0
                 stock_qty_obj = self.env['stock.quant']
-                stock_qty_lines = stock_qty_obj.search([('product_id', '=', product_id.id),
-                                                        ("location_id", "=", location.id)])
+                stock_qty_lines = stock_qty_obj.search([('product_id', '=', product_id.id),("location_id", "=", location.id)])
                 for row in stock_qty_lines:
                     qty_hand += row.quantity
                     qty_reserved += row.reserved_quantity
                 if qty_hand < 0:
+                    data=self.env['mrp.bom']._bom_find(product_id,
+                                                                picking_type=self.picking_type_id,
+                                                                bom_type='normal',
+                                                                company_id=all.company_id.id)
                     line = (0, 0, {
                         'product_id': product_id.id,
                         'product_uom_id': self.env['uom.uom'].search([], limit=1, order='id').id,
@@ -89,9 +92,10 @@ class MultiMRP(models.Model):
                         'qty_reserved':qty_reserved,
                         'location_src_id':location.id,
                         # 'location_src_id': location.id,
-                        'bom_id': self.env['mrp.bom']._bom_find(product=product_id,
+                        'bom_id': self.env['mrp.bom']._bom_find(product_id,
                                                                 picking_type=self.picking_type_id,
-                                                                company_id=all.company_id.id, bom_type='normal').id,
+                                                                bom_type='normal',
+                                                                company_id=all.company_id.id)[product_id].id,
                         'picking_type_id': location and location.mo_picking_type and location.mo_picking_type.id or False,
                         # 'picking_type_id': self.env['stock.picking.type'].search([
                         #     ('code', '=', 'mrp_operation'),
@@ -99,6 +103,7 @@ class MultiMRP(models.Model):
                         # ], limit=1).id
                     })
                     mrp_lines.append(line)
+                    break
             res.update({
                 'multimrp_order_line_ids': mrp_lines,
             })

@@ -57,7 +57,8 @@ class DailySaleReport(models.TransientModel):
             worksheet.write(row, 2, rec.name, data_border_format)
             worksheet.write(row, 3, rec.amount_total, data_border_format_right)
             # worksheet.write(row, 4, rec.lines.tax_ids_after_fiscal_position.name, data_border_format)
-            worksheet.write(row, 4, [tax.name for tax in rec.lines.tax_ids_after_fiscal_position][0], data_border_format)
+            if rec.lines.tax_ids_after_fiscal_position:
+                worksheet.write(row, 4, [tax.name for tax in rec.lines.tax_ids_after_fiscal_position][0], data_border_format)
             worksheet.write(row, 5, rec.amount_tax, data_border_format_right)
             # worksheet.write(row, 6, rec.payment_ids.payment_method_id.name, data_border_format)
             worksheet.write(row, 6, str(tuple([payment.payment_method_id.name for payment in rec.payment_ids])) if len(rec.payment_ids.ids) > 1 else rec.payment_ids.payment_method_id.name, data_border_format)

@@ -7,7 +7,6 @@ class PartnerXlsx(models.AbstractModel):
     _description = 'Report PO Product XLSX'
 
     def generate_xlsx_report(self, workbook, data, partners):
-
         apply_date = data['apply_date']
         start_date = data['date_start']
         end_date = data['date_end']

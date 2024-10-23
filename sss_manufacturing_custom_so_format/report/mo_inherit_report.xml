@@ -3,13 +3,15 @@
 	<template id="mo_report_inherit" inherit_id="mrp.report_mrporder">
 		<xpath expr="//div[@t-if='o.origin']" position="replace">
 		</xpath>
-		<xpath expr="//div[4]/div[2]" position="after">
+		<xpath expr="//div[4]/div[4]" position="after">
 			<div class="col-3">
 				<span t-if="o.origin">Sale Order Number: <span t-field="o.origin"/></span> <br/>
 				<span t-if="o.sale_id">Customer Name: <span t-field="o.sale_id.partner_id.name"/></span><br/>
 				<span t-if="o.date_deadline">Deadline: <span t-field="o.date_deadline"/></span> <br/>
 			</div>
 		</xpath>
+	</template>
+	<template id="mo_report_custom_inherit" inherit_id="mrp.report_mrp_production_components">
 		<xpath expr="//th[@t-if='has_product_barcode']" position="replace">
 			<th width="15%"	class="text-center">Quantity Picked</th>
 		</xpath>

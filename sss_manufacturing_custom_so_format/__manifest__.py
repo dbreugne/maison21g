@@ -3,7 +3,7 @@
 
 {
     'name': 'Manufacturing Order Report',
-    'version': '0.14',
+    'version': '17.0.0.0',
     'sequence': 1,
     'category': 'Manufacturing Order Report',
     'description':

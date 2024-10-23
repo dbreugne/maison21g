@@ -2,7 +2,7 @@
 
 {
     'name': 'POS Bundle Product Pack, ',
-    'version': '13.0.1.0.0',
+    'version': '17.0.0.0',
     'category': 'Point of Sale',
     'support': '',
     'author': 'ERPITS',
@@ -18,10 +18,10 @@
 
     'data': [
         'security/ir.model.access.csv',
-        'views/product_combo_assets.xml',
+        # 'views/product_combo_assets.xml',
         'views/product_template.xml',
         'views/pack_product.xml',
-        'views/pos_config.xml',
+        # 'views/pos_config.xml',
     ],
     'installable': True,
     'license': 'AGPL-3',

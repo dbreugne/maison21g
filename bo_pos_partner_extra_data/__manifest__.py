@@ -1,19 +1,19 @@
-
-
 {
     'name': 'ZT- Pos Partner Doc',
     'summary': 'zt pos data',
     'description': """zt pos data.""",
     'category': 'Point Of Sale',
-    'version': '1.0',
+    'version': '17.0.0.0',
     'website': 'http://www.zt.com/',
     'author': 'ZTR',
     'depends': ['point_of_sale', 'bo_partner_extra_data'],
-    'data': [
-        'views/point_of_sale.xml',
-    ],
-    'qweb': [
-        'static/src/xml/pos.xml'
-    ],
+    
+    'assets': {
+        'point_of_sale._assets_pos': [
+            'bo_pos_partner_extra_data/static/src/app/pos_partner.js',
+            'bo_pos_partner_extra_data/static/src/app/pos_partner.xml',
+        ],
+    },
+
     'application': True,
 }

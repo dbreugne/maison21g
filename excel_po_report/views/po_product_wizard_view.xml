@@ -13,14 +13,8 @@
                         <field name="products" widget="many2many_tags"/>
                     </group>
                     <group>
-                        <field name="date_start" attrs="{
-                                                    'required': [('apply_date', '=', True)],
-                                                    'invisible': [('apply_date', '=', False)],
-                                               }"/>
-                        <field name="date_end" attrs="{
-                                                    'required': [('apply_date', '=', True)],
-                                                    'invisible': [('apply_date', '=', False)],
-                                               }"/>
+                        <field name="date_start" required="apply_date == True" invisible="apply_date == False" />
+                        <field name="date_end" required="apply_date == True" invisible="apply_date == False" />
                     </group>
                 </group>
                 <footer>
@@ -31,12 +25,14 @@
             </form>
         </field>
     </record>
-
-    <act_window id="action_report_wizard"
-                name="Po order Product xlsx report"
-                res_model="po.order.product.xlsx"
-                view_mode="form"
-                target="new"/>
+     <record id="action_report_wizard" model="ir.actions.act_window">
+        <field name="name">Po order Product xlsx report</field>
+        <field name="res_model">po.order.product.xlsx</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        
+    </record>
+    
 
     <menuitem action="action_report_wizard"
               id="menu_po_product_xlsx_report_wizard"

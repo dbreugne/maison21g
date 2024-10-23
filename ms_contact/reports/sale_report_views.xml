@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record model="ir.ui.view" id="sale_report_view_pivot_inherit_category">
+        <!-- <record model="ir.ui.view" id="sale_report_view_pivot_inherit_category">
             <field name="name">sale.report.inherit.category</field>
             <field name="model">sale.report</field>
-            <field name="inherit_id" ref="sale_enterprise.sale_report_view_pivot"/>
+            <field name="inherit_id" ref="sale_subscription.view_online_sales_pivot"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='categ_id']" position="after">
                     <field name="parent_category_id" type="row"/>
                 </xpath>
             </field>
-        </record>
+        </record> -->
     </data>
 </odoo>

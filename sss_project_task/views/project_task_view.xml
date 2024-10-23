@@ -20,8 +20,8 @@
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_tree2" />
         <field name="arch" type="xml">
-            <field name="user_id" position="after">
-                <field name="hours" invisible="1"/>
+            <field name="user_ids" position="after">
+                <field name="hours" invisible="1" nolabel="1"/>
                 <field name="est_hours" widget="float_time" sum="Total Hours"/>
                 <field name="amount" sum="Total Amount"/>
                 <field name="total_amount" invisible="1"/>
@@ -36,10 +36,10 @@
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="after">
                 <br/>
-                <label><strong>Estimated Hour:</strong></label> 
+                <label for="est_hours"><strong>Estimated Hour:</strong></label> 
                 <field name="est_hours" widget="float_time"/>
                 <br/>
-                <label><strong>Estimated Amount:</strong></label>
+                <label for="amount"><strong>Estimated Amount:</strong></label>
                 <field name="amount"/>
                 <!-- <label><strong>Total Amount:</strong></label>
                 <field name="total_amount"/> -->
@@ -55,7 +55,7 @@
         <field name="inherit_id" ref="project.view_project_task_pivot"/>
             
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='stage_id']" position="after">
+            <xpath expr="//field[@name='project_id']" position="after">
                 <field name="est_hours" string="Estimated Hours" widget="float_time"/>
                 <!-- <field name="amount" string="Estimated Amount"/> -->
             </xpath>

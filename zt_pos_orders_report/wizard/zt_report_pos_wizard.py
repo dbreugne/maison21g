@@ -187,7 +187,7 @@ class ZtReportPos(models.TransientModel):
             row += 1
             no += 1
         workbook.close()
-        out = base64.encodestring(fp.getvalue())
+        out = base64.encodebytes(fp.getvalue())
         self.write({'datas': out, 'datas_fname': filename})
         fp.close()
         filename += '%2Exlsx'

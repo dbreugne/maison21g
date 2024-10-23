@@ -1,7 +1,7 @@
 {
     'name': "Maison - POS",
     'summary': "Customization in POS",
-    'version': '13.0.1.0.0',
+    'version': '17.0.0.0',
     'description': """
         v 1.0.0 (mfm) \n
         - Add parent category in pos order report \n

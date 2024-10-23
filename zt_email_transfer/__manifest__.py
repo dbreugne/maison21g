@@ -1,6 +1,6 @@
 {
     'name': 'Internal Transfer Email',
-    'version': '13.0.0',
+    'version': '17.0.0.1',
     'author': '',
     'summary': 'Email Sent on Transfers',
     'category': 'Stock',

@@ -1,6 +1,6 @@
 {
     'name': 'ZT Multi MRP Order',
-    'version': '10.0.2.0',
+    'version': '17.0.2.0',
     'summary': 'Multi Manufacturing Order',
     'description': """
    '.

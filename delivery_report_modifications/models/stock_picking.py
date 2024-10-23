@@ -8,4 +8,4 @@ class StockPicking(models.Model):
 
 
     def button_print_delivery(self):
-        return self.env.ref('delivery_report_modifications.action_report_delivery').report_action(self)
+        return self.env.ref('delivery_report_modifications.action_report_delivery_new').report_action(self)

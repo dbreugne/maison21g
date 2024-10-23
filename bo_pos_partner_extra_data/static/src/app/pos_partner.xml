@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+    <t t-name="PartnerDetailsEdit" t-inherit="point_of_sale.PartnerDetailsEdit" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('partner-details-box')]" position="inside">
+            <div class="partner-detail col">
+                <label class="form-label label" for="birthdate">Birthday</label>
+                <input class="detail form-control" t-attf-name='birthdate' t-model='changes.birthdate' t-attf-placeholder="2018-01-01" type="date"/>
+            </div>
+
+            <div class="partner-detail col">
+                <label class="form-label label" for="married">Married</label>
+                <select class="detail form-select" id="married" name="married" t-model="changes.married">
+                    <option value="">None</option>
+                    <t t-foreach='married_data' t-as='married' t-key="married.code">
+                        <option t-att-value='married.code' t-att-selected="changes.married ? ((married.code === changes.married) ? true : undefined) : undefined">
+                            <t t-esc='married.name'/>
+                        </option>
+                    </t>
+                </select>
+            </div>
+
+            <div class="partner-detail col">
+                <label class="form-label label" for="date_wedding">Date of Wedding</label>
+                <input class="detail form-control" t-attf-name='date_wedding' t-model='changes.date_wedding' t-attf-placeholder="2018-01-01" type="date"/>
+            </div>
+
+            <div class="partner-detail col">
+                <label class="form-label label" for="gender">Gender</label>
+                <select class="detail form-select" id="gender" name="Gender" t-model="changes.gender">
+                    <t t-foreach='genders_data' t-as='gender' t-key="gender.code">
+                        <option t-att-value='gender.code' t-att-selected="changes.gender ? ((gender.code === changes.gender) ? true : undefined) : undefined">
+                            <t t-esc='gender.name'/>
+                        </option>
+                    </t>
+                </select>
+            </div>
+
+            <div class="partner-detail col">
+                <label class="form-label label" for="children">Children</label>
+                <select class="detail form-select" id="children" name="children" t-model="changes.children">
+                    <option value="">None</option>
+                    <t t-foreach='married_data' t-as='children' t-key="children.code">
+                        <option t-att-value='children.code' t-att-selected="changes.children ? ((children.code === changes.children) ? true : undefined) : undefined">
+                            <t t-esc='children.name'/>
+                        </option>
+                    </t>
+                </select>
+            </div>
+
+            <div class="partner-detail col">
+                <label class="form-label label" for="no_children">No.of Children</label>
+                <input class="detail form-control" t-attf-name='no_children' t-model='changes.no_children' t-attf-placeholder="2018-01-01"/>
+            </div>
+        </xpath> 
+    </t>
+</templates>

@@ -17,10 +17,11 @@ class CustomerDataWizard(models.TransientModel):
         if self.partner_id:
             domain.append(("partner_id", '=', self.partner_id.id))
         if self.from_date:
-            domain.append(("invoice_date", '>=', self.from_date))
+            domain.append(("create_date", '>=', self.from_date))
         if self.to_date:
-            domain.append(("invoice_date", '<=', self.to_date))
+            domain.append(("create_date", '<=', self.to_date))
         invoices = self.env['account.move'].search(domain)
+        print("eeeeeeeeeeeeeeeeeee",invoices)
         if not invoices:
             raise UserError(_('There are no record found for the Customer: %s ') % (self.partner_id.name))
 

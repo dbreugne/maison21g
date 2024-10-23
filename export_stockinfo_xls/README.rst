@@ -1,10 +1,23 @@
-Export Product Stock in Excel v13
-=================================
-This module helps you to take current stock report for all products in each warehouse.
+.. image:: https://img.shields.io/badge/license-AGPL--3-blue.svg
+    :target: https://www.gnu.org/licenses/agpl-3.0-standalone.html
+    :alt: License: AGPL-3
+
+Export Product Stock in Excel
+=============================
+Advanced PDF & XLS reports for Product Stock.
+
+Features
+========
+* Retrieve the current stock report in XLS format for the corresponding warehouse.
 
 Configuration
 =============
-* No additional configurations needed
+Nothing to configure.
+
+License
+-------
+Affero General Public License, v3.0 (AGPL v3).
+(https://www.gnu.org/licenses/agpl-3.0-standalone.html)
 
 Company
 -------
@@ -12,7 +25,10 @@ Company
 
 Credits
 -------
-* Developers: 	Cybrosys Techno Solutions odoo@cybrosys.com
+* Developers: (V15) Midilaj V K,
+              (V16) Sahla Sherin,
+              (V17) Farhana Jahan PT,
+  Contact: odoo@cybrosys.com
 
 Contacts
 --------
@@ -35,5 +51,3 @@ For support and more information, please visit `Our Website <https://cybrosys.co
 Further information
 ===================
 HTML Description: `<static/description/index.html>`__
-
-

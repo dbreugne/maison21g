@@ -1,7 +1,7 @@
 
 {
     'name': 'Invoice And Tax Report',
-    'version': '13.0.0',
+    'version': '17.0.1.0',
     'sequence': 1,
     'category': '',
     'description':
@@ -11,6 +11,7 @@
     'author': 'ZT-DEV',
     'depends': ['sale_management','account', 'purchase'],
     'data': [
+        'security/ir.model.access.csv',
         'views/account.xml',
         'views/sale_order.xml',
         'wizard/invoice_print_wizard_view.xml',

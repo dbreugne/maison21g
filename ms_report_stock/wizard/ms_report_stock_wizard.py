@@ -140,6 +140,8 @@ class MsReportStock(models.TransientModel):
                 column_type = column[2]
                 if column_type == 'char':
                     col_value = res[col - 1] if res[col - 1] else ''
+                    if column_name == 'Product':
+                        col_value=col_value[self.env.user.lang]
                     wbf_value = wbf['content']
                 elif column_type == 'no':
                     col_value = no
@@ -154,7 +156,6 @@ class MsReportStock(models.TransientModel):
                     else:  # number
                         wbf_value = wbf['content_number']
                     column_float_number[col] = column_float_number.get(col, 0) + col_value
-
                 worksheet.write(row - 1, col, col_value, wbf_value)
 
                 col += 1
@@ -182,7 +183,7 @@ class MsReportStock(models.TransientModel):
         worksheet.write('A%s' % (row + 2), 'Date %s (%s)' % (datetime_string, self.env.user.tz or 'UTC'),
                         wbf['content_datetime'])
         workbook.close()
-        out = base64.encodestring(fp.getvalue())
+        out = base64.encodebytes(fp.getvalue())
         self.write({'datas': out, 'datas_fname': filename})
         fp.close()
         filename += '%2Exlsx'

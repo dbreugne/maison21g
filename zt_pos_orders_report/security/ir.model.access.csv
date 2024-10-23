@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+zt_pos_orders_report.access_zt_report_pos,access_zt_report_pos,zt_pos_orders_report.model_zt_report_pos,,1,1,1,1

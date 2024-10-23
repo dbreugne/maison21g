@@ -1,7 +1,7 @@
 {
     'name': "Maison - Accounting Report",
     'summary': "Customization in Accounting Report",
-    'version': '13.0.1.0.0',
+    'version': '17.0.1.0.0',
     'description': """
         v 1.0.0 (mfm) \n
         - Add filter segment, parent category in invoice analysis report \n 

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <report
+
+
+    <record id="sale_order_xlsx" model="ir.actions.report">
+        <field name="name">Print to XLSX</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">zt_sales_report.sale_order_xlsx</field>
+        <field name="report_file">sale_order_date_wize_report</field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+        <field name="attachment_use" eval="False"/>
+    </record>
+    <!-- <report
             id="sale_order_xlsx"
             model="sale.order"
             string="Print to XLSX"
@@ -9,9 +21,20 @@
             file="sale_order_date_wize_report"
             attachment_use="False"
             menu="False"
-    />
+    /> -->
 
-    <report id="crm_order_xlsx"
+    <record id="crm_order_xlsx" model="ir.actions.report">
+        <field name="name">Print to XLSX</field>
+        <field name="model">crm.lead</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">zt_sales_report.crm_order_xlsx</field>
+        <field name="report_file">crm_order_date_wize_report</field>
+        <field name="binding_model_id" ref="crm.model_crm_lead"/>
+        <field name="binding_type">report</field>
+        <field name="attachment_use" eval="False"/>
+    </record>
+
+    <!-- <report id="crm_order_xlsx"
             model="crm.lead"
             string="CRM Details"
             report_type="xlsx"
@@ -19,7 +42,7 @@
             file="crm_order_date_wize_report"
             attachment_use="False"
             menu="False"
-    />
+    /> -->
 
 
 </odoo>

@@ -1,7 +1,7 @@
 
 {
     'name': 'POS Orders Report - Maison',
-    'version': '13.0.0',
+    'version': '17.0.0.1.0',
     'sequence': 1,
     'category': '',
     'description':

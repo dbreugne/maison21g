@@ -24,11 +24,18 @@
         </field>
     </record>
 
-    <act_window id="action_report_wizard_purchase"
+    <record id="action_report_wizard_purchase" model="ir.actions.act_window">
+        <field name="name">Purchase Report</field>
+        <field name="res_model">purchase.order.xlsx</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        
+    </record>
+   <!--  <act_window id="action_report_wizard_purchase"
                 name="Purchase Report"
                 res_model="purchase.order.xlsx"
                 view_mode="form"
-                target="new"/>
+                target="new"/> -->
 
     <menuitem action="action_report_wizard_purchase"
               id="menu_purchase_report_report"

@@ -8,68 +8,47 @@ For Module Support : devintelle@gmail.com  or Skype : devintelle
 	
 	<!-- Inherited view -->
 	
-	<record id="dev_pos_order_form_view" model="ir.ui.view">
+	<record model="ir.ui.view" id="dev_pos_order_form_view">
         <field name="name">dev.pos.order.inherited.view</field>
         <field name="model">pos.order</field>
         <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
         <field name="arch" type="xml">
-            <field name="lines" position="replace">
-            	<field name="lines" colspan="4" nolabel="1" widget="section_and_note_one2many">
-	            	<tree string="Order lines" editable="bottom" >
-	                    <field name="name" attrs="{'invisible': [('display_type', '=', False)],
-	                    'required': [('display_type', '=', 'line_section')]}"/>
-	                    <field name="product_id" attrs="{'invisible': [('display_type', '!=', False)],
-	                    'required': [('display_type', '=', False)]}"/>
-	                    <field name="qty" attrs="{'invisible': [('display_type', '!=', False)]}"/>
-	                    <field name="price_unit" widget="monetary" attrs="{'invisible': [('display_type', '!=', False)]}"/>
-	                    <field name="discount" widget="monetary" attrs="{'invisible': [('display_type', '!=', False)]}"/>
-	                    <field name="tax_ids_after_fiscal_position" widget="many2many_tags" string="Taxes" attrs="{'invisible': [('display_type', '!=', False)]}"/>
-	                    <field name="tax_ids" widget="many2many_tags" invisible="1" />
-	                    <field name="price_subtotal" widget="monetary" force_save="1" attrs="{'invisible': [('display_type', '!=', False)]}"/>
-	                    <field name="price_subtotal_incl" widget="monetary" force_save="1" attrs="{'invisible': [('display_type', '!=', False)]}"/>
-	                </tree>
-	            </field>
-<!--                 <attribute name="widget">section_and_note_one2many</attribute> -->
-            </field>
-            <field name="product_id" position="before">
-            	<control>
-                    <create string="Add a product"/>
-                    <create string="Add a section" context="{'default_display_type': 'line_section'}"/>
-                </control>
-                <field name="display_type" invisible="1"/>
-            </field>
-        </field>
-    </record>
-
-	<record id="pos_config_view_form_inherit_pways" model="ir.ui.view">
-        <field name="name">pos.config.form.view.pwas</field>
-        <field name="model">pos.config</field>
-        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//h2[@name='order']" position="after">
-                 <div class="row mt16 o_settings_container">
-                    <div id="category_reference" class="col-12 col-lg-6 o_setting_box">
-                        <div class="o_setting_left_pane">
-                            <field name="iface_widcard"/>
-                        </div>
-                        <div class="o_setting_right_pane">
-                            <label for="iface_widcard" string="Set Section Product"/>
-                            <div class="text-muted">
-                            </div>
-                            <div class="content-group" attrs="{'invisible': [('iface_widcard', '=', False)]}">
-                            <div class="row mt16">
-                                <label string="Product" for="wildcard_product_id" class="col-lg-3 o_light_label"/>
-                                <field name="wildcard_product_id" domain="[('available_in_pos','=','True'),
-                                ('is_widcard','=','True')]"/>
-                            </div>
-                        </div>
-                        </div>
-                        
-                    </div>
-                </div>
+            <xpath expr="//field[@name='lines']" position="attributes">
+                <attribute name="widget">section_and_note_one2many</attribute>
+                <attribute name="mode">tree</attribute>
+            </xpath>
+            <xpath expr="//field[@name='full_product_name']" position="before">
+                <field name="name" required = 'display_type == True' widget="section_and_note_text" readonly="1" force_save="1" column_invisible="0"/>
+                <field name="display_type" column_invisible="1"/>
+                
             </xpath>
         </field>
     </record>
+
+
+    <record id="pos_config_view_form_inherit_pways" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='pos_payment_section']" position="after">
+
+                <block title="PoS widcard card" id="pos_widcard_section">
+                    
+                    <setting help="Start selling from a default product category">
+                        <field name="iface_widcard"/>
+                        <div class="content-group mt16" invisible="not iface_widcard">
+                            <label string="Product" for="wildcard_product_id" class="col-lg-3 o_light_label"/>
+                            <field name="wildcard_product_id" domain="[('available_in_pos','=','True'),
+                                ('is_widcard','=','True')]"/>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+
     <record id="product_template_form_view_pways" model="ir.ui.view">
         <field name="name">product.template.form.inherit.pways</field>
         <field name="model">product.template</field>

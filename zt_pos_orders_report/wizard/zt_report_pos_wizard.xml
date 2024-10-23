@@ -24,16 +24,25 @@
 	    	</field>
 	    </record>
 		
-	    <record id="zt_action_report_pos_xlsx" model="ir.actions.act_window">
+	   <!--  <record id="zt_action_report_pos_xlsx" model="ir.actions.act_window">
 			<field name="name">Pos Report</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">zt.report.pos</field>
 			<field name="view_mode">form</field>
 			<field name="view_id" ref="zt_report_pos_form_view"/>
 			<field name="target">new</field>
+	    </record> -->
+
+	    <record id="zt_action_report_pos_xlsx" model="ir.actions.act_window">
+	        <field name="name">Pos Report</field>
+	        <field name="res_model">zt.report.pos</field>
+	        <field name="view_mode">form</field>
+	        <!-- <field name="view_id" ref="zt_report_pos_form_view"/> -->
+	        <field name="target">new</field>
 	    </record>
+
 		
-		<menuitem id="zt_menu_report_pos_xlsx" action="zt_action_report_pos_xlsx" parent="point_of_sale.menu_point_rep"/>
+		<menuitem id="zt_menu_report_pos_xlsx" name="POS Report" action="zt_action_report_pos_xlsx" parent="point_of_sale.menu_point_rep" sequence="10"/>
 	
 	</data>
 </odoo>

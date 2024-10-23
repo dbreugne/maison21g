@@ -3,7 +3,7 @@
 
 {
 	'name': 'Sale Order Cancel Popup',
-	'version': '13.1.2',
+	'version': '17.0.1.0',
 	'sequence': 1,
 	'category': 'Sale Order Cancel Popup',
 	'description':

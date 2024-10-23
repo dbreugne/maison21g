@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'ZT Delivery Report Modification',
-    'version': '1.0.0',
+    'version': '17.0.0.0',
     'summary': 'Delivery Report Modification',
     'description': """
         Delivery Report Modification 
     """,
     'depends': [
-        'base','stock', 'purchase'],
+        'base','stock', 'purchase', 'sale'],
     'data': [
         'views/delivery_report.xml',
         'views/delivery_picking_view.xml',
