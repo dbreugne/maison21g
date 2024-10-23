@@ -124,5 +124,7 @@ point of sale session logo
     'auto_install': False,
     'application': True,
     'installable': True,
+    "license": "LGPL-3",
+    
     
 }

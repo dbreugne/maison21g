@@ -15,5 +15,7 @@
         'views/layouts.xml'
 
       
-    ]
+    ],
+    "license": "LGPL-3",
+    
 }

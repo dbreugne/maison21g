@@ -14,6 +14,6 @@
             'bo_pos_partner_extra_data/static/src/app/pos_partner.xml',
         ],
     },
-
+    "license": "LGPL-3",
     'application': True,
 }
