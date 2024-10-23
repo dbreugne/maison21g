@@ -1,5 +1,3 @@
-
-
 {
     'name': ' ZT-POS Customers DOB',
     'summary': 'ZT POS Customers DOB',
