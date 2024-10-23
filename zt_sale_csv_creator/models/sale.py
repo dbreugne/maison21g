@@ -139,7 +139,7 @@ class PosOrder(models.Model):
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
-    csv_folder = fields.Char('CSV Backup Directory', help='Absolute path for storing the CSV', required='True',
+    csv_folder = fields.Char('CSV Backup Directory', help='Absolute path for storing the CSV', required=True,
                              default='/odoo/csv_backups')
     csv_autoremove = fields.Boolean('Auto. Remove Backups',
                                     help='If you check this option you can choose to automaticly remove the CSV '
