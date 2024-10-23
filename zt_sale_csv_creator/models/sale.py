@@ -147,4 +147,4 @@ class ResCompany(models.Model):
     csv_days_to_keep = fields.Integer('Remove after x days',
                                       help="Choose after how many days the CSV should be deleted. For example:\n"
                                            "If you fill in 5 the CSV will be removed after 5 days.",
-                                      required=True)
+                                      required=False)
