@@ -1,323 +1,710 @@
-<div class="row" style="margin: 0;position: relative;color: #000;background-position: center;background: #ffffff;border-bottom: 1px solid #e4e4e4;text-align: center; margin: auto; display: flex;justify-content: center;">  <a  href="https://www.cybrosys.com/" target="_blank"><img src="images/cybrosys.png" style=" width: 293px; padding: 1rem 0rem; margin: auto" alt="cybrosys-logo"></a> </div>
-<div class="row" style="margin:75px 0;position: relative;color: #000;background-position: center;background: #ffffff;border-bottom: 1px solid #e4e4e4; padding-bottom: 30px;">
-   <div class="col-md-7 col-sm-12 col-xs-12" style="padding: 0px">
-      <div style=" margin: 0 0 0px;padding: 20px 0 10;font-size: 23px;line-height: 35px;font-weight: 400;color: #000;border-top: 1px solid rgba(255,255,255,0.1);border-bottom: 1px solid rgba(255,255,255,0.11);text-align: left;">
-         <h1 style="font-size: 39px;font-weight: 600;margin: 0px !important;">Current Stock XLS </h1>
-         <h3 style="font-size: 21px;margin-top: 8px;position: relative;">Current Stock Report for all Products in each Warehouse </h3>
-      </div>
-      <h2 style="font-weight: 600;font-size: 1.8rem;margin-top: 15px;">Key Highlights</h2>
-      <ul style=" padding: 0 1px; list-style: none; ">
-         <li style="display: flex;align-items: center;padding: 8px 0;font-size: 18px;"><i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i>Select category for products </li>
-         <li style="display: flex;align-items: center;padding: 8px 0;font-size: 18px;"><i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i>Get your stock valuation details</li>
-         <li style="display: flex;align-items: center;padding: 8px 0;font-size: 18px;"><i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i>Negative stock will be highlighted in "red" cells. </li>
-      </ul>
-   </div>
-	<div class="col-md-5 col-sm-12 col-xs-12"> <img src="images/export.png" class="img-responsive" alt=""> </div>
- </div>
-<div>
-   <section class="oe_container" style="padding: 1rem 0rem 1rem; background-color: #ffffff !important;">
-      <div class="row py-4 px-3">
-         <div class="w-100" style="padding-top:30px;padding-bottom:45px;border-radius: 10px;">
-            <ul role="tablist" class="nav nav-pills justify-content-center" data-tabs="tabs" id="pills-tab" style="border: none;background: unset;">
-               <li class="nav-item mr-1 mb-3" style="font-size: 1.05rem;font-weight: 400;transition: all .15s ease;color: #d31c22;background-color: #d31c22;box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);border: 0;font-family: 'Open Sans',sans-serif;width: 140px;border-radius: 0.30rem;"> <a id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" class="nav-link active show" style="color: #000000;line-height: 33px;border: 0;border-radius: .25rem;font-weight: 400;text-align: center;
-                  color: #fff;">Overview </a> </li>
-				 <li class="nav-item mr-1 mb-3" style="font-size: 1.05rem;font-weight: 400;transition: all .15s ease;color: #ffffff;background-color: #d31c22;box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);border: 0;font-family: 'Open Sans',sans-serif;width: 140px;border-radius: 0.30rem;"> <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-video" role="tab" aria-controls="pills-profile" aria-selected="false" style="color: #000000;line-height: 33px;border: 0;border-radius: .25rem;font-weight: 400; text-align: center;
-                  color: #fff;">Installation </a> </li>
-               <li class="nav-item mr-1 mb-3" style="font-size: 1.05rem;font-weight: 400;transition: all .15s ease;color: #d31c22;background-color: #d31c22;box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);border: 0;font-family: 'Open Sans',sans-serif;width: 140px;border-radius: 0.30rem;"> <a id="pills-home-tab" data-toggle="pill" href="#pills-home1" role="tab" aria-controls="pills-home" aria-selected="true" class="nav-link " style="color: #000000;line-height: 33px;border: 0;border-radius: .25rem;font-weight: 400; text-align: center;
-                  color: #fff;" >Features </a> </li>
-               <li class="nav-item mr-1 mb-3" style="font-size: 1.05rem;font-weight: 400;transition: all .15s ease;color: #ffffff;background-color: #d31c22;box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);border: 0;font-family: 'Open Sans',sans-serif;width: 140px;border-radius: 0.30rem;"> <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false" style="color: #000000;line-height: 33px;border: 0;border-radius: .25rem;font-weight: 400; text-align: center;
-                  color: #fff;">Screenshots </a> </li>
-              
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odoo App 3 Index</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+</head>
+<body>
+<section>
+    <div class="container"
+         style="font-family: 'Inter', sans-serif !important;background-color: #fff !important;">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-between flex-wrap align-items-sm-center"
+                 style="border-bottom:1px solid rgba(0, 0, 0, 0.22)">
+                <div class="my-3">
+                    <img src="assets/misc/Cybrosys R.png"
+                         style="width:auto !important; height:40px !important">
+                </div>
+                <div class="my-3 d-flex align-items-center">
+                    <div class="text-center"
+                         style="background-color:#017E84 !important;font-size: 0.8rem !important; color:#fff !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width: 120px !important;">
+                        Community
+                    </div>
+                    <div class="text-center"
+                         style="background-color:#875A7B !important; color:#fff !important;font-size: 0.8rem !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important;min-width: 120px !important;">
+                        Enterprise
+                    </div>
+                    <div class="text-center"
+                         style="background-color:#7C7BAD !important; color:#fff !important;font-size: 0.8rem !important; font-weight:500 !important; padding:4px !important; margin:0 3px !important; border-radius:50px !important; min-width: 120px !important;">
+                        Odoo.sh
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 text-center d-flex align-items-center flex-column"
+                 style="margin: 80px 0px !important;">
+                <h1 style="font-size: 2.8rem;font-weight: 700; color:
+                    #1A202C;">
+                    Export Product Stock in Excel</h1>
+                <p class="my-3 mb-4"
+                   style="max-width: 80%; font-weight: 400 !important; line-height: 32px; color: #718096;">
+                    Advanced PDF & XLS reports for Product Stock.
+                </p>
+                <div style="width: 80%; margin-top: 3rem;">
+                    <img src="assets/screenshots/hero.gif"
+                         class="img-responsive" width="100%" height="auto">
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5 mb-5">
+            <div class="col-lg-12 d-flex flex-column justify-content-center align-items-center mt-4">
+                <p class="m-0"
+                   style="font-weight: 600; font-size: 24px; color:#714b67 !important">
+                    Key Highlights
+                </p>
+            </div>
+            <div class="row py-4">
+                <div class="col-md-6 col-sm-12 p-3">
+                    <div class="d-flex   h-100" style="padding: 30px;border-radius: 12px;
+                                    background: #FFF;
+                                    box-shadow: 1px 2px 3px 0px rgba(0, 0, 0, 0.25); ">
+                        <div style="width: 36px; height: 36px; border-radius: 50%; background: #714B67;
+                                    display: flex; justify-content: center; align-items: center;
+                                    margin-right: 10px; flex-shrink: 0;">
+                            <i class="fa-solid fa-star  "
+                               style="color: #fff;font-size:14px;"></i>
+                        </div>
+                        <div>
+                            <p style="color: #1A202C;font-weight: 600;
+                                      font-size: 1.2rem; margin-bottom: 2px;">
+                                Current Stock XLS.</p>
+                            <p class="m-0" style="color:#718096">Retrieve the
+                                current stock report in XLS format for the
+                                corresponding warehouse.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 p-3">
+                    <div class="d-flex   h-100" style="padding: 30px;border-radius: 12px;
+                                    background: #FFF;
+                                    box-shadow: 1px 2px 3px 0px rgba(0, 0, 0, 0.25); ">
+                        <div style="width: 36px; height: 36px; border-radius: 50%; background: #714B67;
+                                    display: flex; justify-content: center; align-items: center;
+                                    margin-right: 10px; flex-shrink: 0;">
+                            <i class="fa-solid fa-star  "
+                               style="color: #fff;font-size:14px;"></i>
+                        </div>
+                        <div>
+                            <p style="color: #1A202C;font-weight: 600;
+                                      font-size: 1.2rem; margin-bottom: 2px;">
+                                Select Category for Products.</p>
+                            <p class="m-0" style="color:#718096">Ability to
+                                select Product Categories for generating an XLS
+                                report.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 p-3">
+                    <div class="d-flex   h-100" style="padding: 30px;border-radius: 12px;
+                                    background: #FFF;
+                                    box-shadow: 1px 2px 3px 0px rgba(0, 0, 0, 0.25); ">
+                        <div style="width: 36px; height: 36px; border-radius: 50%; background: #714B67;
+                                    display: flex; justify-content: center; align-items: center;
+                                    margin-right: 10px; flex-shrink: 0;">
+                            <i class="fa-solid fa-star  "
+                               style="color: #fff;font-size:14px;"></i>
+                        </div>
+                        <div>
+                            <p style="color: #1A202C;font-weight: 600;
+                                      font-size: 1.2rem; margin-bottom: 2px;">
+                                Negative Stock.</p>
+                            <p class="m-0" style="color:#718096">Negative stock
+                                will be
+                                highlighted in "Red" cells.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container rounded">
+            <ul class="nav nav-tabs d-flex"
+                style="width: fit-content;margin: 0 auto;gap: 1rem;">
+                <li class="col text-center py-2 text-nowrap "
+                    style="color: #fff; background-color: #714B67;border-radius: 6px 6px 0px 0px;">
+                    <a
+                            class="active show" data-toggle="tab" href="#tab1"
+                            style="color: #fff;font-weight: 500; background-color: #714B67; text-decoration: none;">
+                        <i class="fa-regular fa-image  pr-2"
+                           style="color: #fff;"></i>
+                        Screenshots</a></li>
+                <li class="col text-center py-2 text-nowrap "
+                    style="color: #fff; background-color: #714B67;border-radius: 6px 6px 0px 0px;">
+                    <a
+                            data-toggle="tab" href="#tab2"
+                            style="color: #fff;font-weight: 500;  text-decoration: none;"><i
+                            class="fa-solid fa-star  pr-2"
+                            style="color: #fff;"></i>Features</a></li>
+                <li class="col text-center py-2 text-nowrap "
+                    style="color: #fff; background-color: #714B67;border-radius: 6px 6px 0px 0px;">
+                    <a
+                            data-toggle="tab" href="#tab3"
+                            style="color: #fff;font-weight: 500; text-decoration: none; background-color: #714B67;"><i
+                            class="fa-solid fa-book-open  pr-2"
+                            style="color: #fff;"></i>Released Notes</a></li>
             </ul>
-            <div class="tab-content" id="pills-tabContent"
-               style="padding-top: 30px; padding-bottom: 30px; padding: 30px;">
-               <div class="px-3 pt-1 tab-pane fade active show" id="pills-home" role="tabpanel" aria-labelledby="
-                  pills-home-tab">
-                  <!-- Overview-->
-                  <h2 style="font-weight: 600;text-align: center;width: 100%;">Overview</h2>
-                  <hr style="margin-top: 0px;margin-bottom: 2%;border: 0;text-align: center;border-top: 3px solid #d21c22;width: 5%;">
-                  <h3 class="oe_slogan" style="text-align: center;font-size: 19px;width: 100%;margin: 0;margin-top: 14px;color: #000 !important;opacity: 1 !important;line-height: 31px;font-weight: 400;letter-spacing: .5px;margin-bottom: 21px;">
-                      This module helps to print Current Stock Report for all Products in each Warehouse with XLS. 
-                  </h3>
-               </div>
-				
-				
-				
-				
-				
-				<div class="px-3 pt-1 tab-pane fade" id="pills-video" role="tabpanel" aria-labelledby="
-                  pills-home-tab">
-                 
-                  
-                  <h2 style="font-weight: 600;text-align: center;width: 100%;">Installation</h2>
-                  <hr style="margin-top: 0px;margin-bottom: 2%;border: 0;text-align: center;border-top: 3px solid #d21c22;width: 5%;">
-                  <ul>
-                     <li class="mb8" style="font-family: Roboto;color: #000;list-style-type: square;font-size: 19px;line-height: 50px; background-color: #3a34380d;padding-left: 20px;border-radius: 7px;list-style: none;"> 
-                        <i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i> To install this module, you need also the report_xlsx module.
-                     </li>
-                     <li class="mb8" style="font-family: Roboto;color: #000;list-style-type: square;font-size: 19px;line-height: 50px; background-color: #3a34380d;padding-left: 20px;border-radius: 7px;list-style: none;"> 
-                        <i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i> You need to set the Timezone in odoo.
-                     </li>
-                  </ul>
-               </div>
-               <div class="px-3 pt-1 tab-pane fade " id="pills-home1" role="tabpanel" aria-labelledby="
-                  pills-home-tab">
-                  <!-- feature tab-->
-                  <h2 style="font-weight: 600;text-align: center;width: 100%;">Current Stock XLS </h2>
-                  <hr style="margin-top: 0px;margin-bottom: 2%;border: 0;text-align: center;border-top: 3px solid #d21c22;width: 5%;">
-                  <ul>
-                     <li class="mb8" style="font-family: Roboto;color: #000;list-style-type: square;font-size: 19px;line-height: 50px; background-color: #3a34380d;padding-left: 20px;border-radius: 7px;list-style: none;"> 
-                        <i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i>Select category for products
-                     </li>
-                     <li class="mb8" style="font-family: Roboto;color: #000;list-style-type: square;font-size: 19px;line-height: 50px; background-color: #3a34380d;padding-left: 20px;border-radius: 7px;list-style: none;"> 
-                        <i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i> Get your stock valuation details
-                     </li>
+            <div class="tab-content"
+                 style="background-color: rgba(121, 113, 119, 0.04);">
+                <div id="tab1" class="tab-pane fade in active show">
+                    <div class="col-lg-12 py-2"
+                         style="padding: 1rem 4rem !important;">
+                        <div
+                                style="border: 1px solid #d8d6d6; border-radius: 4px; background: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                            <div class="row justify-content-center p-3 w-100 m-0">
+                                <img src="assets/screenshots/1.png"
+                                     class="img-responsive" width="100%"
+                                     height="auto">
+                            </div>
+                            <div class="px-3">
+                                <h4 class="mt-2"
+                                    style=" font-weight:600 !important; color:#282F33 !important; font-size:1.3rem !important">
+                                    Navigate to the following steps: Reporting
+                                    -> Current Stock in Excel.</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 py-2"
+                         style="padding: 1rem 4rem !important;">
+                        <div
+                                style="border: 1px solid #d8d6d6; border-radius: 4px;  background: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                            <div class="row justify-content-center p-3 w-100 m-0">
+                                <img src="assets/screenshots/2.png"
+                                     class="img-responsive" width="100%"
+                                     height="auto">
+                            </div>
+                            <div class="px-3">
+                                <h4 class="mt-2"
+                                    style=" font-weight:600 !important; color:#282F33 !important; font-size:1.3rem !important">
+                                    When selecting 'Current Stock in Excel,' a
+                                    Wizard will appear allowing the selection of
+                                    a Warehouse and Category.</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 py-2"
+                         style="padding: 1rem 4rem !important;">
+                        <div
+                                style="border: 1px solid #d8d6d6; border-radius: 4px;  background: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                            <div class="row justify-content-center p-3 w-100 m-0">
+                                <img src="assets/screenshots/3.png"
+                                     class="img-responsive" width="100%"
+                                     height="auto">
+                            </div>
+                            <div class="px-3">
+                                <h4 class="mt-2"
+                                    style=" font-weight:600 !important; color:#282F33 !important; font-size:1.3rem !important">
+                                    When you click on 'Export Product with Stock
+                                    Info,' an XLS report is generated as
+                                    follows.</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab2" class="tab-pane fade">
+                    <div class="col-mg-12" style="padding: 1rem 4rem;">
+                        <ul style="list-style: none; padding: 1rem 0;font-weight: 500;">
+                            <li class="py-3"
+                                style="font-weight: 500;background-color: #fff; border-radius: 4px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                    <span style="margin-right: 12px;"><img
+                                            src="assets/misc/star (1) 2.svg"
+                                            alt=""
+                                            width="16px"></span>Current Stock XLS.
+                            </li>
+                            <li class="py-3"
+                                style="font-weight: 500;background-color: #fff; border-radius: 4px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                    <span style="margin-right: 12px;"><img
+                                            src="assets/misc/star (1) 2.svg"
+                                            alt=""
+                                            width="16px"></span>Select Category for Products.
+                            </li>
+                            <li class="py-3"
+                                style="font-weight: 500;background-color: #fff; border-radius: 4px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                    <span style="margin-right: 12px;"><img
+                                            src="assets/misc/star (1) 2.svg"
+                                            alt=""
+                                            width="16px"></span>Negative Stock.
+                                <ul style="list-style: none;font-weight: 400; color:#718096">
+                                    <li>
+                                    </li>
+                                </ul>
+                            </li>
 
-                     <li class="mb8" style="font-family: Roboto;color: #000;list-style-type: square;font-size: 19px;line-height: 50px; background-color: #3a34380d;padding-left: 20px;border-radius: 7px;list-style: none;"> 
-                        <i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i> Negative stock will be highlighted in "red" cells.
-                     </li>
-                  </ul>
-               </div>
-               <!-- Screenshot tab-->
-               <div class="px-3 tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" >
-                  <div class="tab-pane">
-                     <h2 style="font-weight: 600;text-align: center;width: 100%;">Screenshots</h2>
-                     <hr style="margin-top: 0px;margin-bottom: 2%;border: 0;text-align: center;border-top: 3px solid #d21c22;width: 5%;">
-                     <div>
-                        <section class="oe_container">
-                           <div id="demo" class="row carousel slide  mb32" data-ride="carousel">
-                              <div class="carousel-inner">
-                                 <div class="carousel-item active" style="min-height: 0px;">
-                                    <div class="col-xs-12 col-sm-12 col-md-12 mb16 mt16" style="float: left;">
-                                       <h3 class="alert" style="font-weight:400;color: #091E42;background: #fff;text-align: left;border-radius: 0; font-size: 18px;"> <i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i>Go to Inventory -> Reports -> Current stock in Excel.</h3>
-                                       <h3 class="alert" style="font-weight:400;color: #091E42;background: #fff;text-align: left;border-radius: 0; font-size: 18px;"> <i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i> Now a wizard will appear on your screen. Please enter the warehouses which you want to take the report.</h3>
-                                       <h3 class="alert" style="font-weight:400;color: #091E42;background: #fff;text-align: left;border-radius: 0; font-size: 18px;"> <i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i>  You can also select category for products(It is Optional).</h3>
-                                       <h3 class="alert" style="font-weight:400;color: #091E42;background: #fff;text-align: left;border-radius: 0; font-size: 18px;"> <i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i> Then Click "Export Product with Stock Info" button. Then You will get the corresponding report in XLS.</h3>
+                        </ul>
+                    </div>
+                </div>
+                <div id="tab3" class="tab-pane fade">
+                    <div class="col-mg-12 active" style="padding: 1rem 4rem;">
+                        <div class="py-3"
+                             style="font-weight: 500;background-color: #fff; border-radius: 4px; padding: 1rem; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                            <div class="d-flex mb-3"
+                                 style="font-size: 0.8rem; font-weight: 500;"><span>Version
+                                        17.0.1.0.0</span><span
+                                    class="px-2">|</span><span
+                                    style="color: #714B67;font-weight: 600;">Released on:13th nov 2023</span>
+                            </div>
+                            <p class="m-0"
+                               style=" color:#718096!important; font-size:1rem !important;line-height: 28px;">
 
-                                       <div style=""> <img class="img img-responsive center-block" style="border-top-left-radius: 10px;border-top-right-radius: 10px;" src="images/export1.png"> </div>
+                                Initial Commit for Export Product Stock in Excel.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <div class="col-lg-12 d-flex flex-column justify-content-center align-items-center mt-5">
+                <p class="m-0"
+                   style="font-weight: 600; font-size: 24px; color:#000 !important">
+                    Related Products</p>
+            </div>
+        </div>
+        <div id="myCarousel" class="carousel slide py-3" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row p-4">
+                        <div class="col">
+                            <div class="p-3">
+                                <a href="https://apps.odoo.com/apps/modules/16.0/export_stockinfo_xls/"
+                                   style="color: #000; text-decoration: none;">
+                                    <div style="border:1px solid #CBCBCB !important;border-radius: 4px;">
+                                        <div style="width: 300px; ">
+                                            <img src="assets/modules/1.png"
+                                                 alt="" width="100%"
+                                                 height="auto">
 
-                                       <h3 class="alert" style="font-weight:400;color: #091E42;background: #fff;text-align: left;border-radius: 0; font-size: 18px;"> <i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i> Per warehouse you can get Available Qty, Virtual Qty, Incoming Qty, Outgoing Qty, Net On Hand Qty, Total Sold & Total Purchased Qty.</h3>
-                                       <h3 class="alert" style="font-weight:400;color: #091E42;background: #fff;text-align: left;border-radius: 0; font-size: 18px;"> <i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i>You can get your stock valuation details too. In below screen-shot you can see stock details of 2 warehouse exported in single spreadsheet.</h3>
-
-                                       <div style=""> <img class="img img-responsive center-block" style="border-top-left-radius: 10px;border-top-right-radius: 10px;" src="images/export2.png"> </div>
-                                        
-                                       <h3 class="alert" style="font-weight:400;color: #091E42;background: #fff;text-align: left;border-radius: 0; font-size: 18px;"> <i class="fa fa-check-circle-o" style="width:40px; color:#07B700"></i>Negative stock will be highlighted in "red" cells. </h3>
-
-                                       <div style=""> <img class="img img-responsive center-block" style="border-top-left-radius: 10px;border-top-right-radius: 10px;" src="images/export3.png"> </div>
-
+                                        </div>
+                                        <p class="text-center pt-2 text-black font-weight-bold">
+                                            Manufacturing Reports</p>
                                     </div>
-                                 </div>
-								  
-								  
-								  
-                                 
-                              </div>
-                              <a class="carousel-control-prev" href="#demo" data-slide="prev" style="left:-25px;width: 35px;color: #000;"> <span class="carousel-control-prev-icon"><i class="fa fa-chevron-left" style="font-size:24px"></i></span> </a> <a class="carousel-control-next" href="#demo" data-slide="next" style="right:-25px;width: 35px;color: #000;"> <span class="carousel-control-next-icon"><i class="fa fa-chevron-right" style="font-size:24px"></i></span> </a> 
-                           </div>
-                        </section>
-                     </div>
-                  </div>
-               </div>
-               
-               <!-- faq tab-->
-               <div class="px-2 px-lg-4 pt-3 tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                  <ul class="list-unstyled">
-                  </ul>
-               </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="p-3">
+                                <a href="https://apps.odoo.com/apps/modules/16.0/low_stocks_product_alert/"
+                                   style="color: #000; text-decoration: none;">
+                                    <div style="border:1px solid #CBCBCB !important;border-radius: 4px;">
+                                        <div style="width: 300px; ">
+                                            <img src="assets/modules/2.png"
+                                                 alt="" width="100%"
+                                                 height="auto">
+
+                                        </div>
+                                        <p class="text-center pt-2 text-black font-weight-bold">
+                                            Print Work Order Details</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="p-3">
+                                <a href="https://apps.odoo.com/apps/modules/16.0/product_brand_inventory/"
+                                   style="color: #000; text-decoration: none;">
+                                    <div style="border:1px solid #CBCBCB !important;border-radius: 4px;">
+                                        <div style="width: 300px; ">
+                                            <img src="assets/modules/3.png"
+                                                 alt="" width="100%"
+                                                 height="auto">
+
+                                        </div>
+                                        <p class="text-center pt-2 text-black font-weight-bold">
+                                            Show Total Cost On BOM</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row p-4">
+                        <div class="col">
+                            <div class="p-3">
+                                <a href="https://apps.odoo.com/apps/modules/16.0/stock_intercompany_transfer/"
+                                   style="color: #000; text-decoration: none;">
+                                    <div style="border:1px solid #CBCBCB !important;border-radius: 4px;">
+                                        <div style="width: 300px; ">
+                                            <img src="assets/modules/4.png"
+                                                 alt="" width="100%"
+                                                 height="auto">
+
+                                        </div>
+                                        <p class="text-center pt-2 text-black font-weight-bold">
+                                            Simple Manufacturing Orders</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="p-3">
+                                <a href="https://apps.odoo.com/apps/modules/16.0/inventory_turnover_report_analysis/"
+                                   style="color: #000; text-decoration: none;">
+                                    <div style="border:1px solid #CBCBCB !important;border-radius: 4px;">
+                                        <div style="width: 300px;">
+                                            <img src="assets/modules/5.png"
+                                                 alt="" width="100%"
+                                                 height="auto">
+
+                                        </div>
+                                        <p class="text-center pt-2 text-black font-weight-bold">
+                                            BOM Multiple Product Selection</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="p-3">
+                                <a href="https://apps.odoo.com/apps/modules/16.0/quick_stock_movement/"
+                                   style="color: #000; text-decoration: none;">
+                                    <div style="border:1px solid #CBCBCB !important;border-radius: 4px;">
+                                        <div style="width: 300px;">
+                                            <img src="assets/modules/6.png"
+                                                 alt="" width="100%"
+                                                 height="auto">
+                                        </div>
+                                        <p class="text-center pt-2 text-black font-weight-bold">
+                                            Catch Weight Management:
+                                            Manufacturing</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-   </section>
-   <section class="oe_container" style="padding: 2rem 3rem 1rem;">
-      <h2 style="font-weight: 600;text-align: center;margin-bottom: 25px;width: 100%;">Suggested Products</h2>
-      <hr style="margin-top: 0px;margin-bottom: 2%;border: 0;text-align: center;border-top: 3px solid #d21c22;width: 5%;">
-      <div id="demo1" class="row carousel slide" data-ride="carousel">
-         <!-- The slideshow -->
-         <div class="carousel-inner">
-            <div class="carousel-item active" style="min-height: 0px;">
-               <div class="col-xs-12 col-sm-4 col-md-4 mb16 mt16" style="float: left;">
-                  <a href="https://apps.odoo.com/apps/modules/13.0/product_barcode/" target="_blank">
-                     <div style="box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);border-radius: 10px;"> <img class="img img-responsive center-block" style="border-top-left-radius: 10px;border-top-right-radius: 10px;" src="images/product_barcode.png"> </div>
-                  </a>
-               </div>
-               <div class="col-xs-12 col-sm-4 col-md-4 mb16 mt16" style="float: left;">
-                  <a href="https://apps.odoo.com/apps/modules/13.0/barcode_scanning_sale_purchase/" target="_blank">
-                     <div style="box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);border-radius: 10px;"> <img class="img img-responsive center-block" style="border-top-left-radius: 10px;border-top-right-radius: 10px;" src="images/barcode_scanning.jpeg"> </div>
-                  </a>
-               </div>
-               <div class="col-xs-12 col-sm-4 col-md-4 mb16 mt16" style="float: left;">
-                  <a href="https://apps.odoo.com/apps/modules/13.0/stock_move_report/" target="_blank">
-                     <div style="box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);border-radius: 10px;"> <img class="img img-responsive center-block" style="border-top-left-radius: 10px;border-top-right-radius: 10px;" src="images/advanced_stock.png"> </div>
-                  </a>
-               </div>
+            <a class="carousel-control-prev" href="#myCarousel"
+               data-slide="prev" style="width: 35px; color: #000;">
+                    <span class="carousel-control-prev-icon">
+                        <i class="fa fa-chevron-left"
+                           style="font-size: 24px;"></i>
+                    </span>
+            </a>
+            <a class="carousel-control-next" href="#myCarousel"
+               data-slide="next" style="width: 35px; color: #000;">
+                    <span class="carousel-control-next-icon">
+                        <i class="fa fa-chevron-right"
+                           style="font-size: 24px;"></i>
+                    </span>
+            </a>
+        </div>
+        <div class="container mt-5">
+            <div class="col-lg-12 d-flex flex-column justify-content-center align-items-center mt-4">
+                <p class="m-0"
+                   style="font-weight: 600; font-size: 24px; color:#000 !important">
+                    Our Services</p>
+
             </div>
-            <div class="carousel-item" style="min-height: 0px;">
-               <div class="col-xs-12 col-sm-4 col-md-4 mb16 mt16" style="float: left;">
-                  <a href="https://apps.odoo.com/apps/modules/12.0/product_ageing_report/" target="_blank">
-                     <div style="box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);border-radius: 10px;"> <img class="img img-responsive center-block" style="border-top-left-radius: 10px;border-top-right-radius: 10px;" src="images/stock_ageing.jpeg"> </div>
-                  </a>
-               </div>
-               <div class="col-xs-12 col-sm-4 col-md-4 mb16 mt16" style="float: left;">
-                  <a href="https://apps.odoo.com/apps/modules/13.0/stock_valuation_report/" target="_blank">
-                     <div style="box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);border-radius: 10px;"> <img class="img img-responsive center-block" style="border-top-left-radius: 10px;border-top-right-radius: 10px;" src="images/inventory_valuation.png"> </div>
-                  </a>
-               </div>
-               <div class="col-xs-12 col-sm-4 col-md-4 mb16 mt16" style="float: left;">
-                  <a href="https://apps.odoo.com/apps/modules/13.0/export_stockinfo_xls/" target="_blank">
-                     <div style="box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);border-radius: 10px;"> <img class="img img-responsive center-block" style="border-top-left-radius: 10px;border-top-right-radius: 10px;" src="images/export.jpeg"> </div>
-                  </a>
-               </div>
+        </div>
+        <div class="container my-5">
+            <div class="row py-3">
+                <div class="col-md-4 col-sm-6 px-4 py-4">
+                    <div
+                            style="background-color: #fff; padding: 25px; text-align: center;  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; position: relative;border-radius: 4px;">
+                        <div style="position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);">
+                            <div style="background-color:#13EA36 ; border-radius: 50%; padding: 15px;    width: 68px;
+                                    height: 68px; display: inline-block; box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);">
+                                <img src="assets/icons/cogs.png"
+                                     alt="service-icon" width="38px"
+                                     height="auto">
+                            </div>
+                        </div>
+                        <p style="margin-top: 20px; font-weight: bold;">Odoo
+                            Customization</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 px-4 py-4">
+                    <div
+                            style="background-color: #fff; padding: 25px; text-align: center; box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; position: relative;border-radius: 4px;">
+                        <div style="position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);">
+                            <div style="background-color:#DBC711; border-radius: 50%; padding: 15px;    width: 68px;
+                                    height: 68px; display: inline-block; box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);">
+                                <img src="assets/icons/wrench.png"
+                                     alt="service-icon" width="38px"
+                                     height="auto">
+                            </div>
+                        </div>
+                        <p style="margin-top: 20px; font-weight: bold;">Odoo
+                            Implementation</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 px-4 py-4">
+                    <div
+                            style="background-color: #fff; padding: 25px; text-align: center;  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; position: relative; border-radius: 4px;">
+                        <div style="position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);">
+                            <div style="background-color:#FF6B6B ; border-radius: 50%; padding: 15px;    width: 68px;
+                                    height: 68px; display: inline-block; box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);">
+                                <img src="assets/icons/lifebuoy.png"
+                                     alt="service-icon" width="38px"
+                                     height="auto">
+                            </div>
+                        </div>
+                        <p style="margin-top: 20px; font-weight: bold;">Odoo
+                            Support</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 px-4 py-4">
+                    <div
+                            style="background-color: #fff; padding: 25px; text-align: center; box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; position: relative; border-radius: 4px;">
+                        <div style="position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);">
+                            <div style="background-color:#FFA801 ; border-radius: 50%; padding: 15px;    width: 68px;
+                                    height: 68px; display: inline-block; box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);">
+                                <img src="assets/icons/user.png"
+                                     alt="service-icon" width="38px"
+                                     height="auto">
+                            </div>
+                        </div>
+                        <p style="margin-top: 20px; font-weight: bold;">Hire
+                            Odoo Developer</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 px-4 py-4">
+                    <div
+                            style="background-color: #fff; padding: 25px; text-align: center;  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; position: relative; border-radius: 4px;">
+
+                        <div style="position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);">
+                            <div style="background-color:#54A0FF; border-radius: 50%; padding: 15px;    width: 68px;
+                                    height: 68px; display: inline-block; box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);">
+                                <img src="assets/icons/puzzle.png"
+                                     alt="service-icon" width="38px"
+                                     height="auto">
+                            </div>
+                        </div>
+                        <p style="margin-top: 20px; font-weight: bold;">Odoo
+                            Integration</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 px-4 py-4">
+                    <div
+                            style="background-color: #fff; padding: 25px; text-align: center;  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; position: relative;border-radius: 4px;">
+                        <div style="position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);">
+                            <div style="background-color:#6D7680 ; border-radius: 50%; padding: 15px;    width: 68px;
+                                    height: 68px; display: inline-block; box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);">
+                                <img src="assets/icons/update.png"
+                                     alt="service-icon" width="38px"
+                                     height="auto">
+                            </div>
+                        </div>
+                        <p style="margin-top: 20px; font-weight: bold;">Odoo
+                            Migration</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 px-4 py-4">
+                    <div
+                            style="background-color: #fff; padding: 25px; text-align: center;  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; position: relative;border-radius: 4px;">
+                        <div style="position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);">
+                            <div style="background-color:#786FA6 ; border-radius: 50%; padding: 15px;    width: 68px;
+                                    height: 68px; display: inline-block; box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);">
+                                <img src="assets/icons/consultation.png"
+                                     alt="service-icon" width="38px"
+                                     height="auto">
+                            </div>
+                        </div>
+                        <p style="margin-top: 20px; font-weight: bold;">Odoo
+                            Consultancy</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 px-4 py-4">
+                    <div
+                            style="background-color: #fff; padding: 25px; text-align: center; box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;position: relative;border-radius: 4px;">
+                        <div style="position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);">
+                            <div style="background-color:#F8A5C2 ; border-radius: 50%; padding: 15px;    width: 68px;
+                                    height: 68px; display: inline-block; box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);">
+                                <img src="assets/icons/training.png"
+                                     alt="service-icon" width="38px"
+                                     height="auto">
+                            </div>
+                        </div>
+                        <p style="margin-top: 20px; font-weight: bold;">Odoo
+                            Implementation</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 px-4 py-4">
+                    <div
+                            style="background-color: #fff; padding: 25px; text-align: center;  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px; position: relative;border-radius: 4px;">
+                        <div style="position: absolute; top: 0%; left: 50%; transform: translate(-50%, -50%);">
+                            <div style="background-color:#E6BE26; border-radius: 50%; padding: 15px;    width: 68px;
+                                    height: 68px; display: inline-block; box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);">
+                                <img src="assets/icons/license.png"
+                                     alt="service-icon" width="38px"
+                                     height="auto">
+                            </div>
+                        </div>
+                        <p style="margin-top: 20px; font-weight: bold;">Odoo
+                            Licensing Consultancy</p>
+                    </div>
+                </div>
             </div>
-         </div>
-         <!-- Left and right controls --> 
-         <a class="carousel-control-prev" href="#demo1" data-slide="prev" style="left:-25px;width: 35px;color: #000;"> <span class="carousel-control-prev-icon"><i class="fa fa-chevron-left" style="font-size:24px"></i></span> </a> <a class="carousel-control-next" href="#demo1" data-slide="next" style="right:-25px;width: 35px;color: #000;"> <span class="carousel-control-next-icon"><i class="fa fa-chevron-right" style="font-size:24px"></i></span> </a> 
-      </div>
-   </section>
-   <section class="row" style="padding: 2rem 3rem 1rem;margin:0px">
-      <h2 style="font-weight: 600;margin-bottom: 20px;text-align: center;width: 100%;">Our Service</h2>
-      <hr style="margin-top: 0px;margin-bottom: 2%;border: 0;text-align: center;border-top: 3px solid #d21c22;width: 5%;">
-      <div class="row" style=" display: flex; justify-content: center; flex-wrap: wrap;width: 100%; ">
-         <!-- <div style="display:flex;padding-top: 20px;justify-content: space-between;"> -->
-         <div class="col-md-2 col-sm-6 col-xs-12">
-            <div style="width:75px;height:75px;background:#fff; border-radius:100%;margin: auto;"> <a href="https://www.cybrosys.com/odoo-customization-and-installation/" target="_blank"> <img src="https://www.cybrosys.com/images/odoo-customization.png" style="width: 100%;border-radius: 100%;"/> </a> </div>
-            <h3 class="oe_slogan" style="font-weight: 800;text-align: center;font-size: 14px;width: 100%;margin: 0;margin-top: 14px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;"> <a href="https://www.cybrosys.com/odoo-customization-and-installation/" target="_blank" style="list-style: none; color:#000; text-decoration: none; font-family: 'Montserrat',sans-serif;"> Odoo Customization </a> </h3>
-         </div>
-         <div class="col-md-2 col-sm-6 col-xs-12">
-            <div style="width:75px;height:75px;background:#fff; border-radius:100%;margin: auto;"> <a href="https://www.cybrosys.com/odoo-erp-implementation/" target="_blank"> <img src="https://www.cybrosys.com/images/odoo-erp-implementation.png" style="width: 100%;border-radius: 100%;"/> </a> </div>
-            <h3 class="oe_slogan" style="font-weight: 800;text-align: center;font-size: 14px;width: 100%;margin: 0;margin-top: 14px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;"> <a href="https://www.cybrosys.com/odoo-erp-implementation/" target="_blank" style="list-style: none; color:#000; text-decoration: none; font-family: 'Montserrat',sans-serif;"> Odoo Implementation </a> </h3>
-         </div>
-         <div class="col-md-2 col-sm-6 col-xs-12">
-            <div style="width:75px;height:75px;background:#fff; border-radius:100%;margin: auto;"> <a href="https://www.cybrosys.com/odoo-erp-integration/" target="_blank"> <img src="https://www.cybrosys.com/images/odoo-erp-integration.png" style="width: 100%;border-radius: 100%;"/> </a> </div>
-            <h3 class="oe_slogan" style="font-weight: 800;text-align: center;font-size: 14px;width: 100%;margin: 0;margin-top: 14px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;"> <a href="https://www.cybrosys.com/odoo-erp-integration/" target="_blank" style="list-style: none; color:#000; text-decoration: none; font-family: 'Montserrat',sans-serif;"> Odoo Integration </a> </h3>
-         </div>
-         <div class="col-md-2 col-sm-6 col-xs-12">
-            <div style="width:75px;height:75px;background:#fff; border-radius:100%;margin: auto;"> <a href="https://www.cybrosys.com/odoo-erp-support/" target="_blank"> <img src="https://www.cybrosys.com/images/odoo-erp-support.png" style="width: 100%;border-radius: 100%;"/> </a> </div>
-            <h3 class="oe_slogan" style="font-weight: 800;text-align: center;font-size: 14px;width: 100%;margin: 0;margin-top: 14px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;"> <a href="https://www.cybrosys.com/odoo-erp-support/" target="_blank" style="list-style: none; color:#000; text-decoration: none; font-family: 'Montserrat',sans-serif;"> Odoo Support</a> </h3>
-         </div>
-         <div class="col-md-2 col-sm-6 col-xs-12">
-            <div style="width:75px;height:75px;background:#fff; border-radius:100%;margin: auto;"> <a href="https://www.cybrosys.com/hire-odoo-developer/" target="_blank"> <img src="https://www.cybrosys.com/images/hire-odoo-developer.png" style="width: 100%;border-radius: 100%;"/> </a> </div>
-            <h3 class="oe_slogan" style="font-weight: 800;text-align: center;font-size: 14px;width: 100%;margin: 0;margin-top: 14px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;"> <a href="https://www.cybrosys.com/hire-odoo-developer/" target="_blank" style="list-style: none; color:#000; text-decoration: none; font-family: 'Montserrat',sans-serif;"> Hire Odoo Developers</a> </h3>
-            </a> 
-         </div>
-         <!-- </div> --> 
-      </div>
-   </section>
-   <section class="row"  style="padding: 2rem 3rem 1rem;margin:0px">
-      <div class="row" style="margin: 0">
-         <h2 style="font-weight: 600;margin-bottom: 20px;text-align: center;width: 100%;">Our Industries</h2>
-         <hr style="margin-top: 0px;margin-bottom: 2%;border: 0;text-align: center;border-top: 3px solid #d21c22;width: 5%;">
-         <!-- <div style="display:flex;justify-content: space-between;flex-wrap:wrap;"> -->
-         <div class="row" style="width: 100%">
-            <div class="col-md-4 col-sm-6 col-xs-12" style=" margin-bottom: 10px; ">
-               <div  >
-                  <div style="width:75px;height:75px;background:#CE2D48; border-radius:100%;float: left;text-align: left;"> <a href="https://www.cybrosys.com/odoo/industries/best-trading-erp/" target="_blank"> <img src="https://www.cybrosys.com/images/odoo-index-industry-1.png" alt="Odoo Industry" style="    border-radius: 100%;width:100%;"/> </a> </div>
-               </div>
-               <div style="width:70%;float:left;">
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 14px;font-weight:800;width: auto;margin: 0;margin-top: 14px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 4px;margin-left: 16px;"> <a href="https://www.cybrosys.com/odoo/industries/best-trading-erp/" target="_blank" style="list-style: none; color:#000; text-decoration: none;font-family: 'Montserrat',sans-serif;"> Trading </a> </h3>
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 12px;width: auto;margin: 0;margin-top:5px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 5px;margin-left: 16px; font-family: 'Montserrat',sans-serif;"> Easily procure and sell your products. </h3>
-               </div>
+        </div>
+        <div class="container mt-5">
+            <div class="col-lg-12 d-flex flex-column justify-content-center align-items-center mt-4">
+                <p class="m-0"
+                   style="font-weight: 600; font-size: 24px; color:#000 !important">
+                    Our Industries</p>
+
             </div>
-            <div class="col-md-4 col-sm-6 col-xs-12" style=" margin-bottom: 10px; ">
-               <div  >
-                  <div style="width:75px;height:75px;background:#CE2D48; border-radius:100%;float: left;text-align: left;"> <a href="https://www.cybrosys.com/odoo/industries/manufacturing-erp-software/" target="_blank"> <img src="https://www.cybrosys.com/images/odoo-index-industry-2.png" alt="Odoo Industry" style="    border-radius: 100%;width:100%;"/> </a> </div>
-               </div>
-               <div style="width:70%;float:left;" style=" margin-bottom: 10px; ">
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 14px;font-weight:800;width: auto;margin: 0;margin-top: 14px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 4px;margin-left: 16px;"> <a href="https://www.cybrosys.com/odoo/industries/manufacturing-erp-software/" target="_blank" style="list-style: none; color:#000; text-decoration: none;font-family: 'Montserrat',sans-serif;"> Manufacturing</a> </h3>
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 12px;width: auto;margin: 0;margin-top:5px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 5px;margin-left: 16px;font-family: 'Montserrat',sans-serif;"> Plan, track and schedule your operations. </h3>
-               </div>
+        </div>
+        <div class="container">
+            <div class="row my-5 py-4">
+                <div class="col-md-3 col-sm-6 p-0">
+                    <div class="d-flex flex-column h-100 "
+                         style="border-right: 1px solid rgb(209, 209, 209); border-bottom: 1px solid  rgb(209, 209, 209); padding: 30px; box-shadow: 6px 0 10px rgba(228, 227, 227, 0.373);">
+                        <img src="assets/icons/trading-black.png" width="42px"
+                             height="auto" alt="">
+                        <p style="color: #714B67;font-weight: 600; margin-top: 10px;
+                           font-size: 1.2rem; margin-bottom: 2px;">Trading</p>
+                        <p>Easily procure and sell your products</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6  p-0">
+                    <div class="d-flex flex-column h-100"
+                         style="border-right: 1px solid rgb(209, 209, 209);border-bottom: 1px solid  rgb(209, 209, 209); padding: 30px;">
+                        <img src="assets/icons/pos-black.png" width="42px"
+                             height="auto" alt="">
+                        <p style="color: #714B67;font-weight: 600; margin-top: 10px;
+                            font-size: 1.2rem; margin-bottom: 2px;">POS</p>
+                        <p>Easy configuration and convivial experience</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6  p-0">
+                    <div class="d-flex flex-column h-100"
+                         style="border-right: 1px solid  rgb(209, 209, 209);border-bottom: 1px solid   rgba(0, 0, 0, 0.2); padding: 30px; box-shadow: 0 5px 10px  rgba(228, 227, 227, 0.373)">
+                        <img src="assets/icons/education-black.png" width="42px"
+                             height="auto" alt="">
+                        <p style="color: #714B67;font-weight: 600; margin-top: 10px;
+                            font-size: 1.2rem; margin-bottom: 2px;">
+                            Education</p>
+                        <p>A platform for educational management</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6  p-0">
+                    <div class="d-flex flex-column h-100"
+                         style="border-bottom: 1px solid  rgb(209, 209, 209); padding: 30px; ">
+                        <img src="assets/icons/manufacturing-black.png"
+                             width="42px" height="auto" alt="">
+                        <p style="color: #714B67;font-weight: 600; margin-top: 10px;
+                            font-size: 1.2rem; margin-bottom: 2px;">
+                            Manufacturing</p>
+                        <p>Plan, track and schedule your operations</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 p-0">
+                    <div class="d-flex flex-column h-100"
+                         style="border-right: 1px solid  rgb(209, 209, 209); padding: 30px;">
+                        <img src="assets/icons/ecom-black.png" width="42px"
+                             height="auto" alt="">
+                        <p style="color: #714B67;font-weight: 600; margin-top: 10px;
+                            font-size: 1.2rem; margin-bottom: 2px;">E-commerce &
+                            Website</p>
+                        <p>Mobile friendly, awe-inspiring product pages</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6   p-0">
+                    <div class="d-flex flex-column h-100"
+                         style="border-right: 1px solid  rgb(209, 209, 209); padding: 30px;box-shadow: 0 -5px 10px  rgba(228, 227, 227, 0.373);">
+                        <img src="assets/icons/service-black.png" width="42px"
+                             height="auto" alt="">
+                        <p style="color: #714B67;font-weight: 600; margin-top: 10px;
+                            font-size: 1.2rem; margin-bottom: 2px;">Service
+                            Management</p>
+                        <p>Keep track of services and invoice</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6    p-0">
+                    <div class="d-flex flex-column h-100"
+                         style="border-right: 1px solid  rgb(209, 209, 209); padding: 30px; ">
+                        <img src="assets/icons/restaurant-black.png"
+                             width="42px" height="auto" alt="">
+                        <p style="color: #714B67;font-weight: 600; margin-top: 10px;
+                            font-size: 1.2rem; margin-bottom: 2px;">
+                            Restaurant</p>
+                        <p>Run your bar or restaurant methodically</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6   p-0">
+                    <div class="d-flex flex-column h-100"
+                         style=" padding: 30px;box-shadow: -5px 0 10px  rgba(228, 227, 227, 0.373);">
+                        <img src="assets/icons/hotel-black.png" width="42px"
+                             height="auto" alt="">
+                        <p style="color: #714B67;font-weight: 600; margin-top: 10px;
+                            font-size: 1.2rem; margin-bottom: 2px;">Hotel
+                            Management</p>
+                        <p>An all-inclusive hotel management application</p>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 col-sm-6 col-xs-12" style=" margin-bottom: 10px; ">
-               <div  >
-                  <div style="width:75px;height:75px;background:#CE2D48; border-radius:100%;float: left;text-align: left;"> <a href="https://www.cybrosys.com/odoo/industries/restaurant-management/" target="_blank"> <img src="https://www.cybrosys.com/images/odoo-index-industry-3.png" alt="Odoo Industry" style="    border-radius: 100%;width:100%;"/> </a> </div>
-               </div>
-               <div style="width:70%;float:left;">
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 14px;font-weight:800;width: auto;margin: 0;margin-top: 14px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 4px;margin-left: 16px;"> <a href="https://www.cybrosys.com/odoo/industries/restaurant-management/" target="_blank" style="list-style: none; color:#000; text-decoration: none;font-family: 'Montserrat',sans-serif;"> Restaurant</a> </h3>
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 12px;width: auto;margin: 0;margin-top:5px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 5px;margin-left: 16px;font-family: 'Montserrat',sans-serif;"> Run your bar or restaurant methodical. </h3>
-               </div>
+        </div>
+        <div class="container mt-5">
+            <div class="col-lg-12 d-flex flex-column justify-content-center align-items-center mt-5">
+                <p class="m-0"
+                   style="font-weight: 600; font-size: 24px; color:#000 !important">
+                    Support</p>
             </div>
-            <div class="col-md-4 col-sm-6 col-xs-12" style=" margin-bottom: 10px; ">
-               <div  >
-                  <div style="width:75px;height:75px;background:#CE2D48; border-radius:100%;float: left;text-align: left;"> <a href="https://www.cybrosys.com/odoo/industries/pos/" target="_blank"> <img src="https://www.cybrosys.com/images/odoo-index-industry-4.png" alt="Odoo Industry" style="    border-radius: 100%;width:100%;"/> </a> </div>
-               </div>
-               <div style="width:70%;float:left;">
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 14px;font-weight:800;width: auto;margin: 0;margin-top: 14px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 4px;margin-left: 16px;"> <a href="https://www.cybrosys.com/odoo/industries/pos/" target="_blank" style="list-style: none; color:#000; text-decoration: none;font-family: 'Montserrat',sans-serif;"> POS</a> </h3>
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 12px;width: auto;margin: 0;margin-top:5px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 5px;margin-left: 16px;font-family: 'Montserrat',sans-serif;"> Easy configuring and convivial selling. </h3>
-               </div>
+        </div>
+        <div class="container my-5">
+            <div class="row" style="background-color: #FFFAFE;">
+                <div class="col-md-6 pb-4  d-flex align-items-center justify-content-center"
+                     style="border-right: 1px solid #D9D9D9;">
+                    <div style="padding: 30px;">
+                        <div class="d-flex align-items-center">
+                            <img src="assets/misc/support (1) 1.svg" alt=""
+                                 width="60px" style="margin-right: 12px;">
+                            <div style="padding: 0px 8px;">
+                                    <span
+                                            style="color: #714B67;font-size: 24px;font-weight: 600;padding-bottom: 1rem;">Need
+                                        Help?</span>
+                                <p class="m-0" style="color:#718096;">Got
+                                    questions or need help? Get in touch.</p>
+                                <div style="font-weight: 400;"><span><img
+                                        src="assets/misc/support-email.svg"
+                                        alt=""
+                                        width="18px"
+                                        style="filter: invert(1);margin-right: 0.8rem;"></span>odoo@cybrosys.com
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 pb-4 d-flex align-items-center justify-content-center">
+                    <div style="padding: 30px;">
+                        <div class="d-flex align-items-center">
+                            <img src="assets/misc/whatsapp 1.svg" alt=""
+                                 width="60px" style="margin-right: 12px;">
+                            <div>
+                                <span style="color: #714B67;font-size: 24px;font-weight: 600;">WhatsApp</span>
+                                <p class="m-0" style="color:#718096;">Say hi to
+                                    us on WhatsApp!</p>
+                                <div style="font-weight: 400; font-size: 16px;"><span><img
+                                        src="assets/misc/phone.svg"
+                                        alt="" width="14px"
+                                        style="filter: invert(1); margin-right: 0.8rem;"></span>+91
+                                    99456767686
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 col-sm-6 col-xs-12" style=" margin-bottom: 10px; ">
-               <div  >
-                  <div style="width:75px;height:75px;background:#CE2D48; border-radius:100%;float: left;text-align: left;"> <a href="https://www.cybrosys.com/odoo/industries/ecommerce-website/" target="_blank"> <img src="https://www.cybrosys.com/images/odoo-index-industry-5.png" alt="Odoo Industry" style="    border-radius: 100%;width:100%;"/> </a> </div>
-               </div>
-               <div style="width:70%;float:left;">
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 14px;font-weight:800;width: auto;margin: 0;margin-top: 14px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 0px;margin-left: 16px;"> <a href="https://www.cybrosys.com/odoo/industries/ecommerce-website/" target="_blank" style="list-style: none; color:#000; text-decoration: none; font-family: 'Montserrat',sans-serif;"> E-commerce & Website</a> </h3>
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 12px;width: auto;margin: 0;margin-top:5px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 5px;margin-left: 16px; font-family: 'Montserrat',sans-serif;"> Mobile friendly, awe-inspiring product pages. </h3>
-               </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-xs-12" style=" margin-bottom: 10px; ">
-               <div  >
-                  <div style="width:75px;height:75px;background:#CE2D48; border-radius:100%;float: left;text-align: left;"> <a href="https://www.cybrosys.com/odoo/industries/hotel-management-erp/" target="_blank"> <img src="https://www.cybrosys.com/images/odoo-index-industry-6.png" alt="Odoo Industry" style="    border-radius: 100%;width:100%;"/> </a> </div>
-               </div>
-               <div style="width:70%;float:left;">
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 14px;font-weight:800;width: auto;margin: 0;margin-top: 14px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 4px;margin-left: 16px;"> <a href="https://www.cybrosys.com/odoo/industries/hotel-management-erp/" target="_blank" style="list-style: none; color:#000; text-decoration: none; font-family: 'Montserrat',sans-serif;"> Hotel Management</a> </h3>
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 12px;width: auto;margin: 0;margin-top:5px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 5px;margin-left: 16px; font-family: 'Montserrat',sans-serif;"> An all-inclusive hotel management application. </h3>
-               </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-xs-12" style=" margin-bottom: 10px; ">
-               <div  >
-                  <div style="width:75px;height:75px;background:#CE2D48; border-radius:100%;float: left;text-align: left;"> <a href="https://www.cybrosys.com/odoo/industries/education-erp-software/" target="_blank"> <img src="https://www.cybrosys.com/images/odoo-index-industry-7.png" alt="Odoo Industry" style="    border-radius: 100%;width:100%;"/> </a> </div>
-               </div>
-               <div style="width:70%;float:left;">
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 14px;font-weight:800;width: auto;margin: 0;margin-top: 14px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 4px;margin-left: 16px;"> <a href="https://www.cybrosys.com/odoo/industries/education-erp-software/" target="_blank" style="list-style: none; color:#000; text-decoration: none; font-family: 'Montserrat',sans-serif;"> Education</a> </h3>
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 12px;width: auto;margin: 0;margin-top:5px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 5px;margin-left: 16px; font-family: 'Montserrat',sans-serif;"> A Collaborative platform for educational management. </h3>
-               </div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-xs-12" style=" margin-bottom: 10px; ">
-               <div  >
-                  <div style="width:75px;height:75px;background:#CE2D48; border-radius:100%;float: left;text-align: left;"> <a href="https://www.cybrosys.com/odoo/industries/service-management/" target="_blank"> <img src="https://www.cybrosys.com/images/odoo-index-industry-8.png" alt="Odoo Industry" style="    border-radius: 100%;width:100%;"/> </a> </div>
-               </div>
-               <div style="width:70%;float:left;">
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 14px;font-weight:800;width: auto;margin: 0;margin-top: 14px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 4px;margin-left: 16px;"> <a href="https://www.cybrosys.com/odoo/industries/service-management/" target="_blank" style="list-style: none; color:#000; text-decoration: none; font-family: 'Montserrat',sans-serif;"> Service Management</a> </h3>
-                  <h3 class="oe_slogan" style=" text-align: left;font-size: 12px;width: auto;margin: 0;margin-top:5px;color: #000 !important;margin-top: 5px;opacity: 1 !important;line-height: 17px;float: left;margin-top: 5px;margin-left: 16px; font-family: 'Montserrat',sans-serif;"> Keep track of services and invoice accordingly. </h3>
-               </div>
-            </div>
-         </div>
-      </div>
-</div>
+        </div>
+    </div>
 </section>
-<section class="oe_container" style="padding: 0% 0% 6% 0%;">
-   <center>
-      <div class="col-md-12" style="margin: auto !important;
-         width: 70%;
-         padding: 30px;">
-         <h2 style="font-weight: 600;text-align: center;width: 100%;">Need Any Help?</h2>
-         <hr style="margin-top: 0px;margin-bottom: 2%;border: 0;text-align: center;border-top: 3px solid #d21c22;width: 5%;">
-         <h4 style="font-size:16px;"> If you have anything to share with us based on your use of this module, please let us know. We are ready to offer our support. </h4>
-         <div class="col-md-6" style="float:left; padding:20px;">
-            <h4><i class="fa fa-envelope"></i>Email us </h4>
-            <p>odoo@cybrosys.com  / info@cybrosys.com</p>
-         </div>
-         <div class="col-md-6" style="float:left; padding:20px;">
-            <h4><i class="fa fa-phone"></i> Contact Us </h4>
-            <a href="https://www.cybrosys.com/contact/" target="_blank"> www.cybrosys.com</a>
-         </div>
-      </div>
-   </center>
-</section>
-<section class="oe_container" style="padding: 0% 0% 6% 0%;">
-   <div class="oe_slogan" style="margin-bottom: 0px;">
-      <div style=" display: flex; justify-content: center; flex-wrap: wrap; ">
-      </div>
-      <br>
-      <img src="https://www.cybrosys.com/images/logo.png" style="width: 190px; margin-bottom: 25px;margin-top: 30px;" class="center-block">
-      <div style=" display: flex; justify-content: center; flex-wrap: wrap; "> <a href="https://twitter.com/cybrosys" target="_blank"><i class="fa fa-2x fa-twitter" style="color:white;background: #00a0d1;width:35px;height: 35px;padding-top: 7px;font-size: 21px;margin-right: 6px;border-radius: 100%;"></i></a>
-         </td>
-         <a href="https://www.linkedin.com/company/cybrosys-technologies-pvt-ltd" target="_blank"><i class="fa fa-2x fa-linkedin" style="color:white;background: #31a3d6;width:35px;height: 35px;padding-top: 7px;font-size: 21px;margin-right: 6px;border-radius: 100%;"></i></a>
-         </td>
-         <a href="https://www.facebook.com/cybrosystechnologies" target="_blank"><i class="fa fa-2x fa-facebook" style="color:white;background: #3b5998;width:35px;  height: 35px;padding-top: 7px;font-size: 21px;margin-right: 6px;border-radius: 100%;"></i></a>
-         </td>
-         <a href="https://in.pinterest.com/cybrosys" target="_blank"><i class="fa fa-2x fa-pinterest" style="color:white;background: #ac0f18;width:35px;height: 35px;padding-top: 7px;font-size: 21px;margin-right: 6px;border-radius: 100%;"></i></a>
-         </td>
-      </div>
-   </div>
-</section>
-</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,7 +1,8 @@
 from odoo import models, fields, api
 
+
 class SaleOrder(models.Model):
-    _inherit='sale.order'
+    _inherit = 'sale.order'
 
     def _action_confirm(self):
         result = super(SaleOrder, self)._action_confirm()

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    
+	<t t-name="dev_pos_line_section.SectionButton">
+        <span class="control-button js_discount btn btn-light rounded-0 fw-bolder" t-on-click="() => this.click()">
+            <i class="fa fa-tag me-1"></i>
+            <span> </span>
+            <span>Add Section</span>
+        </span>
+    </t>
+	
+    <t t-name="dev_pos_line_section.WildCardPopup">
+        <div class="popup WildCard">
+            <div class="modal-header drag-handle">
+                <h4 class="modal-title">Add Section</h4>
+            </div>
+            
+            <div class="modal-body">
+                <input class="form-control form-control-lg w-75 mx-auto" type="text" t-ref="input" id ="product_name"/>
+            </div>
+
+            <footer class="footer modal-footer">
+                <button class="button btn btn-lg btn-primary" t-on-click="confirm">
+                    Confirm
+                </button>
+
+                <button class="button btn btn-lg btn-primary" t-on-click="cancel">
+                    Cancel
+                </button>
+            </footer>
+        </div>
+    </t>
+
+
+    <t t-name="Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" owl="1">
+        <xpath expr="//li[hasclass('orderline')]" position="replace">
+            <t t-log="line"/>
+            <t t-log="env.services.pos.config.wildcard_product_id[0]"/>
+            <t t-if="line.name">
+                <t t-if="line.id == env.services.pos.config.wildcard_product_id[0]">
+                    <div style="background: #51bdc2;color: white;font-size: 20px;line-height: 2;">
+                        <t t-log="line"/>
+                        <span style="margin-left: 3%;" t-esc="line.name"/>
+                    </div>
+                </t>
+            </t>
+            <t t-else="">
+                <li class="orderline p-2 lh-sm cursor-pointer" t-attf-class="{{ line.comboParent ? 'border-start border-3 ms-4' : '' }}" t-att-class="props.class">
+                <div class="d-flex justify-content-between">
+                    <div class="product-name d-inline-block flex-grow-1 fw-bolder pe-1 text-truncate">
+                        <span class="text-wrap" t-esc="line.productName"/>
+                        <t t-slot="product-name"/>
+                    </div>
+                    <div class="product-price d-inline-block text-end price fw-bolder">
+                        <t t-if="line.price === 'free'">
+                            Free
+                        </t>
+                        <t t-else="" t-esc="line.price"/>
+                    </div>
+                </div>
+                <ul class="info-list ms-2">
+                    <li class="price-per-unit">
+                        <em t-esc="line.qty" class="qty fst-normal fw-bolder me-1" /> <t t-if="line.unit" t-esc="line.unit" /> 
+                        <t t-if="line.price !== 0">
+                            x <s t-esc="line.oldUnitPrice" t-if="line.oldUnitPrice" /> 
+                            <t t-esc="line.unitPrice" /> <span t-if="line.unit"> / <t t-esc="line.unit" /></span>
+                        </t>
+                    </li>
+                    <li t-if="line.price !== 0 and line.discount and line.discount !== '0'">
+                        With a <em><t t-esc="line.discount" /> % </em> discount
+                    </li>
+                    <t t-slot="default" />
+                    <li t-if="line.customerNote" class="customer-note w-100 p-2 my-1 rounded text-break text-bg-warning text-warning bg-opacity-25">
+                        <i class="fa fa-sticky-note me-1" role="img" aria-label="Customer Note" title="Customer Note"/>
+                        <t t-esc="line.customerNote" />
+                    </li>
+                    <li t-if="line.internalNote" class="internal-note w-100 p-2 my-1 rounded text-bg-info text-info bg-opacity-25 text-break">
+                        <i class="fa fa-tag me-1" role="img" aria-label="Note" title="Note"/>
+                        <t t-esc="line.internalNote" />
+                    </li>
+                </ul>
+            </li>
+           </t>
+        </xpath>
+    </t>
+</templates>

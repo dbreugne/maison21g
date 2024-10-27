@@ -6,14 +6,16 @@ class MrpOrder(models.Model):
     _inherit = 'mrp.production'
 
 
+
+
     def button_mark_done(self):
         self.ensure_one()
         self._check_company()
         for wo in self.workorder_ids:
             if wo.time_ids.filtered(lambda x: (not x.date_end) and (x.loss_type in ('productive', 'performance'))):
                 raise UserError(_('Work order %s is still running') % wo.name)
-        self._check_lots()
-        self.post_inventory()
+        # self._check_lots()
+        self._post_inventory()
         # Moves without quantity done are not posted => set them as done instead of canceling. In
         # case the user edits the MO later on and sets some consumed quantity on those, we do not
         # want the move lines to be canceled.

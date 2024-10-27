@@ -1,6 +1,6 @@
 {
     'name': 'Hide Any Menu, Any Field, Any Report',
-    'version': '1.0.1',
+    'version': '17.0.1.0',
     'author': 'ZT DEV',
     'category': 'Tools',
     'depends': ['base','account'],

@@ -11,7 +11,7 @@
                         <group>
                             <field name="is_scent"/>
                             <field name="is_bottle"/>
-                            <field name="max_number_of_scents" attrs="{'invisible':[('is_bottle', '=', False)]}"/>
+                            <field name="max_number_of_scents" invisible="not is_bottle"/>
                         </group>
                     </page>
                 </xpath>

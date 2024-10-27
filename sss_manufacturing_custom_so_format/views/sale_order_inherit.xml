@@ -10,30 +10,29 @@
 			</xpath>
 		</field>
 	</record>
-	<record id="mrp_product_produce_inherit" model="ir.ui.view">
-		<field name="name">mrp.product.produce.form.inherited</field>
-		<field name="model">mrp.product.produce</field>
-		<field name="inherit_id" ref="mrp.view_mrp_product_produce_wizard" />
-		<field name="arch" type="xml">
-			<xpath expr="//field[@name='product_id']" position="after">
-				<field name="expairy_date" />
-			</xpath>
-		</field>
-	</record>
-	<record id="mrp_subcontracting_delete_move_tree_view" model="ir.ui.view">
-		<field name="name">mrp.subcontracting.move.tree.view</field>
-		<field name="model">stock.move</field>
-		<field name="inherit_id" ref="mrp.view_stock_move_raw_tree" />
-		<field name="arch" type="xml">
-			<xpath expr="//tree" position="attributes">
-				<attribute name="delete">1</attribute>
-			</xpath>
-			<xpath expr="//field[@name='product_id']" position="after">
-				<field name="date" invisible="0" />
-				
-			</xpath>
-		</field>
-	</record>
+<!--	<record id="mrp_product_produce_inherit" model="ir.ui.view">-->
+<!--		<field name="name">mrp.product.produce.form.inherited</field>-->
+<!--		<field name="model">mrp.product.produce</field>-->
+<!--		<field name="inherit_id" ref="mrp.view_mrp_product_produce_wizard" />-->
+<!--		<field name="arch" type="xml">-->
+<!--			<xpath expr="//field[@name='product_id']" position="after">-->
+<!--				<field name="expairy_date" />-->
+<!--			</xpath>-->
+<!--		</field>-->
+<!--	</record>-->
+<!--	<record id="mrp_subcontracting_delete_move_tree_view" model="ir.ui.view">-->
+<!--		<field name="name">mrp.subcontracting.move.tree.view</field>-->
+<!--		<field name="model">stock.move</field>-->
+<!--		<field name="inherit_id" ref="mrp.view_stock_move_raw_tree" />-->
+<!--		<field name="arch" type="xml">-->
+<!--&lt;!&ndash;			<xpath expr="//tree" position="attributes">&ndash;&gt;-->
+<!--&lt;!&ndash;				<attribute name="delete">1</attribute>&ndash;&gt;-->
+<!--&lt;!&ndash;			</xpath>&ndash;&gt;-->
+<!--			<xpath expr="//field[@name='product_id']" position="after">-->
+<!--				<field name="date"/>-->
+<!--			</xpath>-->
+<!--		</field>-->
+<!--	</record>-->
 
 	<record id="sale_order_inherit_mo_id" model="ir.ui.view">
 		<field name="name">mrp.production.view.form.inherited</field>
@@ -52,8 +51,8 @@
 		<field name="inherit_id" ref="mrp.mrp_production_form_view" />
 		<field name="arch" type="xml">
 			<xpath expr="//field[@name='move_raw_ids']" position="attributes">
-				<attribute name="attrs">{'readonly': [('state', 'not in', ['draft','confirmed'])]}</attribute>
-					<attribute name="context">{'final_lots': show_final_lots, 'tree_view_ref': 'mrp.view_stock_move_raw_tree', 'form_view_ref': 'mrp.view_stock_move_lots', 'default_location_id': location_src_id, 'default_location_dest_id': production_location_id, 'default_state': 'draft', 'default_raw_material_production_id': id, 'default_picking_type_id': picking_type_id,'is_mrp_component': True}</attribute>
+				<attribute name="readonly">[('state', 'not in', ['draft','confirmed'])]</attribute>
+					<attribute name="context">{'show_final_lots': show_final_lots,'default_location_id': location_src_id, 'default_location_dest_id': production_location_id, 'default_state': 'draft', 'default_raw_material_production_id': id, 'default_picking_type_id': picking_type_id,'is_mrp_component': True}</attribute>
 			</xpath>
 		</field>
 	</record>

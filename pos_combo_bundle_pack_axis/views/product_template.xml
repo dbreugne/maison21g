@@ -12,7 +12,7 @@
                 </div>
             </label>
              <xpath expr="//page[@name='inventory']" position="after">
-                <page name="pos_bundle" string="Pack Products" attrs="{'invisible': [('is_product_pack','=', False)]}">
+                <page name="pos_bundle" string="Pack Products" invisible="is_product_pack == False">
                     <field name="pack_product_ids">
                         <tree string="Pack Product" editable="bottom">
                             <field name="product_new_name_trial"/>

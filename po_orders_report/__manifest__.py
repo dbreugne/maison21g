@@ -1,7 +1,7 @@
 
 {
     'name': 'POS Orders Report - Maison',
-    'version': '13.0.0',
+    'version': '17.0.0.1.0',
     'sequence': 1,
     'category': '',
     'description':
@@ -22,6 +22,8 @@
     'installable': True,
     'application': True,
     'auto_install': False,
+    "license": "LGPL-3",
+    
 }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

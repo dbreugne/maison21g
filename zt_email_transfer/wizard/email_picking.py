@@ -11,16 +11,16 @@ class MultiDo(models.Model):
         self.ensure_one()
         ir_model_data = self.env['ir.model.data']
         try:
-            template_id = ir_model_data.get_object_reference('zt_email_transfer', 'stock_transfer_email_template')[1]
+            template_id = self.env.ref('zt_email_transfer.stock_transfer_email_template').id
         except ValueError:
             template_id = False
         try:
-            compose_form_id = ir_model_data.get_object_reference('mail', 'email_compose_message_wizard_form')[1]
+            compose_form_id = self.env.ref('mail.email_compose_message_wizard_form').id
         except ValueError:
             compose_form_id = False
         ctx = {
             'default_model': 'stock.picking',
-            'default_res_id': self.ids[0],
+            'default_res_ids': self.ids,
             'default_use_template': bool(template_id),
             'default_template_id': template_id,
             'default_composition_mode': 'comment',

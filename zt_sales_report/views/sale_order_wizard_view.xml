@@ -26,11 +26,19 @@
         </field>
     </record>
 
-    <act_window id="action_report_wizard_sales"
+
+    <record id="action_report_wizard_sales" model="ir.actions.act_window">
+        <field name="name">Sales order Report</field>
+        <field name="res_model">sales.order.xlsx</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        
+    </record>
+    <!-- <act_window id="action_report_wizard_sales"
                 name="Sales order Report"
                 res_model="sales.order.xlsx"
                 view_mode="form"
-                target="new"/>
+                target="new"/> -->
 
     <menuitem action="action_report_wizard_sales"
               id="menu_sales_report_report"
@@ -67,11 +75,19 @@
         </field>
     </record>
 
-    <act_window id="action_report_wizard_crm"
+    <record id="action_report_wizard_crm" model="ir.actions.act_window">
+        <field name="name">CRM Report</field>
+        <field name="res_model">crm.order.xlsx</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        
+    </record>
+
+    <!-- <act_window id="action_report_wizard_crm"
                 name="CRM Report"
                 res_model="crm.order.xlsx"
                 view_mode="form"
-                target="new"/>
+                target="new"/> -->
 
     <menuitem action="action_report_wizard_crm"
               id="menu_crm_maison_report"

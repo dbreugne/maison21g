@@ -1,30 +1,33 @@
 <odoo>
     <data>
-
+        <!-- Sale Order Confirm Form View -->
         <record id="sale_order_confirm_view" model="ir.ui.view">
             <field name="name">sale.order.confirm.form</field>
             <field name="model">sale.order.confirm</field>
             <field name="arch" type="xml">
                 <form string="Confirm Sale">
-                    <p class="oe_grey">
-                        Only records of state Quotation and Quotation Sent will be Confirmed.
-                        Other will get skipped
+                    <p class="text-muted">
+                        Only records in the states 'Quotation' and 'Quotation Sent' will be confirmed.
+                        Others will be skipped.
                     </p>
                     <footer>
-                        <button string="Confirm" name="sale_confirm" type="object" default_focus="1" class="btn-primary"/>
-                        <button string="Cancel" class="btn-default" special="cancel"/>
+                        <button string="Confirm" name="sale_confirm" type="object"
+                                default_focus="1" class="btn btn-primary"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
                     </footer>
                 </form>
             </field>
         </record>
 
-        <act_window id="action_sale_confirm"
-            name="Confirm Quotation"
-            view_id="sale_order_confirm_view"
-            res_model="sale.order.confirm" binding_model="sale.order"
-            view_mode="form" target="new"/>
-
-
-
+        <!-- Action Window for Confirm Sale Order -->
+        <record id="action_sale_confirm" model="ir.actions.act_window">
+            <field name="name">Confirm Quotation</field>
+            <field name="view_id" ref="sale_order_confirm_view"/>
+            <field name="res_model">sale.order.confirm</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">form</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="target">new</field>
+        </record>
     </data>
 </odoo>

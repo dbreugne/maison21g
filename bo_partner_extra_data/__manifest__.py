@@ -1,5 +1,3 @@
-
-
 {
     'name': ' ZT-POS Customers DOB',
     'summary': 'ZT POS Customers DOB',
@@ -14,4 +12,5 @@
     ],
     'qweb': [],
     'application': True,
+    "license": "LGPL-3",
 }

@@ -94,3 +94,13 @@ class PosOrderLine(models.Model):
                     bottle_line = line.order_id.lines[idx]
                 if bottle_line:
                     line.bottle_line_id = bottle_line.id
+
+
+class PosSession(models.Model):
+    _inherit = 'pos.session'
+
+    def _loader_params_product_product(self):
+        result = super()._loader_params_product_product()
+        result['search_params']['fields'].extend(["is_scent", "is_bottle", "max_number_of_scents"])
+        return result
+

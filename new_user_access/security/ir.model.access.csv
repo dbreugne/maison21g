@@ -21,7 +21,6 @@ access_new_account_move_line,account.move.line,account.model_account_move_line,n
 
 access_new_account_analytic_line,account.analytic.line,account.model_account_analytic_line,new_user_access.group_new_inventory_user,1,0,0,0
 
-access_new_account_type,account.acount.type.purchase.user,account.model_account_account_type,new_user_access.group_new_inventory_user,1,0,0,0
 
 account_partial_reconcile,account.partial.reconcile.purchase.user,account.model_account_partial_reconcile,new_user_access.group_new_inventory_user,1,0,0,0
 

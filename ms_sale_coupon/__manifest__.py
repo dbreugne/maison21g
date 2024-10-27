@@ -1,7 +1,7 @@
 {
     'name': "Maison - Coupon",
     'summary': "Customization Coupon",
-    'version': '13.0.1.0.0',
+    'version': '17.0.1.0.0',
     'description': """
         v 1.0.0 (mfm) \n
         - Sale coupon report \n
@@ -10,12 +10,14 @@
     'website': "http://portcities.net",
     'category': 'Sales',
     'depends': [
-        'sale_coupon',
+        'base',
     ],
     'data': [
-        'data/report_paperformat.xml',
-        'reports/sale_coupon_report.xml',
+        #'data/report_paperformat.xml',
+        #'reports/sale_coupon_report.xml',
     ],
     'installable': True,
     'application': False,
+    "license": "LGPL-3",
+    
 }

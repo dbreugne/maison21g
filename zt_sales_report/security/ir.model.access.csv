@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_order_xlsx,crm_order_xlsx,model_crm_order_xlsx,,1,1,1,1
+access_sales_order_xlsx,sales_order_xlsx,model_sales_order_xlsx,,1,1,1,1

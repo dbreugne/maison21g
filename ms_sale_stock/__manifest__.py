@@ -1,7 +1,7 @@
 {
     'name': "Maison - Sale Stock",
     'summary': "Customization in Sale and Stock",
-    'version': '13.0.1.0.0',
+    'version': '17.0.1.0.0',
     'description': """
         v 1.0.0 (godelivadiva) \n
         - Sale coupon report \n
@@ -18,4 +18,6 @@
     ],
     'installable': True,
     'application': False,
+    "license": "LGPL-3",
+    
 }

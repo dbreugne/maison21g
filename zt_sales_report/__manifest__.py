@@ -21,17 +21,18 @@
 
     "name": "Sale And CRM Based xlsx Report",
     "summary": "Base module to create xlsx report",
-    "version": '13.0.0.0.0',
+    "version": '17.0.0.0.0',
     "sequence": 10,
     "author": "ZT-DEV",
     'summary': 'Analyse Your Sales And CRM Performance',
     "license": "AGPL-3",
     "depends":
         ['sale','base','crm','report_xlsx'],
-    "data":
-        ['views/sale_order_wizard_view.xml',
-         'views/crm_view.xml',
-         'report/report_xls.xml'],
+    "data":[
+        'security/ir.model.access.csv',
+        'views/sale_order_wizard_view.xml',
+        'views/crm_view.xml',
+        'report/report_xls.xml'],
     "installable": True,
     "application": True,
 

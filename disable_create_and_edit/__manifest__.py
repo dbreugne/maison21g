@@ -2,7 +2,7 @@
 
 {
     'name': 'Disable Create & Create and Edit',
-    'version': '11.0.1.0.0',
+    'version': '17.0.1.0.0',
     'category': 'Tools',
     'license': 'AGPL-3',
     'summary': 'Disable Create & Create and Edit on all objects',
@@ -16,5 +16,5 @@ Disable quick create on all objects of Odoo.
     'website': '',
     'depends': ['base'],
     'installable': True,
-    'data': ['views/many2one_view.xml',]
+    'data': []
 }

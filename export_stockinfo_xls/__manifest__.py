@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-#############################################################################
+###############################################################################
 #
 #    Cybrosys Technologies Pvt. Ltd.
 #
-#    Copyright (C) 2019-TODAY Cybrosys Technologies(<https://www.cybrosys.com>).
-#    Author:Cybrosys Techno Solutions(odoo@cybrosys.com)
+#    Copyright (C) 2023-TODAY Cybrosys Technologies(<https://www.cybrosys.com>)
+#    Author: Cybrosys Techno Solutions (odoo@cybrosys.com)
 #
 #    You can modify it under the terms of the GNU AFFERO
 #    GENERAL PUBLIC LICENSE (AGPL v3), Version 3.
@@ -18,28 +18,32 @@
 #    (AGPL v3) along with this program.
 #    If not, see <http://www.gnu.org/licenses/>.
 #
-#############################################################################
-
+###############################################################################
 {
     'name': 'Export Product Stock in Excel',
-    'version': '13.0.1.1.2',
-    'summary': "Current Stock Report for all Products in each Warehouse",
-    'description': "Current Stock Report for all Products in each Warehouse, Odoo 13,Odoo13",
+    'version': '17.0.1.0.0',
+    'summary': 'Advanced PDF & XLS reports for Product Stock.',
+    'description': 'Advanced PDF & XLS reports for Product Stock by'
+                   'corresponding warehouse and product categories.',
     'category': 'Warehouse',
     'author': 'Cybrosys Techno Solutions',
-    'maintainer': 'Cybrosys Techno Solutions',
     'company': 'Cybrosys Techno Solutions',
-    'website': 'https://www.cybrosys.com',
+    'maintainer': 'Cybrosys Techno Solutions',
     'depends': [
-                'base',
-                'stock',
-                'sale',
-                'purchase',
-                ],
+        'sale_management',
+        'stock',
+        'purchase',
+    ],
+    'website': 'https://www.cybrosys.com',
     'data': [
-            'views/wizard_view.xml',
-            'views/action_manager.xml',
-            ],
+        'security/ir.model.access.csv',
+        'wizard/stock_report_views.xml',
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'export_stockinfo_xls/static/src/js/action_manager.js',
+        ],
+    },
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
     'installable': True,

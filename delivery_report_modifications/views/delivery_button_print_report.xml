@@ -5,17 +5,16 @@
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" />
-                <t t-set="partner" t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+                <t t-set="partner" t-value="o.partner_id or (o.move_ids_without_package and o.move_ids_without_package[0].partner_id) or False"/>
                 <t t-if="partner" name="partner_header">
                     <t t-set="address">
-                        <div t-esc="partner"
-                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True}'/>
-                   </t>
+                        <div t-esc="partner" t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True}'/>
+                    </t>
                 </t>
-
                 <div class="page">
                     <h2>
-                       <h3> Delivery Note:</h3> <span t-field="o.name"/>
+                        <h3> Delivery Note:</h3>
+                        <span t-field="o.name"/>
                     </h2>
                     <div class="row mt32 mb32">
                         <div t-if="o.origin" class="col-auto" name="div_origin">
@@ -29,24 +28,30 @@
                             </t>
                             <t t-if="o.state != 'done'">
                                 <p t-field="o.scheduled_date"/>
-                           </t>
+                            </t>
                         </div>
-                        <div t-if="o.sale_id.x_studio_po_number" class="col-auto">
-                        <strong>PO :</strong>
-                        <p t-field="o.sale_id.x_studio_po_number"/>
-                    </div>
+                        <!--                        <div t-if="o.sale_id.x_studio_po_number" class="col-auto">-->
+                        <!--                            <strong>PO :</strong>-->
+                        <!--                            <p t-field="o.sale_id.x_studio_po_number"/>-->
+                        <!--                        </div>-->
 
                     </div>
                     <table class="table table-sm" name="stock_move_table" width="100%">
                         <thead>
                             <tr>
-                                <th name="th_sm_product"><strong>Product</strong></th>
-                                <th name="th_sm_quantity"><strong>Quantity</strong></th>
-                                <th name="th_sm_quantity"><strong>Barcode</strong></th>
+                                <th name="th_sm_product">
+                                    <strong>Product</strong>
+                                </th>
+                                <th name="th_sm_quantity">
+                                    <strong>Quantity</strong>
+                                </th>
+                                <th name="th_sm_quantity">
+                                    <strong>Barcode</strong>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty)"/>
+                            <t t-set="lines" t-value="o.move_ids_without_package.filtered(lambda x: x.product_uom_qty)"/>
                             <tr t-foreach="o.sale_id.order_line" t-as="move">
                                 <td>
                                     <span t-field="move.product_id"/>
@@ -60,23 +65,25 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><b>Total</b></td>
-                                <td ><span t-esc="sum(o.sale_id.order_line.mapped('product_uom_qty'))"/></td>
+                                <td>
+                                    <b>Total</b>
+                                </td>
+                                <td >
+                                    <span t-esc="sum(o.sale_id.order_line.mapped('product_uom_qty'))"/>
+                                </td>
                                 <td/>
                             </tr>
 
                         </tbody>
-        </table>
-
-
+                    </table>
                     <p>
                         <t t-if="o.backorder_ids and o.backorder_ids.filtered(lambda x: x.state not in ('done', 'cancel'))">
                             All items couldn't be shipped, the remaining ones will be shipped as soon as they become available.
                         </t>
                     </p>
                 </div>
-<div class="footer">
-                                        <div style="position:absolute;top:150px"  class="text-right page_number">
+                <div class="footer">
+                    <div style="position:absolute;top:150px" class="text-right page_number">
                         <div class="text-muted">
                             Page:
                             <span class="page"/>
@@ -85,76 +92,82 @@
                         </div>
                     </div>
 
-    <table class=" last-page" style="page-break-inside: avoid;">
-                    <tbody>
-                        <tr>
-                            <td width="50%"/>
-                            <td width="15%">
-                                <b>Received  By:</b>
-                            </td>
-                            <td width="35%">
+                    <table class=" last-page" style="page-break-inside: avoid;">
+                        <tbody>
+                            <tr>
+                                <td width="50%"/>
+                                <td width="15%">
+                                    <b>Received  By:</b>
+                                </td>
+                                <td width="35%">
 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td/>
-                            <td/>
-                            <td style="border-top: 2px solid black;">
-                                 <p>Please make sure all goods received in good condition(Company chop &amp; signature)<br/>Date:</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                                <div style="position:absolute;" class="text-left">
-                <div>
-                    Page: <span class="page"/> / <span class="topage"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td/>
+                                <td/>
+                                <td style="border-top: 2px solid black;">
+                                    <p>
+                                        Please make sure all goods received in good condition(Company chop &amp; signature)<br/>
+                                        Date:
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="position:absolute;" class="text-left">
+                    <div>
+                        Page: <span class="page"/>
+ /                        <span class="topage"/>
+                    </div>
                 </div>
-            </div>
 
 
-</div><!--                <div class="last-page" style="float:bottom;width:100%;height:50px;bottom:0;">-->
-<!--&lt;!&ndash;                <p>&ndash;&gt;-->
-<!--&lt;!&ndash;                    &ndash;&gt;-->
+            </div>            <!--                <div class="last-page" style="float:bottom;width:100%;height:50px;bottom:0;">-->
+            <!--&lt;!&ndash;                <p>&ndash;&gt;-->
+            <!--&lt;!&ndash;                    &ndash;&gt;-->
 
-<!--&lt;!&ndash;                </p>&ndash;&gt;-->
-<!--            </div>-->
+            <!--&lt;!&ndash;                </p>&ndash;&gt;-->
+            <!--            </div>-->
 
-            </t>
-         </t>
-    </template>
-
-    <template id="report_deliveryslip_so">
-        <t t-foreach="docs" t-as="o">
-            <t t-call="delivery_report_modifications.report_delivery_document_so" t-lang="o.partner_id.lang"/>
         </t>
-    </template>
+    </t>
+</template>
 
-    <record id="paperformat_euro_lowmargin_delivery_report" model="report.paperformat">
-        <field name="name">European A4 low margin</field>
-        <field name="default" eval="True"/>
-        <field name="format">A4</field>
-        <field name="page_height">0</field>
-        <field name="page_width">0</field>
-        <field name="orientation">Portrait</field>
-        <field name="margin_top">40.00</field>
-        <field name="margin_bottom">45.00</field>
-        <field name="margin_left">7.00</field>
-        <field name="margin_right">7.00</field>
-        <field name="header_line" eval="False"/>
-        <field name="header_spacing">35</field>
-        <field name="dpi">80</field>
-    </record>
+<template id="report_deliveryslip_so">
+    <t t-foreach="docs" t-as="o">
+        <t t-call="delivery_report_modifications.report_delivery_document_so" t-lang="o.partner_id.lang"/>
+    </t>
+</template>
 
-            <report
-            string="Delivery Slip"
-            id="action_report_delivery"
-            model="stock.picking"
-            report_type="qweb-pdf"
-            name="delivery_report_modifications.report_deliveryslip_so"
-            file="delivery_report_modifications.report_deliveryslip_so"
-            print_report_name="'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)"
-            paperformat="paperformat_euro_lowmargin_delivery_report"/>
+<record id="paperformat_euro_lowmargin_delivery_report" model="report.paperformat">
+    <field name="name">European A4 low margin</field>
+    <field name="default" eval="True"/>
+    <field name="format">A4</field>
+    <field name="page_height">0</field>
+    <field name="page_width">0</field>
+    <field name="orientation">Portrait</field>
+    <field name="margin_top">40.00</field>
+    <field name="margin_bottom">45.00</field>
+    <field name="margin_left">7.00</field>
+    <field name="margin_right">7.00</field>
+    <field name="header_line" eval="False"/>
+    <field name="header_spacing">35</field>
+    <field name="dpi">80</field>
+</record>
+
+<record id="action_report_delivery_new" model="ir.actions.report">
+    <field name="name">Invoices</field>
+    <field name="model">stock.picking</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">delivery_report_modifications.report_deliveryslip_so</field>
+    <field name="report_file">delivery_report_modifications.report_deliveryslip_so</field>
+    <field name="print_report_name">'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)</field>
+    <field name="binding_model_id" ref="model_stock_picking"/>
+    <field name="binding_type">report</field>
+</record>
+
+<report string="Delivery Slip" id="action_report_delivery" model="stock.picking" report_type="qweb-pdf" name="delivery_report_modifications.report_deliveryslip_so" file="delivery_report_modifications.report_deliveryslip_so" print_report_name="'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)" paperformat="paperformat_euro_lowmargin_delivery_report"/>
 
 
 </odoo>
-

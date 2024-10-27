@@ -1,6 +1,4 @@
 <odoo>
-
-
     <record model="ir.ui.view" id="attendance_recap_report_wizard">
         <field name="name">pos.order.xlsx</field>
         <field name="model">pos.order.xlsx</field>
@@ -17,18 +15,19 @@
                 </group>
                 <footer>
                     <button name="get_report" string="Get Report" type="object" class="oe_highlight"/>
-<!--                     <button name="get_pdf_report" string="Get PDF Report" type="object" class="oe_highlight"/>-->
                     <button string="Cancel" special="cancel"/>
                 </footer>
             </form>
         </field>
     </record>
 
-    <act_window id="action_report_wizard"
-                name="Pos order xlsx report"
-                res_model="pos.order.xlsx"
-                view_mode="form"
-                target="new"/>
+     <record id="action_report_wizard" model="ir.actions.act_window">
+        <field name="name">Pos order xlsx report</field>
+        <field name="res_model">pos.order.xlsx</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
 
     <menuitem action="action_report_wizard"
               id="menu_attendance_report_wizard"

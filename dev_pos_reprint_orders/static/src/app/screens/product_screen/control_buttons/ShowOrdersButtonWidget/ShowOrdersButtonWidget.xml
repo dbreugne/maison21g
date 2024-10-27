@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="dev_pos_reprint_orders.ShowOrdersButtonWidget">
+        <button class="control-button btn btn-light rounded-0 fw-bolder" t-on-click="() => this.click()">
+            <span>Show Orders</span>
+        </button>
+    </t>
+</templates>

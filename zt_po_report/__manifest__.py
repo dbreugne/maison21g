@@ -18,14 +18,15 @@
 
     "name": "PO xlsx Report",
     "summary": "Module For PO Summary Report",
-    "version": '13.0.0.0.0',
+    "version": '17.0.0.0.0',
     "sequence": 10,
     "author": "ZT-DEV",
     "license": "AGPL-3",
     "depends":
         ['purchase','report_xlsx'],
     "data":
-        [
+        [   
+            'security/ir.model.access.csv',
             'views/purchase_order_wizard_view.xml',
             'report/report_xls.xml'],
     "installable": True,

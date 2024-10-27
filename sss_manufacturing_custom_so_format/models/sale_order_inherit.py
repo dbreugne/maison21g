@@ -9,12 +9,16 @@ class SaleOrderInherit(models.Model):
     _inherit = 'sale.order'
 
     mo_status = fields.Selection([('pending_manufacturing', 'Pending Manufacturing'), ('manufacturing_in_progress',
-                                 'Manufacturing in Progress'), ('ready_to_ship', 'Ready to Ship'), ('partially_under_manufacturing', 'Partially Under Manufacturing'), ('partially_manufactured', 'Partially Manufactured'), ('cancel', 'Cancel Manufacturing')], string="MO Status", copy=False, readonly=True)
+                                                                                       'Manufacturing in Progress'),
+                                  ('ready_to_ship', 'Ready to Ship'),
+                                  ('partially_under_manufacturing', 'Partially Under Manufacturing'),
+                                  ('partially_manufactured', 'Partially Manufactured'),
+                                  ('cancel', 'Cancel Manufacturing')], string="MO Status", copy=False, readonly=True)
     manufacturing_count = fields.Integer(
         string="Manufacturing Order", compute="_compute_manufacturing_count", copy=False)
     manufacturing_ids = fields.Many2many('mrp.production', 'manufacturing_order_type',
                                          'saleorder_id', 'mrpproduction_id', string='Manufacturing Orders', copy=False)
-    lot_ids = fields.Many2many('stock.production.lot', 'lot_sale_rel', 'lot_id', 'sale_id', string="Lot Numbers")
+    lot_ids = fields.Many2many('stock.lot', 'lot_sale_rel', 'lot_id', 'sale_id', string="Lot Numbers")
     expiry_date = fields.Date(string="Expiry Date")
 
     @api.model
@@ -30,7 +34,8 @@ class SaleOrderInherit(models.Model):
         location = False
         company_id = self.env.context.get('default_company_id', self.env.company.id)
         if self.env.context.get('default_picking_type_id'):
-            location = self.env['stock.picking.type'].browse(self.env.context['default_picking_type_id']).default_location_src_id
+            location = self.env['stock.picking.type'].browse(
+                self.env.context['default_picking_type_id']).default_location_src_id
         if not location:
             location = self.env['stock.warehouse'].search([('company_id', '=', company_id)], limit=1).lot_stock_id
         # a
@@ -42,13 +47,13 @@ class SaleOrderInherit(models.Model):
         for sale in self:
             for rec in sale.order_line:
                 routes = []
-                route_ids = self.env['stock.location.route'].search([('name', '=', 'Replenish on Order (MTO)')])
-                route_idss = self.env['stock.location.route'].search([('name', '=', 'Manufacture')])
+                route_ids = self.env['stock.route'].search([('name', '=', 'Replenish on Order (MTO)')])
+                route_idss = self.env['stock.route'].search([('name', '=', 'Manufacture')])
                 routes.append(route_ids.id)
                 routes.append(route_idss.id)
                 if routes == rec.product_id.route_ids.ids and rec.available_qty <= rec.product_uom_qty:
                     rec.order_id.mo_status = 'pending_manufacturing'
-                elif rec.available_qty <= rec.product_uom_qty and rec.product_id.bom_ids and routes != rec.product_id.route_ids.ids:
+                elif rec.qty_available_today <= rec.product_uom_qty and rec.product_id.bom_ids and routes != rec.product_id.route_ids.ids:
                     for bom in rec.product_id.bom_ids:
                         mo_values = {
                             'origin': sale.name,
@@ -57,10 +62,9 @@ class SaleOrderInherit(models.Model):
                             'product_uom_id': rec.product_uom.id,
                             'bom_id': bom.id,
                             'date_deadline': sale.date_order,
-                            'date_planned_finished': sale.date_order,
-                            'date_planned_start': sale.date_order,
+                            'date_finished': sale.date_order,
+                            'date_start': sale.date_order,
                             'procurement_group_id': False,
-                            'propagate_date': sale.date_order,
                             'company_id': sale.company_id.id,
                             # 'location_src_id': self._get_default_location_src_id(),
                             'user_id': False

@@ -3,7 +3,7 @@
 
 {
     'name': 'Project Task',
-    'version': '13.0.8',
+    'version': '17.0.1.0',
     'sequence': 1,
     'category': 'Project Task',
     'description':
@@ -20,4 +20,6 @@
     'installable': True,
     'application': True,
     'auto_install': False,
+    "license": "LGPL-3",
+    
 }

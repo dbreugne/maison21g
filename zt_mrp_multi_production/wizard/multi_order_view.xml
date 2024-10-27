@@ -20,7 +20,11 @@
                 <group>
                     <field name="name"/>
                     <field name="picking_type_id" invisible="1"/>
-                    <field name="multimrp_order_line_ids">
+
+                </group>
+                <notebook>
+                    <page string="Lines">
+                    <field name="multimrp_order_line_ids" nolabel="1">
                         <tree editable="bottom">
                             <field name="product_id" required="True"/>
                             <field name="product_uom_id"/>
@@ -36,8 +40,9 @@
 
                         </tree>
                     </field>
+                </page>
+                </notebook>
 
-                </group>
 
                 <footer>
                     <button name="generate_mrp_batch" string="Generate Batch MRP" type="object" class="btn-primary"/>

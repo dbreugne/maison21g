@@ -1,6 +1,6 @@
 {
     "name"          : "Stock Report",
-    "version"       : "1.0",
+    "version"       : "17.0.0.1.0",
     "author"        : "Miftahussalam",
     "website"       : "https://blog.miftahussalam.com",
     "category"      : "Reporting",
@@ -15,6 +15,7 @@
         "stock",
     ],
     "data"          : [
+        "security/ir.model.access.csv",
         "wizard/ms_report_stock_wizard.xml",
     ],
     "demo"          : [],
