@@ -12,7 +12,7 @@
     'summary': 'Add Perfume Configurator.',
     'author': 'Portcities Ltd',
     'website': 'http://portcities.net',
-    'depends': ['point_of_sale', 'account', 'sale','dev_pos_line_section'],
+    'depends': ['point_of_sale', 'account', 'sale','dev_pos_line_section','web'],
     'data': [
         'reports/pos_order_report.xml',
         'data/server_actions_bottle.xml',
@@ -24,9 +24,16 @@
 
     'assets': {
         'point_of_sale._assets_pos': [
+
+            'web/static/lib/select2/select2.css',
+            'web/static/lib/select2-bootstrap-css/select2-bootstrap.css',
             'ms_pos_product_config/static/src/app/Popup/PerfumeConfiguratorPopup.js',
             'ms_pos_product_config/static/src/app/models/pos_model.js',
+            'ms_pos_product_config/static/src/app/xml/design.css',
             'ms_pos_product_config/static/src/app/xml/Parfume_config_popup.xml',
+            '/web/static/lib/select2/select2.js',
+
+
         ],
     },
 

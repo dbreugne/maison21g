@@ -29,15 +29,73 @@ export class PerfumeConfigWidget extends AbstractAwaitablePopup {
 
     onMounted() {
         $("#select_scent_container").hide()
+
+//   $("#SelExample").select2("val", "4");
+// $('#SelExample option:selected').text('Vizag');
+  // Read selected option
+  // $('#but_read').click(function(){
+  //   var username = $('#SelExample option:selected').text();
+  //   var userid = $('#SelExample').val();
+
+  //   // $('#result').text("id : " + userid + ", name : " + username);
+  // });
     }
 
     addScentHandler() {
-        $("#add_scent_container").hide()
-        $("#select_scent_container").show()
+        
+
+
+        // $("#select_scent_container").show()
+        var data=$("#select_scent_container")
+        var node = document.createElement('tr');
+        node.className = 'new_scent'
+        var el_node = data[0].innerHTML;
+        node.innerHTML = el_node
+        var delete_button = node.querySelector('button.delete_scent');
+        delete_button.addEventListener('click', (function(ev) {
+            this.remove_scent_handler(ev, $(ev.currentTarget))
+        }.bind(this)));
+        // var input_scent = node.querySelector('input.scent_id');
+        // input_scent.addEventListener('change', function(ev){
+        //     this.onchange_scent_handler(ev, $(ev.currentTarget));
+        // }.bind(this));
+        var product_scents = this.pos.db.product_scents;
+        var scents = []
+        
+       product_scents.forEach((product) => {
+                        scents.push({
+                            id: product.id,
+                            text: product.display_name
+                        })
+                    })
+        
+        $(node).insertBefore(data[0]);
+        $(node).find("#scent_id").select2({
+           width: '100%',
+                        allowClear: true,
+                        multiple: false,
+                        // maximumSelectionSize: 1,
+                        placeholder: "Type Scent",
+                        data: scents
+       });
+        
+        
 
         this.remaining_scents-=1
+        if(this.remaining_scents==0){
+            $("#add_scent_container").hide()
+        }
         
     }
+
+
+    remove_scent_handler(event, $el){
+            $el.parent().parent().remove()
+            this.remaining_scents += 1;
+            if(this.remaining_scents > 0 && $('#add_scent_container').is(':hidden')){
+                $("#add_scent_container").show()
+            }
+        }
 
     deleteScent(){
         this.remaining_scents += 1;
@@ -80,51 +138,59 @@ export class PerfumeConfigWidget extends AbstractAwaitablePopup {
         }
 
         var scent_prod_id = false
-        if ($("#select_scent_container").is(":visible")){
+        if ($(".new_scent").length>0){
+            var i;
+            for (i = 0; i < $(".new_scent").length; ++i) {
 
-            scent_prod_id = $('#scent_id').find(":selected").val();
+            scent_prod_id = $($(".new_scent")[i]).find('#scent_id').val();
             if (!scent_prod_id){
                 alert("A Scent Is Required")
-                $('#scent_id').css('border', '1px solid red');
+                $($(".new_scent")[i]).find('#scent_id').css('border', '1px solid red');
                 valid = false
                 return false
             }else{
-                $('#scent_id').css('border', 'none');
+                 $($(".new_scent")[i]).find('#scent_id').css('border', 'none');
             }
 
-            var scent_qty = $('#scent_qty').val();
+            var scent_qty =  $($(".new_scent")[i]).find('#scent_qty').val();
             if (!scent_qty){
                 alert("A Scent Qty Is Required")
-                $('#scent_qty').css('border', '1px solid red');
+                 $($(".new_scent")[i]).find('#scent_qty').css('border', '1px solid red');
                 valid = false
             }else{
-                $('#scent_qty').css('border', 'none');
+                 $($(".new_scent")[i]).find('#scent_qty').css('border', 'none');
             }
         }
+        }
+        
 
         if (!valid){
             return false
         }
+        var i;
+        for (i = 0; i < $(".new_scent").length; ++i) {
+            scent_prod_id = $($(".new_scent")[i]).find('#scent_id').val();
+            var scent_qty =  $($(".new_scent")[i]).find('#scent_qty').val();
+            if (scent_prod_id){
+                var product = self.pos.db.get_product_by_id(scent_prod_id);
+                // nambah order line
+                var scent_line = new Orderline(
+                    { env: this.env },
+                    {
+                        pos: this.pos,
+                        order: order,
+                        product: product,
+                    }
+                );
 
-        if (scent_prod_id){
-            var product = self.pos.db.get_product_by_id(scent_prod_id);
-            // nambah order line
-            var scent_line = new Orderline(
-                { env: this.env },
-                {
-                    pos: this.pos,
-                    order: order,
-                    product: product,
-                }
-            );
-
-            scent_line.set_quantity(scent_qty);
-            scent_line.set_unit_price(product.get_price(order.pricelist, scent_qty));
-            scent_line.bottle_line_idx = bottle_line_idx;
-            self.bottle_order_line.scent_lines.push(scent_line)
-            order.orderlines.add(scent_line, {at: idx});
-            idx+=1;
-            self.bottle_order_line.remaining_scents -= 1;
+                scent_line.set_quantity(scent_qty);
+                scent_line.set_unit_price(product.get_price(order.pricelist, scent_qty));
+                scent_line.bottle_line_idx = bottle_line_idx;
+                self.bottle_order_line.scent_lines.push(scent_line)
+                order.orderlines.add(scent_line, {at: idx});
+                idx+=1;
+                self.bottle_order_line.remaining_scents -= 1;
+            }
         }
 
         var section_line = new Orderline(
@@ -163,3 +229,6 @@ export class PerfumeConfigWidget extends AbstractAwaitablePopup {
     }
     
 }
+
+
+
