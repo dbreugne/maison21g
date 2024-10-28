@@ -5,6 +5,8 @@
             <div class="modal-header drag-handle">
                 <h4 class="modal-title">Bottle Creation</h4>
             </div>
+
+            
             
             <div class="modal-body">
                 <div class="table-responsive js-selected-scent-list" style="padding-top: 5px;">
@@ -56,15 +58,16 @@
 
                                         <tr id="select_scent_container">
                                             <td class="text-center" style="padding-top: 10px;">
+                                                <input type="text" id="scent_id" name="scent[]['id']" class="scent_id" required="True"/>
 
-                                                <select id="scent_id" placeholder="Select Scent...">
+                                                <!-- <select id="scent_id" placeholder="Select Scent...">
                                                     <option value="">None</option>
                                                     <t t-foreach="pos.db.product_scents" t-as="prod" t-key="prod.id">
                                                         <option t-att-value="prod.id">
                                                             <t t-esc="prod.display_name" />
                                                         </option>
                                                     </t>
-                                                </select>
+                                                </select> -->
                                             </td>
                                             <td class="text-center" style="padding-top: 10px;">
                                                 <input type="number" name="scent_qty" id="scent_qty" placeholder="Scent Qty" required="True"/>
