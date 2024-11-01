@@ -1,7 +1,7 @@
 
 {
     'name': 'Gernal Ledger Report Account Analytic', 
-    'version': '17.0.2.0.1',
+    'version': '17.0.2.0.2',
     'sequence': 1, 
     'category': 'Gernal Ledger Report Account Analytic', 
     'description': 
@@ -13,6 +13,7 @@
     'website': 'http://www.de.com',
     'depends': ['account', 'account_reports', 'web'],
     'data': [
+    'report/account_gernal_report.xml'
     ],
     'installable': True,
     'application': True,
