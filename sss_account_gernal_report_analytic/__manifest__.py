@@ -13,6 +13,7 @@
     'website': 'http://www.de.com',
     'depends': ['account', 'account_reports', 'web'],
     'data': [
+    'report/account_gernal_report.xml'
     ],
     'installable': True,
     'application': True,
