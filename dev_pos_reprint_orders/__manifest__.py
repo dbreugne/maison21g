@@ -42,6 +42,10 @@ POS Orders Reprint
             'dev_pos_reprint_orders/static/src/app/screens/receipt_screen/receipt/order_reprint_screen.js',
             'dev_pos_reprint_orders/static/src/app/screens/receipt_screen/receipt/order_reprint_screen.xml',
 
+
+            'dev_pos_reprint_orders/static/src/app/screens/ticketscreen/ticketscreeninherit.xml',
+            'dev_pos_reprint_orders/static/src/app/screens/ticketscreen/ticket_screen.js',
+
             'dev_pos_reprint_orders/static/src/app/models/db.js',
         ],
     },
