@@ -12,9 +12,10 @@ export class ShowOrdersButtonWidget extends Component {
     }
     
     click() {
-        this.pos.showScreen('OrderListScreenWidget', {
-            'select_order_id': false,
-        });
+        // this.pos.showScreen('OrderListScreenWidget', {
+        //     'select_order_id': false,
+        // });
+        this.pos.showScreen("TicketScreen");
     }
 }
 
