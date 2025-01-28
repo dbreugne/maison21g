@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id ="group_show_split_invoice_button" model="res.groups">
+        <field name="name">Allow Extract/Split Invoice</field>
+    </record>
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <record id="account_move_splitting_action" model="ir.actions.act_window">
+        <field name="name">Splited Invoice</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.move</field>
+        <field name="domain">[('is_split_from', '=', active_id)]</field>
+        <field name="context">{'default_is_split_from' : active_id}</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <record id="account_move_extracted_action" model="ir.actions.act_window">
+        <field name="name">Extracted Invoice</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.move</field>
+        <field name="domain">[('is_extracted_from', '=', active_id)]</field>
+        <field name="context">{'default_is_extracted_from' : active_id}</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
