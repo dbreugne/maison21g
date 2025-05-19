@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+  
+   <menuitem name="Marina Bay" id="menu_marina_bay" parent="sale.menu_sale_config" sequence="16" />
+   
+   <record id="order_data_hourly_search" model="ir.ui.view">
+      <field name="name">order.data.hourly.search</field>
+      <field name="model">order.data.hourly</field>
+      <field name="type">search</field>
+      <field name="arch" type="xml">
+        <search string="Search Projects">
+          <filter string="Synced" name="synced" domain="[('state','=','synced')]"/> 
+          <filter string="Failed" name="failed" domain="[('state','=','failed')]"/> 
+          <separator/>
+          <group expand="0" string="Group By"> 
+            <filter string="Date" name="date" context="{'group_by': 'date'}"/>
+            <filter string="Hour" name="hour" context="{'group_by': 'hour'}"/> 
+          </group>
+        </search>
+      </field>
+    </record>
+
+  
+    <record model="ir.ui.view" id="order_data_hourly_tree">
+      <field name="name">Order Data Hourly tree</field>
+      <field name="model">order.data.hourly</field>
+      <field name="type">tree</field>
+      <field name="arch" type="xml">
+        <tree string='Order data Hourly' create="false">
+          <field name="machineid"  />  
+          <field name="date"/>
+          <field name="hour" /> 
+          <field name="receiptcount" /> 
+          <field name="gto" /> 
+          <field name="gst" /> 
+          <field name="discount" /> 
+          <field name="gstregistered" /> 
+          <field name="batchid"/>
+          <field name="servicecharge"/>
+          <field name="noofpax"/>
+          <field name="cash"/>
+          <field name="nets"/>
+          <field name="visa"/>
+          <field name="mastercard"/>
+          <field name="amex"/>
+          <field name="voucher"/>
+          <field name="othersamount"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="order_data_hourly_form">
+      <field name="name">Order Data Hourly form</field>
+      <field name="model">order.data.hourly</field>
+      <field name="arch" type="xml">
+        <form>
+          <header> 
+            <field name="state" widget="statusbar"/>
+          </header>
+          <sheet>               
+            <div class="oe_title">
+              <h1>
+                <field name="name" />
+              </h1>
+            </div>
+            <group> 
+              <group> 
+                <field name="machineid" readonly="1" />  
+                <field name="hour" readonly="1" /> 
+                <field name="receiptcount" readonly="1" /> 
+                <field name="gto" readonly="1" /> 
+                <field name="gst" readonly="1" /> 
+                <field name="discount" readonly="1" /> 
+                <field name="gstregistered" readonly="1" /> 
+                <field name="amex" readonly="1" />
+                <field name="voucher" readonly="1" />
+                <field name="othersamount" readonly="1" />
+              </group>
+              <group>
+                <field name="date" readonly="1"/>
+                <field name="batchid" readonly="1" />
+                <field name="servicecharge" readonly="1" />
+                <field name="noofpax" readonly="1" />
+                <field name="cash" readonly="1" />
+                <field name="nets" readonly="1" />
+                <field name="visa" readonly="1" />
+                <field name="mastercard" readonly="1" />
+                <field name="order_ids"  widget="many2many_tags" readonly="1" />
+                <field name="partner_ids"  widget="many2many_tags" readonly="1" />
+              </group> 
+            </group> 
+          </sheet>   
+        </form>
+      </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="action_order_data_hourly">
+      <field name="name">Order Data Hourly</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">order.data.hourly</field>
+      <field name="context">{'create':False,'edit':False}</field>
+      <field name="view_mode">tree,form</field>    
+    </record>
+
+    <menuitem id="menu_order_hr_server" parent="menu_marina_bay" sequence="2" action="action_order_data_hourly"/>
+
+
+    <record id="view_partner_form_mbs" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.mbs</field>
+        <field name="model">res.partner</field>
+        <field name="priority" eval="50"/>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_type']" position="after">
+              <field name="is_mbs"/>
+              <label for="is_mbs"/>
+            </xpath>
+        </field>
+    </record> 
+        
+  </data>
+</odoo>                
+                

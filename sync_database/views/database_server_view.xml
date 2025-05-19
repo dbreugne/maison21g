@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <record id="view_stock_warehouse_inherit_custom" model="ir.ui.view">
+        <field name="name">stock.warehouse.form.inherit.l10n.in.stock</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="is_mbs"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="database_server_form">
+      <field name="name">Database Synchronization</field>
+      <field name="model">database.sync</field>
+      <field name="arch" type="xml">
+        <form string="SFTP Connection" >
+          <header>
+            <button name="get_token" type='object' class="btn-primary" string='Get Token' style="width: max-content;" invisible="state == 'active'"/> 
+            <button name="sync_draft_order" type='object' class="btn-primary" string='Sync Data' style="width: max-content;"/> 
+            <button name="sync_failed_order" type='object' class="btn-primary" string='Re-Sync Data' style="width: max-content;"/> 
+            <button name="set_to_draft" type='object' class="btn-primary" string='Reset' style="width: max-content;" invisible="state != 'active'"/>
+            <field name="state" widget="statusbar"/>
+          </header>
+          <sheet>  
+            <div class="oe_horizontal_separator oe_clear ">
+              Server API Settings
+            </div>               
+            <div class="oe_title">
+              <h1>
+                <field name="name" placeholder="Connetion to"/>
+              </h1>
+            </div>
+            <group>
+              <label for="url_token"/>
+              <h3><field name="url_token" colspan="4" placeholder="token url" required="1" readonly="state == 'active'" /></h3> 
+              <label for="url_order"/>
+              <h3><field name="url_order" colspan="4" placeholder="order data url" required="1" /></h3>
+            </group>
+            <group>
+              <group>
+                <field name="token"/>
+                <field name="machine_id"/>
+              </group> 
+              <group>
+                <field name="username" readonly="state == 'active'"/>
+                <field name="password" readonly="state == 'active'"/>
+                <field name="batchid" readonly="state == 'active'"/>
+              </group>
+            </group>
+          </sheet>  
+          <div class="oe_chatter">
+            <field name="message_follower_ids"/>
+            <field name="activity_ids"/>
+            <field name="message_ids"/>
+          </div>
+        </form>
+      </field>
+    </record>
+
+       <record model="ir.ui.view" id="database_server_tree">
+           <field name="name">Get Vehicle Details</field>
+           <field name="model">database.sync</field>
+           <field name="type">tree</field>
+           <field name="arch" type="xml">
+               <tree string='Database Information'>
+                   <field name="name"></field>
+                   <field name="machine_id"/>
+                   <field name="username"></field> 
+                   <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_database_server">
+            <field name="name">Order Data Sync</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">database.sync</field>
+            <field name="view_mode">tree,form</field>   
+            <field name="view_id" ref="database_server_tree"/>
+        </record>
+
+        <menuitem id="menu_db_server" parent="menu_marina_bay" sequence="3" action="action_database_server"/>
+ 
+        
+    </data>
+</odoo>                
+                

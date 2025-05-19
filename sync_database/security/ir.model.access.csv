@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_database_sync,access.database.sync,model_database_sync,base.group_user,1,1,0,0
+access_wizard_message,access.wizard.message,model_wizard_message,base.group_user,1,1,1,1
+access_order_data_hourly,order_data_hourly,model_order_data_hourly,base.group_user,1,1,1,1
+access_generate_record,generate_record,model_generate_record,base.group_user,1,1,1,1
