@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend POS Order Form View -->
+    <record id="view_pos_order_form_inherit_tangent" model="ir.ui.view">
+        <field name="name">pos.order.form.inherit.tangent</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Tangent API Information" name="tangent_api_info">
+                    <group>
+                        <group>
+                            <field name="tangent_api_sync_date" readonly="1"/>
+                            <field name="tangent_api_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="API Response" invisible="not tangent_api_response">
+                        <field name="tangent_api_response" widget="ace" options="{'mode': 'json'}" readonly="1" nolabel="1"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

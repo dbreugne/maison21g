@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tangent_api_config_admin,tangent.api.config admin,model_tangent_api_config,base.group_system,1,1,1,1
+access_tangent_api_config_user,tangent.api.config user,model_tangent_api_config,base.group_user,1,1,1,1
+access_tangent_api_log_admin,tangent.api.log admin,model_tangent_api_log,base.group_system,1,1,1,1
+access_tangent_api_log_user,tangent.api.log user,model_tangent_api_log,base.group_user,1,1,1,1
+access_tangent_sync_date_wizard,tangent.sync.date.wizard,model_tangent_sync_date_wizard,base.group_user,1,1,1,1
