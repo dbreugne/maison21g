@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tangent API Configuration Form View -->
+    <record id="view_tangent_api_config_form" model="ir.ui.view">
+        <field name="name">tangent.api.config.form</field>
+        <field name="model">tangent.api.config</field>
+        <field name="arch" type="xml">
+            <form string="Tangent API Configuration">
+                <header>
+                    <button 
+                        name="%(oe_sale_tangent_sync.action_tangent_sync_date_wizard)s" 
+                        string="Synchronize" 
+                        type="action" 
+                        class="btn-primary" 
+                        help="Manually trigger synchronization of orders data"
+                        invisible="not active"
+                        context="{'default_api_config_id': active_id}"
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button 
+                            name="%(oe_sale_tangent_sync.action_tangent_api_log)s" 
+                            type="action"
+                            class="oe_stat_button" icon="fa-list"
+                            context="{'search_default_config_id': active_id}">
+                            <span>API Logs</span>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. Tangent Production API"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="endpoint_url" placeholder="https://api.tangent.example.com"/>
+                            <field name="username"/>
+                            <field name="password" password="True"/>
+                            <field name="machine_id"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="is_sale_included"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="POS Terminals" name="pos_terminals">
+                            <field name="pos_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tangent API Configuration Tree View -->
+    <record id="view_tangent_api_config_tree" model="ir.ui.view">
+        <field name="name">tangent.api.config.tree</field>
+        <field name="model">tangent.api.config</field>
+        <field name="arch" type="xml">
+            <tree string="Tangent API Configurations">
+                <field name="name"/>
+                <field name="endpoint_url"/>
+                <field name="username"/>
+                <field name="machine_id"/>
+                <field name="is_sale_included"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Tangent API Configuration Search View -->
+    <record id="view_tangent_api_config_search" model="ir.ui.view">
+        <field name="name">tangent.api.config.search</field>
+        <field name="model">tangent.api.config</field>
+        <field name="arch" type="xml">
+            <search string="Search Tangent API Configurations">
+                <field name="name"/>
+                <field name="endpoint_url"/>
+                <field name="username"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Company" name="company" domain="[]" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Tangent API Configuration Action -->
+    <record id="action_tangent_api_config" model="ir.actions.act_window">
+        <field name="name">Tangent API Configuration</field>
+        <field name="res_model">tangent.api.config</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Tangent API configuration
+            </p>
+            <p>
+                Configure the connection to the Tangent API for POS and Sales synchronization.
+            </p>
+        </field>
+    </record>
+    
+    <!-- Add API Logs button to API Config form -->
+    <!-- <record id="view_tangent_api_config_form_with_logs" model="ir.ui.view">
+        <field name="name">tangent.api.config.form.with.logs</field>
+        <field name="model">tangent.api.config</field>
+        <field name="inherit_id" ref="view_tangent_api_config_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button 
+                    name="%(oe_sale_tangent_sync.action_tangent_api_log)s" 
+                    type="action"
+                    class="oe_stat_button" icon="fa-list"
+                    context="{'search_default_config_id': active_id}">
+                    <span>API Logs</span>
+                </button>
+            </div>
+        </field>
+    </record> -->
+
+    <menuitem
+        id="tangent_api_menu"
+        name="Tangent API"
+        parent="base.menu_administration"
+    />
+
+    <!-- Tangent API Configuration Menu -->
+    <menuitem id="menu_tangent_api_config"
+              name="API Configuration"
+              parent="tangent_api_menu"
+              action="action_tangent_api_config"
+              sequence="10"/>
+
+    <!-- Add API Logs menu under Tangent API menu -->
+    <menuitem id="menu_tangent_api_log"
+              name="API Logs"
+              parent="tangent_api_menu"
+              action="action_tangent_api_log"
+              sequence="20"/>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Scheduled Action for Tangent API Synchronization -->
+        <record id="ir_cron_tangent_api_sync" model="ir.cron">
+            <field name="name">Tangent API: Synchronize Orders</field>
+            <field name="model_id" ref="model_tangent_api_config"/>
+            <field name="state">code</field>
+            <field name="code">model.sync_all()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_root"/>
+        </record>
+    </data>
+</odoo>
