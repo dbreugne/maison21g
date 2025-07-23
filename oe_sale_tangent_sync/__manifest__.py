@@ -5,7 +5,7 @@
     'category': 'Sales',
     'summary': 'Integration with Tangent API for POS and Sales',
     'description': """
-        This module provides integration with Tangent API for POS and Sales synchronization.
+        This module provides integration with Tangent API for POS and Sales synchronization
     """,
     'author': 'Odoo Edge',
     'depends': ['base', 'sale', 'point_of_sale'],
