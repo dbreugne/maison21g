@@ -19,6 +19,7 @@ class TangentApiLog(models.Model):
         ('PUT', 'PUT'),
         ('DELETE', 'DELETE'),
     ], string='HTTP Method', required=True, default='POST')
+    order_date = fields.Date('Order Date')
     request_headers = fields.Text('Request Headers')
     request_params = fields.Text('Request Parameters')
     request_body = fields.Text('Request Body')

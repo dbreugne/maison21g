@@ -22,6 +22,7 @@
                             <field name="processing_time"/>
                         </group>
                         <group>
+                            <field name="order_date"/>
                             <field name="create_date"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                             <field name="pos_order_count" string="POS Orders"/>
@@ -108,6 +109,7 @@
                     <filter string="API Config" name="config_id" domain="[]" context="{'group_by': 'config_id'}"/>
                     <filter string="HTTP Method" name="http_method" domain="[]" context="{'group_by': 'http_method'}"/>
                     <filter string="Status" name="is_success" domain="[]" context="{'group_by': 'is_success'}"/>
+                    <filter string="Order Date" name="order_date" domain="[]" context="{'group_by': 'order_date:day'}"/>
                     <filter string="Date" name="create_date" domain="[]" context="{'group_by': 'create_date:day'}"/>
                 </group>
             </search>
@@ -119,7 +121,7 @@
         <field name="name">API Logs</field>
         <field name="res_model">tangent.api.log</field>
         <field name="view_mode">tree,form</field>
-        <field name="context">{'search_default_create_date': 1, 'create': False}</field>
+        <field name="context">{'search_default_order_date': 1, 'create': False}</field>
         <!-- <field name="flags">{'create': False, 'write': False, 'delete': False}</field> -->
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
