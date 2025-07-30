@@ -271,12 +271,12 @@ class TangentApiConfig(models.Model):
             sale_domain = [
                 ('is_sync_included', '=', True),
                 ('tangent_api_sync_date', '=', False),
-                ('state', '=', 'sale'),  # Confirmed orders
-                ('invoice_ids', '!=', False),  # Has invoices
+                ('state', '=', 'sale'),
+                ('invoice_ids', '!=', False)
             ]
             
             # Get all Sale orders that match the criteria
-            sale_orders = self.env['sale.order'].search(sale_domain)
+            sale_orders = self.env['sale.order'].sudo().search(sale_domain)
             
             paid_invoice_status = ['paid', 'partial', 'in_payment'] 
             # Filter orders with invoices that are paid or partially paid
@@ -458,7 +458,14 @@ class TangentApiConfig(models.Model):
                 start_time = time.time()
                 response = False
                 if len(pos_orders) <= 0 and len(sale_orders) <= 0:
-                    raise UserError(_("No sale orders or POS orders found to synchronize."))
+                    api_log.write({
+                        'response_status': 500,
+                        'response_body': '{"error": "Internal error", "message": "No sale orders or POS orders found to synchronize"}',
+                        'is_success': False,
+                        'error_message': "No sale orders or POS orders found to synchronize.",
+                        'processing_time': 0,
+                    })
+                    continue                
                 try:
                     headers = {
                         'Content-Type': 'application/json',
