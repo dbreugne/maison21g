@@ -440,17 +440,6 @@ class TangentApiConfig(models.Model):
                         'error_message': 'Failed to obtain API token',
                         'processing_time': f"{time.time() - start_time} seconds",
                     })
-                    
-                    return {
-                        'type': 'ir.actions.client',
-                        'tag': 'display_notification',
-                        'params': {
-                            'title': _('Authentication Failed'),
-                            'message': _('Could not obtain API token. Check your credentials.'),
-                            'sticky': False,
-                            'type': 'warning',
-                        }
-                    }
                 # Update main log with final status
                 data = order_datas.get('data', False)
                 pos_orders = order_datas.get('pos_orders', [])
@@ -512,16 +501,6 @@ class TangentApiConfig(models.Model):
                         'error_message': str(e),
                         'processing_time': 0,
                     })
-                    return {
-                        'type': 'ir.actions.client',
-                        'tag': 'display_notification',
-                        'params': {
-                            'title': _('Synchronization Failed'),
-                            'message': _(response.text if response else str(e)),
-                            'sticky': True,
-                            'type': 'danger',
-                        }
-                    }
             except Exception as e:
                 error_msg = f'Synchronization failed: {str(e)}'
                 api_log.write({
@@ -531,17 +510,6 @@ class TangentApiConfig(models.Model):
                     'error_message': error_msg,
                     'processing_time': 0,
                 })
-                
-                return {
-                    'type': 'ir.actions.client',
-                    'tag': 'display_notification',
-                    'params': {
-                        'title': _('Synchronization Failed'),
-                        'message': _(error_msg),
-                        'sticky': True,
-                        'type': 'danger',
-                    }
-                }
     
     @api.model
     def sync_all(self):
