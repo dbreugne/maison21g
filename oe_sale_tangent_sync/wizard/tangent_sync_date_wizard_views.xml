@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tangent Sync Date Wizard Form View -->
+    <record id="view_tangent_sync_date_wizard_form" model="ir.ui.view">
+        <field name="name">tangent.sync.date.wizard.form</field>
+        <field name="model">tangent.sync.date.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Select Sync Date">
+                <p class="oe_grey">
+                    Select the date for which you want to synchronize POS orders with Tangent API.
+                </p>
+                <group>
+                    <field name="sync_date"/>
+                    <field name="api_config_id" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_sync" string="Synchronize" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tangent Sync Date Wizard Action -->
+    <record id="action_tangent_sync_date_wizard" model="ir.actions.act_window">
+        <field name="name">Select Sync Date</field>
+        <field name="res_model">tangent.sync.date.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_tangent_api_config"/>
+    </record>
+</odoo>

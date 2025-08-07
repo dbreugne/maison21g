@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend Sale Order Form View -->
+    <record id="view_order_form_inherit_tangent" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.tangent</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Tangent API Information" name="tangent_api_info" invisible="not is_sync_included">
+                    <group>
+                        <group>
+                            <field name="is_sync_included"/>
+                            <field name="tangent_api_sync_date" readonly="1"/>
+                            <field name="tangent_api_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="API Response" invisible="not tangent_api_response">
+                        <field name="tangent_api_response" widget="ace" options="{'mode': 'json'}" readonly="1" nolabel="1"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend Sale Order Tree View to make new fields optional/hidden -->
+    <record id="view_order_tree_inherit_tangent" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit.tangent</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="after">
+                <field name="is_sync_included" optional="hide"/>
+                <field name="tangent_api_sync_date" optional="hide"/>
+                <field name="tangent_api_id" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Extend Sale Order Search View to filter by sync status -->
+    <record id="view_sales_order_filter_inherit_tangent" model="ir.ui.view">
+        <field name="name">sale.order.search.inherit.tangent</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <filter name="my_sale_orders_filter" position="after">
+                <separator/>
+                <filter string="Included in Sync" name="sync_included" domain="[('is_sync_included', '=', True)]"/>
+                <filter string="Not Included in Sync" name="sync_not_included" domain="[('is_sync_included', '=', False)]"/>
+                <filter string="Synchronized" name="synchronized" domain="[('tangent_api_sync_date', '!=', False)]"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="sale_mark_tangent_api_sync_action" model="ir.actions.server">
+        <field name="name">Mark for Tangent API Sync</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">
+blank_dates = records.filtered(lambda rec: not rec.date_order)
+if len(blank_dates) &gt; 0:
+    raise UserError("Please fill in the order date before marking for Tangent API sync.")
+if records:
+    records.write({
+        'is_sync_included': True,
+        'tangent_api_sync_date': False
+    })
+        </field>
+    </record>
+</odoo>
