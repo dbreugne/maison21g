@@ -440,6 +440,7 @@ class TangentApiConfig(models.Model):
                         'error_message': 'Failed to obtain API token',
                         'processing_time': f"{time.time() - start_time} seconds",
                     })
+                    continue
                 # Update main log with final status
                 data = order_datas.get('data', False)
                 pos_orders = order_datas.get('pos_orders', [])
