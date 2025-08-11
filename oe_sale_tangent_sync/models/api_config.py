@@ -300,7 +300,7 @@ class TangentApiConfig(models.Model):
                     data_by_dates[date]['sale_orders'] |= grouped_orders
                     hourly_data = data_by_dates[date]['data'][key]
                     hourly_order = hourly_data['orders']
-                    for order in orders:
+                    for order in grouped_orders:
                         hourly_order.append(order)
                         hourly_data['gto_sum'] += order.get_gto_in_company_currency()
                         hourly_data['gst_sum'] += order.get_gst_in_company_currency()
