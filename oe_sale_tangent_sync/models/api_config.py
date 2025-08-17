@@ -278,13 +278,13 @@ class TangentApiConfig(models.Model):
             # Get all Sale orders that match the criteria
             sale_orders = self.env['sale.order'].sudo().search(sale_domain)
             
-            paid_invoice_status = ['paid', 'partial', 'in_payment'] 
-            # Filter orders with invoices that are paid or partially paid
+            confirmed_invoice_status = ['posted'] 
+            # # Filter orders with invoices that are paid or partially paid
             sale_orders_with_payments = sale_orders.filtered(
-                lambda so: any(inv.payment_state in paid_invoice_status for inv in so.invoice_ids)
+                lambda so: any(inv.state in confirmed_invoice_status for inv in so.invoice_ids)
             )
             
-            for sg_date_order, grouped_bydates in groupby(sale_orders_with_payments, key=lambda so: pytz.utc.localize(so.date_order).astimezone(pytz.timezone('Asia/Singapore')).date()):
+            for sg_date_order, grouped_bydates in groupby(sale_orders, key=lambda so: pytz.utc.localize(so.date_order).astimezone(pytz.timezone('Asia/Singapore')).date()):
                 orders = self.env['sale.order'].concat(*grouped_bydates)
                 date = sg_date_order
                 if date not in data_by_dates.keys():

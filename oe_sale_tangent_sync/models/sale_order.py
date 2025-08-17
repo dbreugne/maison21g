@@ -99,8 +99,8 @@ class SaleOrder(models.Model):
             dict: Payment data for Tangent API
         """
         result = {'others': 0.0}
-        paid_invoices = self.invoice_ids.filtered(lambda inv: inv.payment_state in ['paid', 'partial', 'in_payment'])
-        for invoice in paid_invoices:
+        posted_invoices = self.invoice_ids.filtered(lambda inv: inv.state in ['posted'])
+        for invoice in posted_invoices:
             # Convert invoice amount to sale order currency
             invoice_in_sale_currency = invoice.amount_total
             if invoice.currency_id != self.currency_id:
