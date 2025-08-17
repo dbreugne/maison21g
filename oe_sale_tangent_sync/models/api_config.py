@@ -414,8 +414,8 @@ class TangentApiConfig(models.Model):
         """
         self.ensure_one()
         url = self.endpoint_url + '/v1/api/SalesHourly'
-        order_datas = self.get_orders_data(date=date)
-        for date, order_datas in order_datas.items():
+        order_values = self.get_orders_data(date=date)
+        for date, order_datas in order_values.items():
             try:
                 start_time = time.time()
                 # Create a log entry for this sync attempt
