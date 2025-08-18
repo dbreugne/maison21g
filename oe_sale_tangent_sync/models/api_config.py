@@ -118,7 +118,7 @@ class TangentApiConfig(models.Model):
             start_date += relativedelta(days=1)
         return result
 
-    def get_orders_data(self, date=False):
+    def get_orders_data(self, filter_date=False):
         """Get POS and Sale orders data grouped by date and hour
         
         Returns:
@@ -137,184 +137,206 @@ class TangentApiConfig(models.Model):
                 }
             }
         data_by_dates = {}
-        today = date if date else datetime.now(pytz.timezone('Asia/Singapore'))
-        start_day_sg = today.replace(hour=0, minute=0, second=0, microsecond=0) 
-        end_day_sg = today.replace(hour=23, minute=59, second=59, microsecond=999999)
-        start_day_utc = start_day_sg.astimezone(pytz.utc)
-        end_day_utc = end_day_sg.astimezone(pytz.utc)
-
-        # Initialize data structure to hold aggregated values by date and hour
-        pos_orders = self.env['pos.order']
-        sale_orders = self.env['sale.order']
-        if start_day_sg.date() not in data_by_dates.keys():
-            aggregated_data = self.generate_empty_payload(start_day_sg, end_day_sg)
-            data_by_dates[start_day_sg.date()] = {
-                'pos_orders': pos_orders,
-                'sale_orders': sale_orders,
-                'data': aggregated_data
-            }
-        existing_log = self.env['tangent.api.log'].search([
-            ('config_id', '=', self.id),
-            ('order_date', '=', start_day_sg.date()),
-            ('request_body', '!=', False),
-            '|',
-            ('pos_order_ids', '!=', False),
-            ('sale_order_ids', '!=', False),
-        ], order="create_date desc", limit=1)
-        if existing_log:
-            old_payload = (json.loads(existing_log.request_body) or {}).get('sales', [])
-            existing_pos_order = existing_log.pos_order_ids
-            existing_sale_order = existing_log.sale_order_ids
-            for val in old_payload:
-                value = val.get('sale', {})
-                order_date = value.get('date', False)
-                hour = value.get('hour', False)
-                if value and date and hour:
-                    order_date = datetime.strptime(order_date, '%Y%m%d').date()
-                    if order_date not in data_by_dates.keys():
-                        data = self.generate_empty_payload(datetime.combine(order_date, datetime.min.time()), datetime.combine(order_date, datetime.max.time()))
-                        data_by_dates[order_date] = {
-                            'pos_orders': existing_pos_order,
-                            'sale_orders': existing_sale_order,
-                            'data': data
-                        }
-                    key = (order_date, int(hour))
-                    old_value = data_by_dates.get(order_date, {}).get('data', {}).get(key)
-                    orders = old_value.get('orders', [])
-                    old_payment_value = {
-                        'cash_sum': old_value.get('cash_sum', 0.0),
-                        'nets_sum': old_value.get('nets_sum', 0.0),
-                        'visa_sum': old_value.get('visa_sum', 0.0),
-                        'mastercard_sum': old_value.get('mastercard_sum', 0.0),
-                        'amex_sum': old_value.get('amex_sum', 0.0),
-                        'voucher_sum': old_value.get('voucher_sum', 0.0),
-                        'others_sum': old_value.get('others_sum', 0.0),
-                    }
-                    # pos orders
-                    new_pos_orders = existing_pos_order.filtered(lambda p: pytz.utc.localize(p.date_order).astimezone(pytz.timezone('Asia/Singapore')).hour == int(hour))
-                    pos_payment_data = new_pos_orders.get_tangent_payment_datas()
-                    for payment_type, value in pos_payment_data.items():
-                        k = f"{payment_type}_sum"
-                        old_payment_value.update({
-                            k: old_payment_value.get(k, 0.0) + value
-                        })
-                    orders.extend(new_pos_orders)
-                    # Sale orders
-                    new_sale_orders = existing_sale_order.filtered(lambda so: pytz.utc.localize(so.date_order).astimezone(pytz.timezone('Asia/Singapore')).hour == int(hour))
-                    sale_payment_data = new_sale_orders.get_tangent_payment_datas()
-                    for payment_type, value in sale_payment_data.items():
-                        k = f"{payment_type}_sum"
-                        old_payment_value.update({
-                            k: old_payment_value.get(k, 0.0) + value
-                        })
-                    orders.extend(new_sale_orders)
-
-                    new_value = {
-                        'orders': orders,
-                        'gto_sum': old_value.get('gto_sum', 0.0) \
-                            + sum([pos.get_gto_in_company_currency() for pos in new_pos_orders]) \
-                            + sum([so.get_gto_in_company_currency() for so in new_sale_orders]),
-                        'gst_sum': old_value.get('gst_sum', 0.0) \
-                            + sum([pos.get_gst_in_company_currency() for pos in new_pos_orders]) \
-                            + sum([so.get_gst_in_company_currency() for so in new_sale_orders]),
-                        'discount_sum': old_value.get('gst_sum', 0.0) \
-                            + sum([pos.get_discount_in_company_currency() for pos in new_pos_orders]) \
-                            + sum([so.get_discount_in_company_currency() for so in new_sale_orders]),
-                    }
-                    new_value.update(old_payment_value)
-                    data_by_dates[order_date]['data'][key] = new_value
-                    data_by_dates[order_date]['sale_orders'] |= new_sale_orders
-                    data_by_dates[order_date]['pos_orders'] |= new_pos_orders
-        
-        # Get POS orders if POS terminals are configured
-        if self.pos_ids:
-            pos_domain = [
-                ('config_id', 'in', self.pos_ids.ids),
-                ('tangent_api_sync_date', '=', False),
-                ('state', 'in', ('done', 'paid')),
-                ('date_order', '>=', start_day_utc),
-                ('date_order', '<=', end_day_utc),
-            ]
-            
-            # Get all POS orders that match the criteria
-            pos_orders = self.env['pos.order'].search(pos_domain)
-            
-            for sg_date_order, grouped_bydates in groupby(pos_orders, key=lambda pos: pytz.utc.localize(pos.date_order).astimezone(pytz.timezone('Asia/Singapore')).date()):
-                orders = self.env['pos.order'].concat(*grouped_bydates)
-                date = sg_date_order
-                # if date != start_day_sg.date():
-                #     dt_datas = self.generate_empty_payload(sg_date_order, sg_date_order)
-                #     aggregated_data.update(dt_datas)
-                if date not in data_by_dates.keys():
-                    data = self.generate_empty_payload(datetime.combine(date, datetime.min.time()), datetime.combine(date, datetime.max.time()))
-                    data_by_dates[date] = {
-                        'pos_orders': self.env['pos.order'],
-                        'sale_orders': self.env['sale.order'],
-                        'data': data
-                    }
-                for hour_group, grouped_byhour in groupby(orders, key=lambda p: pytz.utc.localize(p.date_order).astimezone(pytz.timezone('Asia/Singapore')).hour):
-                    grouped_orders = self.env['pos.order'].concat(*grouped_byhour)
-                    key = (date, int(hour_group))
-                    data_by_dates[date]['pos_orders'] |= grouped_orders
-                    hourly_data = data_by_dates[date]['data'][key]
-                    hourly_order = hourly_data['orders']
-                    for order in orders:
-                        hourly_order.append(order)
-                        hourly_data['gto_sum'] += order.get_gto_in_company_currency()
-                        hourly_data['gst_sum'] += order.get_gst_in_company_currency()
-                        hourly_data['discount_sum'] += order.get_discount_in_company_currency()                        
-                    payment_datas = grouped_orders.get_tangent_payment_datas()
-                    for payment_type in payment_datas.keys():
-                        hourly_data[payment_type+'_sum'] += payment_datas[payment_type]
-        # Get Sale orders if enabled
+        dates = []
+        if not filter_date:
+            dates = [datetime.now(pytz.timezone('Asia/Singapore'))]
+        else:
+            dates = [filter_date]
         if self.is_sale_included:
-            # TO DO: Sync sale order datas at date 3 of next month
-            # e.g order date is 8 april, the order should be synced on 3 may
+            # search for all included sale orders
             sale_domain = [
                 ('is_sync_included', '=', True),
                 ('tangent_api_sync_date', '=', False),
                 ('state', '=', 'sale'),
                 ('invoice_ids', '!=', False),
-                ('date_order', '>=', start_day_utc),
-                ('date_order', '<=', end_day_utc),
+                ('invoice_ids.state', 'in', ['posted'])
             ]
+            sales = self.env['sale.order'].search(sale_domain)
+            for sale in sales:
+                sg_order_date = pytz.utc.localize(sale.date_order)\
+                    .astimezone(pytz.timezone('Asia/Singapore'))
+                if sg_order_date not in dates:
+                    dates.append(sg_order_date)
+
+        for date in dates:
+            today = date if date else datetime.now(pytz.timezone('Asia/Singapore'))
+            start_day_sg = today.replace(hour=0, minute=0, second=0, microsecond=0) 
+            end_day_sg = today.replace(hour=23, minute=59, second=59, microsecond=999999)
+            start_day_utc = start_day_sg.astimezone(pytz.utc)
+            end_day_utc = end_day_sg.astimezone(pytz.utc)
+
+            # Initialize data structure to hold aggregated values by date and hour
+            pos_orders = self.env['pos.order']
+            sale_orders = self.env['sale.order']
+            if start_day_sg.date() not in data_by_dates.keys():
+                aggregated_data = self.generate_empty_payload(start_day_sg, end_day_sg)
+                data_by_dates[start_day_sg.date()] = {
+                    'pos_orders': pos_orders,
+                    'sale_orders': sale_orders,
+                    'data': aggregated_data
+                }
+            existing_log = self.env['tangent.api.log'].search([
+                ('config_id', '=', self.id),
+                ('order_date', '=', start_day_sg.date()),
+                ('request_body', '!=', False),
+                '|',
+                ('pos_order_ids', '!=', False),
+                ('sale_order_ids', '!=', False),
+            ], order="create_date desc", limit=1)
+            if existing_log:
+                old_payload = (json.loads(existing_log.request_body) or {}).get('sales', [])
+                existing_pos_order = existing_log.pos_order_ids
+                existing_sale_order = existing_log.sale_order_ids
+                for val in old_payload:
+                    value = val.get('sale', {})
+                    order_date = value.get('date', False)
+                    hour = value.get('hour', False)
+                    if value and date and hour:
+                        order_date = datetime.strptime(order_date, '%Y%m%d').date()
+                        if order_date not in data_by_dates.keys():
+                            data = self.generate_empty_payload(datetime.combine(order_date, datetime.min.time()), datetime.combine(order_date, datetime.max.time()))
+                            data_by_dates[order_date] = {
+                                'pos_orders': existing_pos_order,
+                                'sale_orders': existing_sale_order,
+                                'data': data
+                            }
+                        key = (order_date, int(hour))
+                        old_value = data_by_dates.get(order_date, {}).get('data', {}).get(key)
+                        orders = old_value.get('orders', [])
+                        old_payment_value = {
+                            'cash_sum': old_value.get('cash_sum', 0.0),
+                            'nets_sum': old_value.get('nets_sum', 0.0),
+                            'visa_sum': old_value.get('visa_sum', 0.0),
+                            'mastercard_sum': old_value.get('mastercard_sum', 0.0),
+                            'amex_sum': old_value.get('amex_sum', 0.0),
+                            'voucher_sum': old_value.get('voucher_sum', 0.0),
+                            'others_sum': old_value.get('others_sum', 0.0),
+                        }
+                        # pos orders
+                        new_pos_orders = existing_pos_order.filtered(lambda p: pytz.utc.localize(p.date_order).astimezone(pytz.timezone('Asia/Singapore')).hour == int(hour))
+                        pos_payment_data = new_pos_orders.get_tangent_payment_datas()
+                        for payment_type, value in pos_payment_data.items():
+                            k = f"{payment_type}_sum"
+                            old_payment_value.update({
+                                k: old_payment_value.get(k, 0.0) + value
+                            })
+                        orders.extend(new_pos_orders)
+                        # Sale orders
+                        new_sale_orders = existing_sale_order.filtered(lambda so: pytz.utc.localize(so.date_order).astimezone(pytz.timezone('Asia/Singapore')).hour == int(hour))
+                        sale_payment_data = new_sale_orders.get_tangent_payment_datas()
+                        for payment_type, value in sale_payment_data.items():
+                            k = f"{payment_type}_sum"
+                            old_payment_value.update({
+                                k: old_payment_value.get(k, 0.0) + value
+                            })
+                        orders.extend(new_sale_orders)
+
+                        new_value = {
+                            'orders': orders,
+                            'gto_sum': old_value.get('gto_sum', 0.0) \
+                                + sum([pos.get_gto_in_company_currency() for pos in new_pos_orders]) \
+                                + sum([so.get_gto_in_company_currency() for so in new_sale_orders]),
+                            'gst_sum': old_value.get('gst_sum', 0.0) \
+                                + sum([pos.get_gst_in_company_currency() for pos in new_pos_orders]) \
+                                + sum([so.get_gst_in_company_currency() for so in new_sale_orders]),
+                            'discount_sum': old_value.get('gst_sum', 0.0) \
+                                + sum([pos.get_discount_in_company_currency() for pos in new_pos_orders]) \
+                                + sum([so.get_discount_in_company_currency() for so in new_sale_orders]),
+                        }
+                        new_value.update(old_payment_value)
+                        data_by_dates[order_date]['data'][key] = new_value
+                        data_by_dates[order_date]['sale_orders'] |= new_sale_orders
+                        data_by_dates[order_date]['pos_orders'] |= new_pos_orders
             
-            # Get all Sale orders that match the criteria
-            sale_orders = self.env['sale.order'].sudo().search(sale_domain)
+            # Get POS orders if POS terminals are configured
+            if self.pos_ids:
+                pos_domain = [
+                    ('config_id', 'in', self.pos_ids.ids),
+                    ('tangent_api_sync_date', '=', False),
+                    ('state', 'in', ('done', 'paid')),
+                    ('date_order', '>=', start_day_utc),
+                    ('date_order', '<=', end_day_utc),
+                ]
+                
+                # Get all POS orders that match the criteria
+                pos_orders = self.env['pos.order'].search(pos_domain)
+                
+                for sg_date_order, grouped_bydates in groupby(pos_orders, key=lambda pos: pytz.utc.localize(pos.date_order).astimezone(pytz.timezone('Asia/Singapore')).date()):
+                    orders = self.env['pos.order'].concat(*grouped_bydates)
+                    date = sg_date_order
+                    # if date != start_day_sg.date():
+                    #     dt_datas = self.generate_empty_payload(sg_date_order, sg_date_order)
+                    #     aggregated_data.update(dt_datas)
+                    if date not in data_by_dates.keys():
+                        data = self.generate_empty_payload(datetime.combine(date, datetime.min.time()), datetime.combine(date, datetime.max.time()))
+                        data_by_dates[date] = {
+                            'pos_orders': self.env['pos.order'],
+                            'sale_orders': self.env['sale.order'],
+                            'data': data
+                        }
+                    for hour_group, grouped_byhour in groupby(orders, key=lambda p: pytz.utc.localize(p.date_order).astimezone(pytz.timezone('Asia/Singapore')).hour):
+                        grouped_orders = self.env['pos.order'].concat(*grouped_byhour)
+                        key = (date, int(hour_group))
+                        data_by_dates[date]['pos_orders'] |= grouped_orders
+                        hourly_data = data_by_dates[date]['data'][key]
+                        hourly_order = hourly_data['orders']
+                        for order in orders:
+                            hourly_order.append(order)
+                            hourly_data['gto_sum'] += order.get_gto_in_company_currency()
+                            hourly_data['gst_sum'] += order.get_gst_in_company_currency()
+                            hourly_data['discount_sum'] += order.get_discount_in_company_currency()                        
+                        payment_datas = grouped_orders.get_tangent_payment_datas()
+                        for payment_type in payment_datas.keys():
+                            hourly_data[payment_type+'_sum'] += payment_datas[payment_type]
+            # Get Sale orders if enabled
+            if self.is_sale_included:
+                # TO DO: Sync sale order datas at date 3 of next month
+                # e.g order date is 8 april, the order should be synced on 3 may
+                sale_domain = [
+                    ('is_sync_included', '=', True),
+                    ('tangent_api_sync_date', '=', False),
+                    ('state', '=', 'sale'),
+                    ('invoice_ids', '!=', False),
+                    ('date_order', '>=', start_day_utc),
+                    ('date_order', '<=', end_day_utc),
+                ]
+                
+                # Get all Sale orders that match the criteria
+                sale_orders = self.env['sale.order'].sudo().search(sale_domain)
+                
+                confirmed_invoice_status = ['posted'] 
+                # # Filter orders with invoices that are paid or partially paid
+                confirmed_sale_orders = sale_orders.filtered(
+                    lambda so: any(inv.state in confirmed_invoice_status for inv in so.invoice_ids)
+                )
+                
+                for sg_date_order, grouped_bydates in groupby(confirmed_sale_orders, key=lambda so: pytz.utc.localize(so.date_order).astimezone(pytz.timezone('Asia/Singapore')).date()):
+                    orders = self.env['sale.order'].concat(*grouped_bydates)
+                    date = sg_date_order
+                    if date not in data_by_dates.keys():
+                        data = self.generate_empty_payload(datetime.combine(date, datetime.min.time()), datetime.combine(date, datetime.max.time()))
+                        data_by_dates[date] = {
+                            'pos_orders': self.env['pos.order'],
+                            'sale_orders': self.env['sale.order'],
+                            'data': data
+                        }
+                    for hour_group, grouped_byhour in groupby(orders, key=lambda so: pytz.utc.localize(so.date_order).astimezone(pytz.timezone('Asia/Singapore')).hour):
+                        grouped_orders = self.env['sale.order'].concat(*grouped_byhour)
+                        key = (date, int(hour_group))
+                        data_by_dates[date]['sale_orders'] |= grouped_orders
+                        hourly_data = data_by_dates[date]['data'][key]
+                        hourly_order = hourly_data['orders']
+                        for order in grouped_orders:
+                            hourly_order.append(order)
+                            hourly_data['gto_sum'] += order.get_gto_in_company_currency()
+                            hourly_data['gst_sum'] += order.get_gst_in_company_currency()
+                            hourly_data['discount_sum'] += order.get_discount_in_company_currency()                        
+                        payment_datas = grouped_orders.get_tangent_payment_datas()
+                        for payment_type in payment_datas.keys():
+                            hourly_data[payment_type+'_sum'] += payment_datas[payment_type]
             
-            confirmed_invoice_status = ['posted'] 
-            # # Filter orders with invoices that are paid or partially paid
-            confirmed_sale_orders = sale_orders.filtered(
-                lambda so: any(inv.state in confirmed_invoice_status for inv in so.invoice_ids)
-            )
-            
-            for sg_date_order, grouped_bydates in groupby(confirmed_sale_orders, key=lambda so: pytz.utc.localize(so.date_order).astimezone(pytz.timezone('Asia/Singapore')).date()):
-                orders = self.env['sale.order'].concat(*grouped_bydates)
-                date = sg_date_order
-                if date not in data_by_dates.keys():
-                    data = self.generate_empty_payload(datetime.combine(date, datetime.min.time()), datetime.combine(date, datetime.max.time()))
-                    data_by_dates[date] = {
-                        'pos_orders': self.env['pos.order'],
-                        'sale_orders': self.env['sale.order'],
-                        'data': data
-                    }
-                for hour_group, grouped_byhour in groupby(orders, key=lambda so: pytz.utc.localize(so.date_order).astimezone(pytz.timezone('Asia/Singapore')).hour):
-                    grouped_orders = self.env['sale.order'].concat(*grouped_byhour)
-                    key = (date, int(hour_group))
-                    data_by_dates[date]['sale_orders'] |= grouped_orders
-                    hourly_data = data_by_dates[date]['data'][key]
-                    hourly_order = hourly_data['orders']
-                    for order in grouped_orders:
-                        hourly_order.append(order)
-                        hourly_data['gto_sum'] += order.get_gto_in_company_currency()
-                        hourly_data['gst_sum'] += order.get_gst_in_company_currency()
-                        hourly_data['discount_sum'] += order.get_discount_in_company_currency()                        
-                    payment_datas = grouped_orders.get_tangent_payment_datas()
-                    for payment_type in payment_datas.keys():
-                        hourly_data[payment_type+'_sum'] += payment_datas[payment_type]
-        
-        if not len(pos_orders.ids) and not len(confirmed_sale_orders.ids):
-            return {}
+            if not len(pos_orders.ids) and not len(confirmed_sale_orders.ids):
+                return {}
             
         result_by_dates = {}
         for date, value in data_by_dates.items():
@@ -418,7 +440,7 @@ class TangentApiConfig(models.Model):
         """
         self.ensure_one()
         url = self.endpoint_url + '/v1/api/SalesHourly'
-        order_values = self.get_orders_data(date=date)
+        order_values = self.get_orders_data(filter_date=date)
         for date, order_datas in order_values.items():
             try:
                 start_time = time.time()
