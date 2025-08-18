@@ -34,7 +34,6 @@ class SaleOrder(models.Model):
         currency_rate = self.currency_rate or 1.0
         return amount / currency_rate
     
-
     def get_gto_in_company_currency(self):
         """Get GTO (Gross Total Order) in company currency
         
@@ -99,18 +98,19 @@ class SaleOrder(models.Model):
             dict: Payment data for Tangent API
         """
         result = {'others': 0.0}
-        posted_invoices = self.invoice_ids.filtered(lambda inv: inv.state in ['posted'])
-        for invoice in posted_invoices:
-            # Convert invoice amount to sale order currency
-            invoice_in_sale_currency = invoice.amount_total
-            if invoice.currency_id != self.currency_id:
-                invoice_in_sale_currency = invoice.currency_id._convert(
-                    invoice.amount_total,
+        paid_invoices = self.invoice_ids.filtered(lambda inv: inv.payment_state in ['paid', 'partial', 'in_payment'])
+        payments = paid_invoices._get_reconciled_payments()
+        for payment in payments:
+            # Convert payment amount to sale order currency
+            payment_in_invoice_currency = payment.amount
+            if payment.currency_id != self.currency_id:
+                payment_in_invoice_currency = payment.currency_id._convert(
+                    payment.amount,
                     self.currency_id,
                     self.company_id,
-                    invoice.date or invoice.invoice_date
+                    payment.date
                 )
-            result['others'] += invoice_in_sale_currency
+            result['others'] += payment_in_invoice_currency
         return result
 
     def action_view_api_logs(self):

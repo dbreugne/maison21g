@@ -155,7 +155,7 @@ class TangentApiConfig(models.Model):
             }
         existing_log = self.env['tangent.api.log'].search([
             ('config_id', '=', self.id),
-            ('order_date', '=', start_day_sg.date()),
+            ('order_date', '=', start_day_utc.date()),
             ('request_body', '!=', False),
             '|',
             ('pos_order_ids', '!=', False),
@@ -223,14 +223,12 @@ class TangentApiConfig(models.Model):
                     }
                     new_value.update(old_payment_value)
                     data_by_dates[order_date]['data'][key] = new_value
-                    data_by_dates[order_date]['sale_orders'] |= new_sale_orders
-                    data_by_dates[order_date]['pos_orders'] |= new_pos_orders
         
         # Get POS orders if POS terminals are configured
         if self.pos_ids:
             pos_domain = [
                 ('config_id', 'in', self.pos_ids.ids),
-                ('tangent_api_sync_date', '=', False),
+                # ('tangent_api_sync_date', '=', False),
                 ('state', 'in', ('done', 'paid')),
                 ('date_order', '>=', start_day_utc),
                 ('date_order', '<=', end_day_utc),
@@ -274,21 +272,19 @@ class TangentApiConfig(models.Model):
                 ('is_sync_included', '=', True),
                 ('tangent_api_sync_date', '=', False),
                 ('state', '=', 'sale'),
-                ('invoice_ids', '!=', False),
-                ('date_order', '>=', start_day_utc),
-                ('date_order', '<=', end_day_utc),
+                ('invoice_ids', '!=', False)
             ]
             
             # Get all Sale orders that match the criteria
             sale_orders = self.env['sale.order'].sudo().search(sale_domain)
             
-            confirmed_invoice_status = ['posted'] 
-            # # Filter orders with invoices that are paid or partially paid
-            confirmed_sale_orders = sale_orders.filtered(
-                lambda so: any(inv.state in confirmed_invoice_status for inv in so.invoice_ids)
+            paid_invoice_status = ['paid', 'partial', 'in_payment'] 
+            # Filter orders with invoices that are paid or partially paid
+            sale_orders_with_payments = sale_orders.filtered(
+                lambda so: any(inv.payment_state in paid_invoice_status for inv in so.invoice_ids)
             )
             
-            for sg_date_order, grouped_bydates in groupby(confirmed_sale_orders, key=lambda so: pytz.utc.localize(so.date_order).astimezone(pytz.timezone('Asia/Singapore')).date()):
+            for sg_date_order, grouped_bydates in groupby(sale_orders_with_payments, key=lambda so: pytz.utc.localize(so.date_order).astimezone(pytz.timezone('Asia/Singapore')).date()):
                 orders = self.env['sale.order'].concat(*grouped_bydates)
                 date = sg_date_order
                 if date not in data_by_dates.keys():
@@ -313,7 +309,7 @@ class TangentApiConfig(models.Model):
                     for payment_type in payment_datas.keys():
                         hourly_data[payment_type+'_sum'] += payment_datas[payment_type]
         
-        if not len(pos_orders.ids) and not len(confirmed_sale_orders.ids):
+        if not len(pos_orders.ids) and not len(sale_orders.ids):
             return {}
             
         result_by_dates = {}
@@ -418,8 +414,8 @@ class TangentApiConfig(models.Model):
         """
         self.ensure_one()
         url = self.endpoint_url + '/v1/api/SalesHourly'
-        order_values = self.get_orders_data(date=date)
-        for date, order_datas in order_values.items():
+        order_datas = self.get_orders_data(date=date)
+        for date, order_datas in order_datas.items():
             try:
                 start_time = time.time()
                 # Create a log entry for this sync attempt
