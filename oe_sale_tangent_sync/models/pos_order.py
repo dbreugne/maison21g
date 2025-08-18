@@ -40,6 +40,7 @@ class POSOrder(models.Model):
                 self.date_order.date()
             )
     
+
     def get_gto_in_company_currency(self):
         """Get GTO (Grand Total Order) in company currency
         GTO is the total amount after discount and before tax
