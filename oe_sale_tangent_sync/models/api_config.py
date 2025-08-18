@@ -139,7 +139,10 @@ class TangentApiConfig(models.Model):
         data_by_dates = {}
         dates = []
         if not filter_date:
-            dates = [datetime.now(pytz.timezone('Asia/Singapore'))]
+            dates = [
+                datetime.now(pytz.timezone('Asia/Singapore'))\
+                .replace(hour=0, minute=0, second=0, microsecond=0)
+            ]
         else:
             dates = [filter_date]
         if self.is_sale_included:
@@ -154,7 +157,8 @@ class TangentApiConfig(models.Model):
             sales = self.env['sale.order'].search(sale_domain)
             for sale in sales:
                 sg_order_date = pytz.utc.localize(sale.date_order)\
-                    .astimezone(pytz.timezone('Asia/Singapore'))
+                    .astimezone(pytz.timezone('Asia/Singapore'))\
+                    .replace(hour=0, minute=0, second=0, microsecond=0)
                 if sg_order_date not in dates:
                     dates.append(sg_order_date)
 
@@ -164,6 +168,7 @@ class TangentApiConfig(models.Model):
             end_day_sg = today.replace(hour=23, minute=59, second=59, microsecond=999999)
             start_day_utc = start_day_sg.astimezone(pytz.utc)
             end_day_utc = end_day_sg.astimezone(pytz.utc)
+            new_order_count = 0
 
             # Initialize data structure to hold aggregated values by date and hour
             pos_orders = self.env['pos.order']
@@ -260,6 +265,7 @@ class TangentApiConfig(models.Model):
                 
                 # Get all POS orders that match the criteria
                 pos_orders = self.env['pos.order'].search(pos_domain)
+                new_order_count += len(pos_orders)
                 
                 for sg_date_order, grouped_bydates in groupby(pos_orders, key=lambda pos: pytz.utc.localize(pos.date_order).astimezone(pytz.timezone('Asia/Singapore')).date()):
                     orders = self.env['pos.order'].concat(*grouped_bydates)
@@ -292,19 +298,21 @@ class TangentApiConfig(models.Model):
             if self.is_sale_included:
                 # TO DO: Sync sale order datas at date 3 of next month
                 # e.g order date is 8 april, the order should be synced on 3 may
+                confirmed_invoice_status = ['posted'] 
                 sale_domain = [
                     ('is_sync_included', '=', True),
                     ('tangent_api_sync_date', '=', False),
                     ('state', '=', 'sale'),
                     ('invoice_ids', '!=', False),
+                    ('invoice_ids.state', 'in', confirmed_invoice_status),
                     ('date_order', '>=', start_day_utc),
                     ('date_order', '<=', end_day_utc),
                 ]
                 
                 # Get all Sale orders that match the criteria
                 sale_orders = self.env['sale.order'].sudo().search(sale_domain)
+                new_order_count += len(sale_orders)
                 
-                confirmed_invoice_status = ['posted'] 
                 # # Filter orders with invoices that are paid or partially paid
                 confirmed_sale_orders = sale_orders.filtered(
                     lambda so: any(inv.state in confirmed_invoice_status for inv in so.invoice_ids)
@@ -335,8 +343,9 @@ class TangentApiConfig(models.Model):
                         for payment_type in payment_datas.keys():
                             hourly_data[payment_type+'_sum'] += payment_datas[payment_type]
             
-            if not len(pos_orders.ids) and not len(confirmed_sale_orders.ids):
-                return {}
+            if new_order_count <= 0:
+                data_by_dates.pop(date.date())
+                continue
             
         result_by_dates = {}
         for date, value in data_by_dates.items():
