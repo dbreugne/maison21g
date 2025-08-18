@@ -155,7 +155,7 @@ class TangentApiConfig(models.Model):
             }
         existing_log = self.env['tangent.api.log'].search([
             ('config_id', '=', self.id),
-            ('order_date', '=', start_day_utc.date()),
+            ('order_date', '=', start_day_sg.date()),
             ('request_body', '!=', False),
             '|',
             ('pos_order_ids', '!=', False),
@@ -223,12 +223,14 @@ class TangentApiConfig(models.Model):
                     }
                     new_value.update(old_payment_value)
                     data_by_dates[order_date]['data'][key] = new_value
+                    data_by_dates[order_date]['sale_orders'] |= new_sale_orders
+                    data_by_dates[order_date]['pos_orders'] |= new_pos_orders
         
         # Get POS orders if POS terminals are configured
         if self.pos_ids:
             pos_domain = [
                 ('config_id', 'in', self.pos_ids.ids),
-                # ('tangent_api_sync_date', '=', False),
+                ('tangent_api_sync_date', '=', False),
                 ('state', 'in', ('done', 'paid')),
                 ('date_order', '>=', start_day_utc),
                 ('date_order', '<=', end_day_utc),
