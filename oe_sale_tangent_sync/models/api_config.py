@@ -274,7 +274,9 @@ class TangentApiConfig(models.Model):
                 ('is_sync_included', '=', True),
                 ('tangent_api_sync_date', '=', False),
                 ('state', '=', 'sale'),
-                ('invoice_ids', '!=', False)
+                ('invoice_ids', '!=', False),
+                ('date_order', '>=', start_day_utc),
+                ('date_order', '<=', end_day_utc),
             ]
             
             # Get all Sale orders that match the criteria
