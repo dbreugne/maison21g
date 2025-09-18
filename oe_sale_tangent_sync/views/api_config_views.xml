@@ -16,6 +16,14 @@
                         invisible="not active"
                         context="{'default_api_config_id': active_id}"
                     />
+                    <button 
+                        name="test_connection" 
+                        string="Test Connection" 
+                        type="object" 
+                        class="btn-secondary" 
+                        help="Test connection to Tangent API"
+                        invisible="not active"
+                    />
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">

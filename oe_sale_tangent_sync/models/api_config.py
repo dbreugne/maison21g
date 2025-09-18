@@ -244,7 +244,7 @@ class TangentApiConfig(models.Model):
                             'gst_sum': old_value.get('gst_sum', 0.0) \
                                 + sum([pos.get_gst_in_company_currency() for pos in new_pos_orders]) \
                                 + sum([so.get_gst_in_company_currency() for so in new_sale_orders]),
-                            'discount_sum': old_value.get('gst_sum', 0.0) \
+                            'discount_sum': old_value.get('discount_sum', 0.0) \
                                 + sum([pos.get_discount_in_company_currency() for pos in new_pos_orders]) \
                                 + sum([so.get_discount_in_company_currency() for so in new_sale_orders]),
                         }
@@ -286,11 +286,15 @@ class TangentApiConfig(models.Model):
                         data_by_dates[date]['pos_orders'] |= grouped_orders
                         hourly_data = data_by_dates[date]['data'][key]
                         hourly_order = hourly_data['orders']
-                        for order in orders:
-                            hourly_order.append(order)
-                            hourly_data['gto_sum'] += order.get_gto_in_company_currency()
-                            hourly_data['gst_sum'] += order.get_gst_in_company_currency()
-                            hourly_data['discount_sum'] += order.get_discount_in_company_currency()                        
+                        # Gunakan grouped_orders bukan orders untuk menghindari duplikasi
+                        for order in grouped_orders:
+                            # Periksa apakah order sudah ada di hourly_order untuk mencegah duplikasi
+                            order_ids = [o.id if isinstance(o, models.Model) else o for o in hourly_order]
+                            if order.id not in order_ids:
+                                hourly_order.append(order)
+                                hourly_data['gto_sum'] += order.get_gto_in_company_currency()
+                                hourly_data['gst_sum'] += order.get_gst_in_company_currency()
+                                hourly_data['discount_sum'] += order.get_discount_in_company_currency()                        
                         payment_datas = grouped_orders.get_tangent_payment_datas()
                         for payment_type in payment_datas.keys():
                             hourly_data[payment_type+'_sum'] += payment_datas[payment_type]
@@ -334,11 +338,15 @@ class TangentApiConfig(models.Model):
                         data_by_dates[date]['sale_orders'] |= grouped_orders
                         hourly_data = data_by_dates[date]['data'][key]
                         hourly_order = hourly_data['orders']
+                        # Periksa duplikasi sebelum menambahkan order
                         for order in grouped_orders:
-                            hourly_order.append(order)
-                            hourly_data['gto_sum'] += order.get_gto_in_company_currency()
-                            hourly_data['gst_sum'] += order.get_gst_in_company_currency()
-                            hourly_data['discount_sum'] += order.get_discount_in_company_currency()                        
+                            # Periksa apakah order sudah ada di hourly_order untuk mencegah duplikasi
+                            order_ids = [o.id if isinstance(o, models.Model) else o for o in hourly_order]
+                            if order.id not in order_ids:
+                                hourly_order.append(order)
+                                hourly_data['gto_sum'] += order.get_gto_in_company_currency()
+                                hourly_data['gst_sum'] += order.get_gst_in_company_currency()
+                                hourly_data['discount_sum'] += order.get_discount_in_company_currency()                        
                         payment_datas = grouped_orders.get_tangent_payment_datas()
                         for payment_type in payment_datas.keys():
                             hourly_data[payment_type+'_sum'] += payment_datas[payment_type]
@@ -576,3 +584,82 @@ class TangentApiConfig(models.Model):
                 'type': 'success',
             }
         }
+        
+    def test_connection(self):
+        """Test connection to Tangent API
+        
+        This function attempts to get a token from the Tangent API to verify
+        that the connection and credentials are working correctly.
+        
+        Returns:
+            dict: Notification action with success or error message
+        """
+        self.ensure_one()
+        start_time = time.time()
+        
+        try:
+            # Try to get token from API
+            token = self.get_token()
+            
+            if token:
+                processing_time = time.time() - start_time
+                # Create a log entry for successful connection test
+                self.env['tangent.api.log'].create({
+                    'config_id': self.id,
+                    'endpoint_url': self.endpoint_url + '/v1/api/token',
+                    'http_method': 'GET',
+                    'request_headers': '{"Content-Type": "application/json"}',
+                    'response_status': 200,
+                    'response_body': '{"message": "Connection test successful"}',
+                    'is_success': True,
+                    'processing_time': processing_time,
+                })
+                
+                return {
+                    'type': 'ir.actions.client',
+                    'tag': 'display_notification',
+                    'params': {
+                        'title': _('Connection Successful'),
+                        'message': _('Successfully connected to Tangent API. Token received.'),
+                        'sticky': False,
+                        'type': 'success',
+                    }
+                }
+            else:
+                return {
+                    'type': 'ir.actions.client',
+                    'tag': 'display_notification',
+                    'params': {
+                        'title': _('Connection Failed'),
+                        'message': _('Failed to connect to Tangent API. Please check your credentials and endpoint URL.'),
+                        'sticky': False,
+                        'type': 'danger',
+                    }
+                }
+        except Exception as e:
+            # Create a log entry for failed connection test
+            processing_time = time.time() - start_time
+            error_message = f"Connection test failed: {str(e)}"
+            
+            self.env['tangent.api.log'].create({
+                'config_id': self.id,
+                'endpoint_url': self.endpoint_url + '/v1/api/token',
+                'http_method': 'GET',
+                'request_headers': '{"Content-Type": "application/json"}',
+                'response_status': 500,
+                'response_body': f'{{"error": "Connection test failed", "message": "{error_message}"}}',
+                'is_success': False,
+                'error_message': error_message,
+                'processing_time': processing_time,
+            })
+            
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': _('Connection Failed'),
+                    'message': _(f'Error: {error_message}'),
+                    'sticky': False,
+                    'type': 'danger',
+                }
+            }
