@@ -80,7 +80,7 @@
         <field name="name">tangent.api.log.tree</field>
         <field name="model">tangent.api.log</field>
         <field name="arch" type="xml">
-            <tree string="API Logs" create="false" decoration-success="is_success" decoration-danger="not is_success">
+            <tree string="API Logs" create="false" decoration-success="is_success" decoration-danger="not is_success" default_order="create_date desc, order_date desc">
                 <field name="create_date"/>
                 <field name="name"/>
                 <field name="config_id"/>
