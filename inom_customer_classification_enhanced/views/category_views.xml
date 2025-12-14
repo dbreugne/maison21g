@@ -1,0 +1,34 @@
+<odoo>
+    <record id="view_category_list" model="ir.ui.view">
+        <field name="name">inom.category.list</field>
+        <field name="model">inom.category</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="channel_id"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_inom_category_form" model="ir.ui.view">
+        <field name="name">inom.category.form</field>
+        <field name="model">inom.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="channel_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_category" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">inom.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

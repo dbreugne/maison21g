@@ -1,0 +1,23 @@
+<odoo>
+    <record id="view_sale_order_form_inom_classification" model="ir.ui.view">
+        <field name="name">sale.order.form.inom.classification</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Add a new tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Classification">
+                    <group>
+                        <field name="channel_id"/>
+                        <field name="category_id"
+                               domain="[('channel_id','=',channel_id)]"/>
+                        <field name="subcategory_id"
+                               domain="[('category_id','=',category_id)]"/>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

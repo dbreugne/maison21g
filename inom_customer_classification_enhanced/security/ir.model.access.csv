@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_channel,access_channel,model_inom_channel,,1,1,1,1
+access_category,access_category,model_inom_category,,1,1,1,1
+access_subcategory,access_subcategory,model_inom_subcategory,,1,1,1,1
+access_hq,access_hq,model_inom_hq_category,,1,1,1,1

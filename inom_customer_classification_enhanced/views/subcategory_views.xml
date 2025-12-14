@@ -1,0 +1,37 @@
+<odoo>
+    <record id="view_subcategory_list" model="ir.ui.view">
+        <field name="name">inom.subcategory.list</field>
+        <field name="model">inom.subcategory</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="category_id"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+     <record id="view_inom_subcategory_form" model="ir.ui.view">
+        <field name="name">inom.subcategory.form</field>
+        <field name="model">inom.subcategory</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="category_id"/>
+                        <field name="product_ids" widget="many2many_tags"/>
+                        <field name="country_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_subcategory" model="ir.actions.act_window">
+        <field name="name">Sub-Categories</field>
+        <field name="res_model">inom.subcategory</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
