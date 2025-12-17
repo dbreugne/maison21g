@@ -10,6 +10,8 @@ class InomCategory(models.Model):
     _description = "Category"
     name = fields.Char(required=True)
     channel_id = fields.Many2one("inom.channel", required=True)
+    product_ids = fields.Many2many("product.template")
+    country_ids = fields.Many2many("res.country")
 
 class InomSubCategory(models.Model):
     _name = "inom.subcategory"
