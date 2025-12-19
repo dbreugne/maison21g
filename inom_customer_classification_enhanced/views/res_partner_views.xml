@@ -1,0 +1,22 @@
+<odoo>
+    <record id="view_res_partner_form_inom_classification" model="ir.ui.view">
+        <field name="name">res.partner.form.inom.classification</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Classification">
+                    <group>
+                        <field name="custom_channel_id"/>
+                        <field name="custom_category_id"
+                               domain="[('channel_id','=',custom_channel_id)]"/>
+                        <field name="subcategory_id"
+                               domain="[('category_id','=',custom_category_id)]"/>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

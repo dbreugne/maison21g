@@ -1,0 +1,45 @@
+<odoo>
+    <record id="view_account_move_form_inom_classification" model="ir.ui.view">
+        <field name="name">account.move.form.inom.classification</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Add Classification tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Classification" invisible="move_type != 'out_invoice'" >
+                    <group>
+                        <field name="channel_id"/>
+                        <field name="category_id"
+                               domain="[('channel_id','=',channel_id)]"/>
+                        <field name="subcategory_id"
+                               domain="[('category_id','=',category_id)]"/>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='name']" position="after">
+                <field name="hq_category_id"  column_invisible="parent.move_type != 'in_invoice'"/>
+                <field name="customer_id" column_invisible="parent.move_type != 'in_invoice'" domain="[('customer_rank','=',1)]"  />
+            </xpath>
+
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='name']" position="after">
+                <field name="hq_category_id" column_invisible="True" groups="stock.group_stock_manager"/>
+                <field name="customer_id" column_invisible="True" groups="stock.group_stock_manager" domain="[('customer_rank','=',1)]"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Vendor Bill Line extra fields -->
+    <!-- <record id="view_account_move_line_form_inom_hq" model="ir.ui.view">
+        <field name="name">account.move.line.form.inom.hq</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_form"/>
+        <field name="arch" type="xml">
+            <group position="inside">
+                <field name="hq_category_id"/>
+                <field name="customer_id"/>
+            </group>
+        </field>
+    </record> -->
+</odoo>
