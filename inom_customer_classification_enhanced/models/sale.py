@@ -48,7 +48,7 @@ class SaleOrder(models.Model):
 
     def _get_country(self):
         for rec in self:
-            if rec.partner_id and rec.partner_id.product_ids:
+            if rec.partner_id and rec.partner_id.custom_country_ids:
                 rec.custom_country_ids=rec.partner_id.custom_country_ids.ids
             else:
                 rec.custom_country_ids=[(6,0,[])]
