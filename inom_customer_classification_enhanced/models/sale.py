@@ -39,19 +39,18 @@ class SaleOrder(models.Model):
 
     def _get_product_category(self):
         for rec in self:
-            if rec.subcategory_id:
-                rec.product_ids=[(6,0,rec.subcategory_id.product_ids.ids)]
-            elif rec.category_id:
-                rec.product_ids=[(6,0,rec.category_id.product_ids.ids)]
+            if rec.partner_id and rec.partner_id.product_ids:
+                rec.product_ids=[(6,0,rec.partner_id.product_ids.ids)]
             else:
                 rec.product_ids=[(6,0,[])]
 
+            
 
     def _get_country(self):
         for rec in self:
-            if rec.subcategory_id:
-                rec.country_ids=[(6,0,rec.subcategory_id.country_ids.ids)]
-            elif rec.category_id:
-                rec.country_ids=[(6,0,rec.category_id.country_ids.ids)]
+            if rec.partner_id and rec.partner_id.product_ids:
+                rec.country_ids=[(6,0,rec.partner_id.country_ids.ids)]
             else:
                 rec.country_ids=[(6,0,[])]
+
+            

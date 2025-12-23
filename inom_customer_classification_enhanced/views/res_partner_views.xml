@@ -13,6 +13,14 @@
                                domain="[('channel_id','=',custom_channel_id)]"/>
                         <field name="subcategory_id"
                                domain="[('category_id','=',custom_category_id)]"/>
+
+                        <field name="available_product_ids" widget="many2many_tags" invisible="1"/>
+                        <field name="available_country_ids" widget="many2many_tags" invisible="1"/>
+                        
+
+                        <field name="product_ids" widget="many2many_tags" domain="[('id','in',available_product_ids)]"/>
+                        <field name="country_ids" widget="many2many_tags" domain="[('id','in',available_country_ids)]"/>
+
                     </group>
                 </page>
             </xpath>
