@@ -18,8 +18,8 @@
                         <field name="available_country_ids" widget="many2many_tags" invisible="1"/>
                         
 
-                        <field name="product_ids" widget="many2many_tags" domain="[('id','in',available_product_ids)]"/>
-                        <field name="country_ids" widget="many2many_tags" domain="[('id','in',available_country_ids)]"/>
+                        <field name="custom_product_ids" widget="many2many_tags" domain="[('id','in',available_product_ids)]"/>
+                        <field name="custom_country_ids" widget="many2many_tags" domain="[('id','in',available_country_ids)]"/>
 
                     </group>
                 </page>

@@ -11,8 +11,8 @@ class SaleOrder(models.Model):
         "inom.subcategory",compute="_compute_subcategory_classification",store=True,readonly=False,
         domain="[('category_id','=',category_id)]"
     )
-    product_ids = fields.Many2many("product.template",compute="_get_product_category")
-    country_ids = fields.Many2many("res.country",compute="_get_country")
+    custom_product_ids = fields.Many2many("product.template",compute="_get_product_category")
+    custom_country_ids = fields.Many2many("res.country",compute="_get_country")
 
     @api.depends("partner_id","partner_id.custom_channel_id")
     def _compute_partner_classification(self):
@@ -39,18 +39,18 @@ class SaleOrder(models.Model):
 
     def _get_product_category(self):
         for rec in self:
-            if rec.partner_id and rec.partner_id.product_ids:
-                rec.product_ids=[(6,0,rec.partner_id.product_ids.ids)]
+            if rec.partner_id and rec.partner_id.custom_product_ids:
+                rec.custom_product_ids=rec.partner_id.custom_product_ids.ids
             else:
-                rec.product_ids=[(6,0,[])]
+                rec.custom_product_ids=[(6,0,[])]
 
             
 
     def _get_country(self):
         for rec in self:
             if rec.partner_id and rec.partner_id.product_ids:
-                rec.country_ids=[(6,0,rec.partner_id.country_ids.ids)]
+                rec.custom_country_ids=rec.partner_id.custom_country_ids.ids
             else:
-                rec.country_ids=[(6,0,[])]
+                rec.custom_country_ids=[(6,0,[])]
 
             
