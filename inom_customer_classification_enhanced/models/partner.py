@@ -19,12 +19,12 @@ class ResPartner(models.Model):
     def _compute_country_ids(self):
         for rec in self:
             if rec.subcategory_id:
-                rec.available_country_ids=rec.subcategory_id.country_ids.ids
+                rec.available_country_ids=[(6,0,rec.subcategory_id.country_ids.ids)]
                 
                 #print("4444444444444444444",rec.subcategory_id.product_ids)
             elif rec.custom_category_id:
                 #print("4444444444444444444",rec.custom_category_id.product_ids)
-                rec.available_country_ids=rec.custom_category_id.country_ids.ids
+                rec.available_country_ids=[(6,0,rec.custom_category_id.country_ids.ids)]
             else:
                 rec.available_country_ids=[(6,0,[])]
 
@@ -35,12 +35,12 @@ class ResPartner(models.Model):
     def _compute_product_ids(self):
         for rec in self:
             if rec.subcategory_id:
-                rec.available_product_ids=rec.subcategory_id.product_ids.ids
+                rec.available_product_ids=[(6,0,rec.subcategory_id.product_ids.ids)]
                 
                 #print("4444444444444444444",rec.subcategory_id.product_ids)
             elif rec.custom_category_id:
                 #print("4444444444444444444",rec.custom_category_id.product_ids)
-                rec.available_product_ids=rec.custom_category_id.product_ids.ids
+                rec.available_product_ids=[(6,0,rec.custom_category_id.product_ids.ids)]
                 #rec.available_country_ids=rec.custom_category_id.country_ids.ids
             else:
                 rec.available_product_ids=[(6,0,[])]
