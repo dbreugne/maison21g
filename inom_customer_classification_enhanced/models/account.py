@@ -12,8 +12,8 @@ class AccountMove(models.Model):
         domain="[('category_id','=',category_id)]"
     )
 
-    custom_product_ids = fields.Many2many("product.template",compute="_get_product_category")
-    custom_country_ids = fields.Many2many("res.country",compute="_get_country")
+    custom_product_ids = fields.Many2many("product.template",compute="_get_product_category",string="products")
+    custom_country_ids = fields.Many2many("res.country",compute="_get_country",string="Country")
 
     @api.depends("partner_id","partner_id.custom_channel_id")
     def _compute_partner_classification(self):

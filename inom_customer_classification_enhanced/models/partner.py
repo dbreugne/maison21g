@@ -11,8 +11,8 @@ class ResPartner(models.Model):
     available_product_ids = fields.Many2many('product.template',compute="_compute_product_ids",store=True)
     available_country_ids = fields.Many2many('res.country',compute="_compute_country_ids",store=True)
     
-    custom_product_ids = fields.Many2many("product.template","res_partner_rel")
-    custom_country_ids = fields.Many2many("res.country","res_partner_country_rel")
+    custom_product_ids = fields.Many2many("product.template","res_partner_rel",string="products")
+    custom_country_ids = fields.Many2many("res.country","res_partner_country_rel",string="Country")
 
 
     @api.depends('custom_category_id','subcategory_id')
