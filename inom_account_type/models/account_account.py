@@ -6,6 +6,7 @@ class AccountAccount(models.Model):
     account_type = fields.Selection(
         selection_add=[
             ('income_revenue', 'Net Sales (Sell-In)'),
+            ('expense_cogs', 'COGS'),
             ('expense_dis_expense', 'Distribution Expenses'),
            ('expense_sell_expense', 'Selling expenses'),
            ('expense_mark_expense', 'Marketing expenses'),
@@ -19,5 +20,6 @@ class AccountAccount(models.Model):
             'expense_mark_expense': 'cascade',
             'expense_GA_expense': 'cascade',
             'expense_da_expense': 'cascade',
+            'expense_cogs': 'cascade',
         }
     )
