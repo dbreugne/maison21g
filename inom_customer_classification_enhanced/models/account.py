@@ -63,5 +63,19 @@ class AccountMove(models.Model):
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
-    hq_category_id = fields.Many2one("inom.hq.category")
+    hq_category_id = fields.Many2one("inom.hq.category",string="Category")
     customer_id = fields.Many2one("res.partner", string="Customer/Patient")
+
+
+
+class PurchaseOrderLine(models.Model):
+    _inherit = "purchase.order.line"
+    hq_category_id = fields.Many2one("inom.hq.category",string="Category")
+    customer_id = fields.Many2one("res.partner", string="Customer/Patient")
+
+
+    def _prepare_account_move_line(self, move=False):
+        values = super()._prepare_account_move_line(move=move)
+        values['hq_category_id']=self.hq_category_id.id
+        values['customer_id']=self.customer_id.id
+        return values
