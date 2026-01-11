@@ -3,5 +3,5 @@
     <menuitem id="menu_channel" name="Channels" parent="inom_root" action="action_channel"/>
     <menuitem id="menu_category" name="Categories" parent="inom_root" action="action_category"/>
     <menuitem id="menu_subcategory" name="Sub-Categories" parent="inom_root" action="action_subcategory"/>
-    <menuitem id="menu_hq" name="HQ Categories" parent="inom_root" action="action_hq"/>
+    <menuitem id="menu_hq" name="Vendor Categories" parent="inom_root" action="action_hq"/>
 </odoo>

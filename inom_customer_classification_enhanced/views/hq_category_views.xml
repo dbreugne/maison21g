@@ -26,7 +26,7 @@
     </record>
 
     <record id="action_hq" model="ir.actions.act_window">
-        <field name="name">HQ Categories</field>
+        <field name="name">Vendor Categories</field>
         <field name="res_model">inom.hq.category</field>
         <field name="view_mode">tree,form</field>
     </record>

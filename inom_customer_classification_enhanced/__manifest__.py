@@ -5,7 +5,7 @@
     "author": "INOM ERP",
     "license": "LGPL-3",
     "category": "Sales",
-    "depends": ["base", "contacts", "sale_management", "account"],
+    "depends": ["base", "contacts", "sale_management", "account","purchase"],
     "data": [
         "security/ir.model.access.csv",
         "views/channel_views.xml",
@@ -16,6 +16,7 @@
         "views/sale_order_views.xml",
         "views/account_move_views.xml",
         "views/menu.xml",
+        "views/purchase_order_view_inherit.xml"
     ],
     "installable": True,
     "application": False
