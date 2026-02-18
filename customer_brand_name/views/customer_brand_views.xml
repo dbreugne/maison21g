@@ -1,0 +1,40 @@
+<odoo>
+
+    <record id="view_customer_brand_tree" model="ir.ui.view">
+        <field name="name">customer.brand.tree</field>
+        <field name="model">customer.brand</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_customer_brand_form" model="ir.ui.view">
+        <field name="name">customer.brand.form</field>
+        <field name="model">customer.brand</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_customer_brand" model="ir.actions.act_window">
+        <field name="name">Customer Brand Name</field>
+        <field name="res_model">customer.brand</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="menu_customer_brand"
+        name="Customer Brand Name"
+        parent="sale.menu_sale_config"
+        action="action_customer_brand"
+        sequence="60" />
+        
+</odoo>
