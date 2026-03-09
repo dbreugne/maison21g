@@ -27,19 +27,27 @@ class AccountGeneralLedgerReport(models.AbstractModel):
                 aml_result['communication'] = aml_result['name']
 
             if aml_result['analytic_distribution']:
-                analytic_account_list=[*aml_result['analytic_distribution']]
-                analytic_account=''
 
-                for i in range(len(analytic_account_list)):
+                analytic_ids = [int(x) for x in aml_result['analytic_distribution'].keys()]
+
+                analytic_accounts = self.env['account.analytic.account'].browse(analytic_ids)
+
+                aml_result['analytic_distribution'] = ', '.join(analytic_accounts.mapped('name'))
+
+            # if aml_result['analytic_distribution']:
+            #     analytic_account_list=[*aml_result['analytic_distribution']]
+            #     analytic_account=''
+
+            #     for i in range(len(analytic_account_list)):
   
-                      # Converts each element to an integer
-                    analytic_account_list[i] = int(analytic_account_list[i])
+            #           # Converts each element to an integer
+            #         analytic_account_list[i] = int(analytic_account_list[i])
 
-                analytic_account_ids = self.env['account.analytic.account'].browse(analytic_account_list)
-                for analytic_account_id in analytic_account_ids:
-                    analytic_account+=analytic_account_id.name
+            #     analytic_account_ids = self.env['account.analytic.account'].browse(analytic_account_list)
+            #     for analytic_account_id in analytic_account_ids:
+            #         analytic_account+=analytic_account_id.name
 
-                aml_result['analytic_distribution']=analytic_account
+            #     aml_result['analytic_distribution']=analytic_account
 
 
             # The same aml can return multiple results when using account_report_cash_basis module, if the receivable/payable
