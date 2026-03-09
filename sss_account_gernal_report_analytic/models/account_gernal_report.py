@@ -27,12 +27,23 @@ class AccountGeneralLedgerReport(models.AbstractModel):
                 aml_result['communication'] = aml_result['name']
 
             if aml_result['analytic_distribution']:
+                analytic_ids = []
+                dist = aml_result['analytic_distribution']
 
-                analytic_ids = [int(x) for x in aml_result['analytic_distribution'].keys()]
+                if isinstance(dist, dict):
+                    analytic_ids = [int(k) for k in dist.keys()]
 
-                analytic_accounts = self.env['account.analytic.account'].browse(analytic_ids)
+                elif isinstance(dist, str):
+                    analytic_ids = [int(x.strip()) for x in dist.split(',') if x.strip()]
 
-                aml_result['analytic_distribution'] = ', '.join(analytic_accounts.mapped('name'))
+                elif isinstance(dist, (list, tuple)):
+                    analytic_ids = [int(x) for x in dist if x]
+
+                if analytic_ids:
+                    analytic_accounts = self.env['account.analytic.account'].browse(analytic_ids)
+                    aml_result['analytic_distribution'] = ', '.join(analytic_accounts.mapped('name'))
+                else:
+                    aml_result['analytic_distribution'] = ''
 
             # if aml_result['analytic_distribution']:
             #     analytic_account_list=[*aml_result['analytic_distribution']]
