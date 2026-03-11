@@ -26,18 +26,28 @@ class AccountGeneralLedgerReport(models.AbstractModel):
             else:
                 aml_result['communication'] = aml_result['name']
 
-            if aml_result['analytic_distribution']:
-                analytic_ids = []
+            if aml_result.get('analytic_distribution'):
+
                 dist = aml_result['analytic_distribution']
+                analytic_ids = []
 
+                # case 1: JSON dict
                 if isinstance(dist, dict):
-                    analytic_ids = [int(k) for k in dist.keys()]
+                    analytic_ids = [int(k) for k in dist.keys() if str(k).isdigit()]
 
+                # case 2: string
                 elif isinstance(dist, str):
-                    analytic_ids = [int(x.strip()) for x in dist.split(',') if x.strip()]
+                    analytic_ids = [
+                        int(x.strip()) for x in dist.split(',')
+                        if x.strip().isdigit()
+                    ]
 
+                # case 3: list / tuple
                 elif isinstance(dist, (list, tuple)):
-                    analytic_ids = [int(x) for x in dist if x]
+                    analytic_ids = [
+                        int(x) for x in dist
+                        if str(x).isdigit()
+                    ]
 
                 if analytic_ids:
                     analytic_accounts = self.env['account.analytic.account'].browse(analytic_ids)
