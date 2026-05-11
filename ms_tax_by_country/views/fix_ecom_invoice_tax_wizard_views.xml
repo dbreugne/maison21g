@@ -10,15 +10,17 @@
                         <field name="date_from"/>
                         <field name="date_to"/>
                         <field name="include_posted"/>
+                        <field name="include_paid"/>
                     </group>
                     <group string="Preview">
                         <field name="invoice_count" string="Invoices to Fix"/>
                         <field name="line_count" string="Invoice Lines Affected"/>
-                        <field name="skipped_paid_count" string="Paid Invoices (Skipped)"/>
+                        <field name="skipped_count" string="Invoices Skipped"/>
                     </group>
-                    <div class="alert alert-warning" role="alert" invisible="skipped_paid_count == 0">
-                        <strong>Warning:</strong> Paid invoices cannot be automatically fixed.
-                        Please correct their tax codes manually in Odoo.
+                    <div class="alert alert-info" role="alert">
+                        <strong>Note:</strong> Paid invoices using <b>[old] Sales Tax 9% SR</b>
+                        (price-inclusive) can be fixed safely — the invoice total does not change
+                        so payment reconciliation is preserved.
                     </div>
                     <div class="alert alert-info" role="alert">
                         <strong>Rule:</strong>

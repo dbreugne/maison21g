@@ -6,6 +6,10 @@ TAX_INTERNATIONAL_NAMES = ['Sales Tax 0% ZR']
 TAX_INTERNATIONAL_LABEL = '0% ZR'
 SINGAPORE_COUNTRY_CODE = 'SG'
 
+# Price-inclusive taxes: changing these to 0% ZR does NOT change the invoice total,
+# so paid invoices can be safely fixed without breaking payment reconciliation.
+PRICE_INCLUSIVE_TAX_NAMES = ['[old] Sales Tax 9% SR']
+
 
 class FixEcomInvoiceTaxWizard(models.TransientModel):
     _name = 'fix.ecom.invoice.tax.wizard'
@@ -16,26 +20,29 @@ class FixEcomInvoiceTaxWizard(models.TransientModel):
     include_posted = fields.Boolean(
         string='Include Confirmed Invoices',
         default=True,
-        help='Posted invoices will be reset to draft, tax corrected, then re-confirmed. '
-             'Paid invoices are always skipped.',
+    )
+    include_paid = fields.Boolean(
+        string='Include Paid / In-Payment Invoices',
+        default=True,
+        help='Safe to enable when the current tax is price-inclusive ([old] Sales Tax 9% SR). '
+             'The invoice total stays the same so payment reconciliation is not broken.',
     )
     invoice_count = fields.Integer(compute='_compute_preview')
     line_count = fields.Integer(compute='_compute_preview')
-    skipped_paid_count = fields.Integer(compute='_compute_preview')
+    skipped_count = fields.Integer(compute='_compute_preview')
 
-    @api.depends('date_from', 'date_to', 'include_posted')
+    @api.depends('date_from', 'date_to', 'include_posted', 'include_paid')
     def _compute_preview(self):
         for wiz in self:
-            fixable, paid = wiz._get_invoices()
+            fixable, skipped = wiz._get_invoices()
             wiz.invoice_count = len(fixable)
             wiz.line_count = sum(
                 len(inv.invoice_line_ids.filtered(lambda l: l.display_type == 'product'))
                 for inv in fixable
             )
-            wiz.skipped_paid_count = len(paid)
+            wiz.skipped_count = len(skipped)
 
     def _get_invoices(self):
-        """Return (fixable_invoices, paid_invoices) recordsets."""
         states = ['draft']
         if self.include_posted:
             states.append('posted')
@@ -46,6 +53,9 @@ class FixEcomInvoiceTaxWizard(models.TransientModel):
             ('invoice_date', '<=', self.date_to),
             ('state', 'in', states),
         ])
+
+        if self.include_paid:
+            return invoices, self.env['account.move']
 
         paid = invoices.filtered(
             lambda m: m.payment_state in ['paid', 'in_payment', 'partial']
@@ -75,9 +85,55 @@ class FixEcomInvoiceTaxWizard(models.TransientModel):
             ('active', '=', True),
         ], limit=1)
 
+    def _get_reconciled_payments(self, invoice):
+        """Return list of (payment, amount) to re-reconcile after reset."""
+        reconciled = []
+        for line in invoice.line_ids.filtered(
+            lambda l: l.account_id.account_type == 'asset_receivable' and l.reconciled
+        ):
+            for matched in line.matched_credit_ids:
+                reconciled.append(matched.credit_move_id)
+            for matched in line.matched_debit_ids:
+                reconciled.append(matched.debit_move_id)
+        return reconciled
+
+    def _fix_invoice(self, invoice, tax):
+        """Reset to draft, fix tax, re-post, restore reconciliation."""
+        payment_state = invoice.payment_state
+        is_paid = payment_state in ['paid', 'in_payment', 'partial']
+
+        # Save payment move lines before unreconciling
+        reconciled_lines = self._get_reconciled_payments(invoice) if is_paid else []
+
+        invoice.sudo().button_draft()
+
+        invoice.invoice_line_ids.filtered(
+            lambda l: l.display_type == 'product'
+        ).write({'tax_ids': [(6, 0, tax.ids)]})
+
+        bank_id = invoice.partner_bank_id
+        if bank_id and not bank_id.allow_out_payment:
+            invoice.partner_bank_id = False
+        invoice.sudo().action_post()
+        if bank_id and not invoice.partner_bank_id:
+            invoice.partner_bank_id = bank_id
+
+        # Re-reconcile with original payments
+        if reconciled_lines:
+            receivable_line = invoice.line_ids.filtered(
+                lambda l: l.account_id.account_type == 'asset_receivable'
+                and not l.reconciled
+            )
+            if receivable_line:
+                (receivable_line + self.env['account.move.line'].union(*[
+                    self.env['account.move.line'].browse(l.id)
+                    for l in reconciled_lines
+                    if not l.reconciled
+                ])).reconcile()
+
     def action_fix_taxes(self):
         self.ensure_one()
-        fixable, paid = self._get_invoices()
+        fixable, skipped = self._get_invoices()
 
         if not fixable:
             return {
@@ -91,7 +147,7 @@ class FixEcomInvoiceTaxWizard(models.TransientModel):
                 },
             }
 
-        fixed = no_country = no_tax = 0
+        fixed = no_country = no_tax = errors = 0
 
         for invoice in fixable:
             country = invoice.partner_shipping_id.country_id
@@ -104,33 +160,21 @@ class FixEcomInvoiceTaxWizard(models.TransientModel):
                 no_tax += 1
                 continue
 
-            was_posted = invoice.state == 'posted'
-            if was_posted:
-                invoice.sudo().button_draft()
-
-            invoice.invoice_line_ids.filtered(
-                lambda l: l.display_type == 'product'
-            ).write({'tax_ids': [(6, 0, tax.ids)]})
-
-            if was_posted:
-                # Clear partner_bank_id temporarily to bypass untrusted bank account check,
-                # then restore it after posting (Odoo 17 blocks post if bank not trusted)
-                bank_id = invoice.partner_bank_id
-                if bank_id and not bank_id.allow_out_payment:
-                    invoice.partner_bank_id = False
-                invoice.sudo().action_post()
-                if bank_id and not invoice.partner_bank_id:
-                    invoice.partner_bank_id = bank_id
-
-            fixed += 1
+            try:
+                self._fix_invoice(invoice, tax)
+                fixed += 1
+            except Exception:
+                errors += 1
 
         parts = [_('%d invoices fixed.') % fixed]
-        if paid:
-            parts.append(_('%d paid invoices skipped (manual fix required).') % len(paid))
+        if skipped:
+            parts.append(_('%d invoices skipped (excluded by filter).') % len(skipped))
         if no_country:
-            parts.append(_('%d invoices skipped: no shipping country set.') % no_country)
+            parts.append(_('%d skipped: no shipping country.') % no_country)
         if no_tax:
-            parts.append(_('%d invoices skipped: matching tax not found in system.') % no_tax)
+            parts.append(_('%d skipped: tax not found.') % no_tax)
+        if errors:
+            parts.append(_('%d errors (check manually).') % errors)
 
         return {
             'type': 'ir.actions.client',
