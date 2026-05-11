@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="fix_ecom_invoice_tax_wizard_form_view" model="ir.ui.view">
+        <field name="name">fix.ecom.invoice.tax.wizard.form</field>
+        <field name="model">fix.ecom.invoice.tax.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Fix ECOM Invoice GST Tax Codes">
+                <sheet>
+                    <group string="Date Range">
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="include_posted"/>
+                    </group>
+                    <group string="Preview">
+                        <field name="invoice_count" string="Invoices to Fix"/>
+                        <field name="line_count" string="Invoice Lines Affected"/>
+                        <field name="skipped_paid_count" string="Paid Invoices (Skipped)"/>
+                    </group>
+                    <div class="alert alert-warning" role="alert" invisible="skipped_paid_count == 0">
+                        <strong>Warning:</strong> Paid invoices cannot be automatically fixed.
+                        Please correct their tax codes manually in Odoo.
+                    </div>
+                    <div class="alert alert-info" role="alert">
+                        <strong>Rule:</strong>
+                        Shipping address in Singapore → Sales Tax 9% SR |
+                        Shipping address overseas → Sales Tax 0% ZR
+                    </div>
+                </sheet>
+                <footer>
+                    <button name="action_fix_taxes" string="Apply Fix" type="object"
+                            class="btn-primary"
+                            confirm="This will update tax codes on the selected invoices. Posted invoices will be temporarily reset to draft. Continue?"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_fix_ecom_invoice_tax_wizard" model="ir.actions.act_window">
+        <field name="name">Fix ECOM GST Tax Codes</field>
+        <field name="res_model">fix.ecom.invoice.tax.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_fix_ecom_invoice_tax"
+              name="Fix ECOM GST Tax Codes"
+              action="action_fix_ecom_invoice_tax_wizard"
+              parent="account.menu_finance_entries_management"
+              sequence="99"/>
+</odoo>
