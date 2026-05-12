@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rollback_inv_tax_wizard_form_view" model="ir.ui.view">
+        <field name="name">rollback.inv.tax.wizard.form</field>
+        <field name="model">rollback.inv.tax.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Rollback Invoice Tax Codes">
+                <sheet>
+                    <div class="alert alert-danger" role="alert">
+                        <strong>EMERGENCY ROLLBACK</strong> — Restores original tax codes on
+                        invoices where taxes were incorrectly overwritten by a module update.
+                        Uses Odoo change history to determine the correct original tax.
+                    </div>
+                    <group>
+                        <field name="cutoff_date" string="Module Update Was Run After"/>
+                    </group>
+                    <group string="Preview">
+                        <field name="affected_count" string="Invoices to Restore"/>
+                        <field name="paid_count" string="Paid Invoices (Skipped)"/>
+                    </group>
+                    <field name="preview_text" widget="text" readonly="1" string="Invoice List"/>
+                    <div class="alert alert-warning" role="alert"
+                         attrs="{'invisible': [('paid_count', '=', 0)]}">
+                        <strong>Paid invoices are skipped.</strong>
+                        Fix these manually via credit note or journal adjustment.
+                    </div>
+                </sheet>
+                <footer>
+                    <button name="action_rollback"
+                            string="Rollback Taxes to Original"
+                            type="object"
+                            class="btn-danger"
+                            confirm="This will reset taxes on the listed invoices back to their original values. Posted invoices will be briefly set to draft then re-confirmed. Continue?"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_rollback_inv_tax_wizard" model="ir.actions.act_window">
+        <field name="name">Rollback Invoice Tax Codes</field>
+        <field name="res_model">rollback.inv.tax.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_rollback_inv_tax"
+              name="Rollback Invoice Tax Codes"
+              action="action_rollback_inv_tax_wizard"
+              parent="account.menu_finance_entries_management"
+              sequence="100"/>
+</odoo>

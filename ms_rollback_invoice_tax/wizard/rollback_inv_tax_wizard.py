@@ -9,12 +9,12 @@ class RollbackInvTaxWizard(models.TransientModel):
     cutoff_date = fields.Datetime(
         string='Changes Since',
         required=True,
-        default='2026-05-09 00:00:00',
-        help='Datetime when the bad module update was deployed. All tax changes after this date on invoices with a previous tax will be reverted.',
+        default='2026-05-10 00:00:00',
+        help='Datetime when the bad module update ran. Tax changes after this date (on invoices that already had a tax) will be reverted.',
     )
-    affected_count = fields.Integer(compute='_compute_preview', string='Invoices Affected')
-    paid_count = fields.Integer(compute='_compute_preview', string='Paid (Cannot Auto-Fix)')
-    preview_text = fields.Text(compute='_compute_preview', string='Preview')
+    affected_count = fields.Integer(compute='_compute_preview', string='Invoices to Restore')
+    paid_count = fields.Integer(compute='_compute_preview', string='Paid Invoices (Skipped)')
+    preview_text = fields.Text(compute='_compute_preview', string='Invoice List')
 
     @api.depends('cutoff_date')
     def _compute_preview(self):
@@ -27,21 +27,17 @@ class RollbackInvTaxWizard(models.TransientModel):
             wiz.affected_count = len(fixable)
             wiz.paid_count = len(paid)
             lines = []
-            for inv in fixable[:20]:
+            for inv in fixable[:30]:
                 c = next((x for x in changes if x['invoice_id'] == inv.id), None)
                 orig = c['original_tax'] if c else '?'
-                lines.append(f"  {inv.name}  [{inv.state}]  original tax: {orig}")
-            if len(fixable) > 20:
-                lines.append(f"  ... and {len(fixable) - 20} more")
+                lines.append(f"  {inv.name}  [{inv.state}]  → restore: {orig}")
+            if len(fixable) > 30:
+                lines.append(f"  ... and {len(fixable) - 30} more")
             if paid:
-                lines.append(f"\nPAID (manual fix needed): {', '.join(paid.mapped('name'))}")
-            wiz.preview_text = '\n'.join(lines) if lines else 'No invoices found to rollback.'
+                lines.append(f"\nPAID (fix manually): {', '.join(paid.mapped('name'))}")
+            wiz.preview_text = '\n'.join(lines) or 'No invoices found.'
 
     def _get_affected_changes(self):
-        """
-        Return list of dicts: {invoice_id, original_tax (name), new_tax (name)}
-        Only includes invoices where a pre-existing tax was overwritten (old_value_char not empty).
-        """
         field = self.env['ir.model.fields'].search([
             ('model', '=', 'account.move.line'),
             ('name', '=', 'tax_ids'),
@@ -57,34 +53,20 @@ class RollbackInvTaxWizard(models.TransientModel):
             ('old_value_char', '!=', ''),
         ])
 
-        # Build map: invoice_id -> list of (original_tax_name, new_tax_name)
         inv_changes = {}
         for t in trackings:
             inv_id = t.mail_message_id.res_id
             if inv_id not in inv_changes:
-                inv_changes[inv_id] = []
-            inv_changes[inv_id].append({
-                'original_tax': t.old_value_char,
-                'new_tax': t.new_value_char,
-            })
+                inv_changes[inv_id] = t.old_value_char
 
-        result = []
-        for inv_id, changes in inv_changes.items():
-            # Use the most common original tax for this invoice
-            orig = changes[0]['original_tax']
-            result.append({
-                'invoice_id': inv_id,
-                'original_tax': orig,
-                'new_tax': changes[0]['new_tax'],
-                'all_originals': changes,
-            })
-        return result
+        return [{'invoice_id': inv_id, 'original_tax': orig_tax}
+                for inv_id, orig_tax in inv_changes.items()]
 
     def action_rollback(self):
         self.ensure_one()
         changes = self._get_affected_changes()
         if not changes:
-            raise UserError(_('No affected invoices found after the given date.'))
+            raise UserError(_('No affected invoices found after %s.') % self.cutoff_date)
 
         fixed = 0
         skipped_paid = 0
@@ -99,15 +81,14 @@ class RollbackInvTaxWizard(models.TransientModel):
                 skipped_paid += 1
                 continue
 
-            original_tax_name = change['original_tax']
             original_tax = self.env['account.tax'].search([
-                ('name', '=', original_tax_name),
+                ('name', '=', change['original_tax']),
                 ('type_tax_use', '=', 'sale'),
                 ('company_id', '=', invoice.company_id.id),
             ], limit=1)
 
             if not original_tax:
-                errors.append(f"{invoice.name}: tax '{original_tax_name}' not found in database")
+                errors.append(f"{invoice.name}: tax '{change['original_tax']}' not found")
                 continue
 
             was_posted = invoice.state == 'posted'
@@ -115,10 +96,9 @@ class RollbackInvTaxWizard(models.TransientModel):
                 if was_posted:
                     invoice.button_draft()
 
-                product_lines = invoice.invoice_line_ids.filtered(
+                invoice.invoice_line_ids.filtered(
                     lambda l: l.display_type == 'product'
-                )
-                product_lines.write({'tax_ids': [(6, 0, original_tax.ids)]})
+                ).write({'tax_ids': [(6, 0, original_tax.ids)]})
 
                 if was_posted:
                     invoice.action_post()
@@ -137,16 +117,15 @@ class RollbackInvTaxWizard(models.TransientModel):
         if skipped_paid:
             parts.append(_('%d paid invoices skipped — fix manually.') % skipped_paid)
         if errors:
-            parts.append(_('Errors:\n') + '\n'.join(errors))
+            parts.append('Errors:\n' + '\n'.join(errors))
 
-        msg_type = 'success' if not errors else 'warning'
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
                 'title': _('Rollback Complete'),
                 'message': '\n'.join(parts),
-                'type': msg_type,
+                'type': 'success' if not errors else 'warning',
                 'sticky': True,
             },
         }
