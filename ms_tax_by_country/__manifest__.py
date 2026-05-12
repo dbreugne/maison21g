@@ -1,6 +1,6 @@
 {
     'name': 'Tax by Country (SG/International)',
-    'version': '17.0.2.0',
+    'version': '17.0.3.0',
     'category': 'Accounting',
     'summary': 'Auto-apply Sales Tax 9% SR for Singapore, Sales Tax 0% ZR for international orders',
     'depends': ['sale', 'account'],
