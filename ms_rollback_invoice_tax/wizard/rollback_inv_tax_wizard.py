@@ -1,6 +1,9 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
+# Only revert these invoice types — ECOM and WSH were intentionally fixed by the module.
+REVERT_PREFIXES = ('INV/', 'CN/')
+
 
 class RollbackInvTaxWizard(models.TransientModel):
     _name = 'rollback.inv.tax.wizard'
@@ -10,7 +13,7 @@ class RollbackInvTaxWizard(models.TransientModel):
         string='Changes Since',
         required=True,
         default='2026-05-10 00:00:00',
-        help='Datetime when the bad module update ran. Tax changes after this date (on invoices that already had a tax) will be reverted.',
+        help='Datetime when the bad module update ran. Only INV and CN invoices are processed — ECOM/WSH were intentionally fixed.',
     )
     affected_count = fields.Integer(compute='_compute_preview', string='Invoices to Restore')
     paid_count = fields.Integer(compute='_compute_preview', string='Paid Invoices (Skipped)')
@@ -59,8 +62,13 @@ class RollbackInvTaxWizard(models.TransientModel):
             if inv_id not in inv_changes:
                 inv_changes[inv_id] = t.old_value_char
 
-        return [{'invoice_id': inv_id, 'original_tax': orig_tax}
-                for inv_id, orig_tax in inv_changes.items()]
+        # Only include INV/* and CN/* — ECOM/WSH were intentionally fixed.
+        result = []
+        for inv_id, orig_tax in inv_changes.items():
+            invoice = self.env['account.move'].browse(inv_id)
+            if invoice.exists() and any(invoice.name.startswith(p) for p in REVERT_PREFIXES):
+                result.append({'invoice_id': inv_id, 'original_tax': orig_tax})
+        return result
 
     def action_rollback(self):
         self.ensure_one()
