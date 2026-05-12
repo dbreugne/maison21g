@@ -20,7 +20,7 @@
                     </group>
                     <field name="preview_text" widget="text" readonly="1" string="Invoice List"/>
                     <div class="alert alert-warning" role="alert"
-                         attrs="{'invisible': [('paid_count', '=', 0)]}">
+                         invisible="paid_count == 0">
                         <strong>Paid invoices are skipped.</strong>
                         Fix these manually via credit note or journal adjustment.
                     </div>
