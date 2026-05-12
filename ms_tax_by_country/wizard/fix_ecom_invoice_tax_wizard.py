@@ -1,3 +1,7 @@
+import base64
+import csv
+import io
+
 from odoo import api, fields, models, _
 
 TAX_SINGAPORE_NAMES = ['Sales Tax 9% SR', '[old] Sales Tax 9% SR']
@@ -135,6 +139,80 @@ class FixEcomInvoiceTaxWizard(models.TransientModel):
                     for l in reconciled_lines
                     if not l.reconciled
                 ])).reconcile()
+
+    def action_export_list(self):
+        self.ensure_one()
+        fixable, _ = self._get_invoices()
+
+        # Precompute SG/non-SG taxes once to avoid repeated DB queries in loop
+        company = self.env.company
+        sg_tax = self._find_tax(
+            self.env.ref('base.sg', raise_if_not_found=False)
+            or self.env['res.country'].search([('code', '=', 'SG')], limit=1),
+            company,
+        )
+        zr_tax = self.env['account.tax'].search([
+            ('name', 'in', TAX_INTERNATIONAL_NAMES),
+            ('type_tax_use', '=', 'sale'),
+            ('company_id', '=', company.id),
+            ('active', '=', True),
+        ], limit=1)
+
+        # Prefetch all needed fields in bulk
+        fixable.read(['name', 'invoice_date', 'state', 'payment_state',
+                      'partner_id', 'partner_shipping_id'])
+        fixable.mapped('partner_id.name')
+        fixable.mapped('partner_shipping_id.country_id.code')
+        fixable.mapped('invoice_line_ids.display_type')
+        fixable.mapped('invoice_line_ids.tax_ids.name')
+
+        output = io.StringIO()
+        writer = csv.writer(output)
+        writer.writerow([
+            'Invoice Number', 'Customer', 'Invoice Date',
+            'State', 'Payment State', 'Shipping Country',
+            'Current Tax', 'Correct Tax',
+        ])
+
+        for invoice in fixable:
+            country = invoice.partner_shipping_id.country_id
+            current_taxes = ', '.join(
+                invoice.invoice_line_ids.filtered(
+                    lambda l: l.display_type == 'product'
+                ).mapped('tax_ids.name')
+            )
+            if country.code == SINGAPORE_COUNTRY_CODE:
+                correct_tax = sg_tax
+            elif country:
+                correct_tax = zr_tax
+            else:
+                correct_tax = self.env['account.tax']
+
+            writer.writerow([
+                invoice.name,
+                invoice.partner_id.name,
+                invoice.invoice_date,
+                invoice.state,
+                invoice.payment_state,
+                country.name if country else '',
+                current_taxes,
+                correct_tax.name if correct_tax else 'NOT FOUND',
+            ])
+
+        csv_bytes = output.getvalue().encode('utf-8-sig')
+        attachment = self.env['ir.attachment'].create({
+            'name': 'ecom_invoices_to_fix.csv',
+            'type': 'binary',
+            'datas': base64.b64encode(csv_bytes),
+            'mimetype': 'text/csv',
+            'res_model': self._name,
+            'res_id': self.id,
+        })
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{attachment.id}?download=true',
+            'target': 'new',
+        }
 
     def action_fix_taxes(self):
         self.ensure_one()

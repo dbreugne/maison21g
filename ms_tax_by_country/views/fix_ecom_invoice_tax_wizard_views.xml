@@ -34,6 +34,8 @@
                     <button name="action_fix_taxes" string="Apply Fix" type="object"
                             class="btn-primary"
                             confirm="This will update tax codes on the selected invoices. Posted invoices will be temporarily reset to draft. Continue?"/>
+                    <button name="action_export_list" string="Export List (CSV)" type="object"
+                            class="btn-secondary"/>
                     <button string="Cancel" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>
