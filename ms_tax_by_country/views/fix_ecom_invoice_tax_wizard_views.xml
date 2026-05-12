@@ -6,9 +6,11 @@
         <field name="arch" type="xml">
             <form string="Fix ECOM Invoice GST Tax Codes">
                 <sheet>
-                    <group string="Date Range">
+                    <group string="Date Range (optional — leave blank for all periods)">
                         <field name="date_from"/>
                         <field name="date_to"/>
+                    </group>
+                    <group string="Options">
                         <field name="include_posted"/>
                         <field name="include_paid"/>
                     </group>

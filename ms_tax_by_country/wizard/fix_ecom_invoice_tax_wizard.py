@@ -15,8 +15,8 @@ class FixEcomInvoiceTaxWizard(models.TransientModel):
     _name = 'fix.ecom.invoice.tax.wizard'
     _description = 'Fix ECOM Invoice GST Tax Codes'
 
-    date_from = fields.Date(string='From Date', required=True, default='2026-01-01')
-    date_to = fields.Date(string='To Date', required=True, default='2026-03-31')
+    date_from = fields.Date(string='From Date')
+    date_to = fields.Date(string='To Date')
     include_posted = fields.Boolean(
         string='Include Confirmed Invoices',
         default=True,
@@ -47,12 +47,17 @@ class FixEcomInvoiceTaxWizard(models.TransientModel):
         if self.include_posted:
             states.append('posted')
 
-        invoices = self.env['account.move'].search([
+        domain = [
             ('move_type', 'in', ['out_invoice', 'out_refund']),
-            ('invoice_date', '>=', self.date_from),
-            ('invoice_date', '<=', self.date_to),
+            ('journal_id.code', 'in', ['ECOM', 'WSH']),
             ('state', 'in', states),
-        ])
+        ]
+        if self.date_from:
+            domain.append(('invoice_date', '>=', self.date_from))
+        if self.date_to:
+            domain.append(('invoice_date', '<=', self.date_to))
+
+        invoices = self.env['account.move'].search(domain)
 
         if self.include_paid:
             return invoices, self.env['account.move']
