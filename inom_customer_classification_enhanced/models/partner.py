@@ -8,8 +8,8 @@ class ResPartner(models.Model):
     custom_channel_id = fields.Many2one("inom.channel")
     custom_category_id = fields.Many2one("inom.category")
     subcategory_id = fields.Many2one("inom.subcategory")
-    available_product_ids = fields.Many2many('product.template',compute="_compute_product_ids",store=True)
-    available_country_ids = fields.Many2many('res.country',compute="_compute_country_ids",store=True)
+    available_product_ids = fields.Many2many('product.template',compute="_compute_product_ids")
+    available_country_ids = fields.Many2many('res.country',compute="_compute_country_ids")
     
     custom_product_ids = fields.Many2many("product.template","res_partner_rel",string="products")
     custom_country_ids = fields.Many2many("res.country","res_partner_country_rel",string="Country")
