@@ -8,6 +8,7 @@
     'data': [
 
         'views/account_move_view.xml',
+        'views/sale_order_view.xml',
 
     ],
     'description': """
