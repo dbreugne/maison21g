@@ -63,6 +63,7 @@ class AccountMove(models.Model):
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
+    custom_sale_id = fields.Many2one('sale.order',string="Sale Order")
     hq_category_id = fields.Many2one("inom.hq.category",string="Category")
     customer_id = fields.Many2one("res.partner", string="Customer/Patient")
 
@@ -70,12 +71,26 @@ class AccountMoveLine(models.Model):
 
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
+    custom_sale_id = fields.Many2one('sale.order',string="Sale Order")
     hq_category_id = fields.Many2one("inom.hq.category",string="Category")
     customer_id = fields.Many2one("res.partner", string="Customer/Patient")
 
 
+    @api.onchange("custom_sale_id")
+    def _onchange_custom_sale_id(self):
+        for rec in self:
+            if rec.custom_sale_id:
+                # rec.hq_category_id = rec.partner_id.hq_category_id
+                rec.customer_id = rec.partner_id.id
+                
+
+
+
+
     def _prepare_account_move_line(self, move=False):
         values = super()._prepare_account_move_line(move=move)
+        values['custom_sale_id']=self.custom_sale_id.id
+        
         values['hq_category_id']=self.hq_category_id.id
         values['customer_id']=self.customer_id.id
         return values
