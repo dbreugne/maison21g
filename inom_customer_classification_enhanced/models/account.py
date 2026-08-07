@@ -81,7 +81,7 @@ class PurchaseOrderLine(models.Model):
         for rec in self:
             if rec.custom_sale_id:
                 # rec.hq_category_id = rec.partner_id.hq_category_id
-                rec.customer_id = rec.partner_id.id
+                rec.customer_id = rec.custom_sale_id.partner_id.id
                 
 
 
