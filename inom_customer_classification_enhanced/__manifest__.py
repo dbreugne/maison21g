@@ -1,6 +1,6 @@
 {
     "name": "INOM Customer Classification Enhanced",
-    "version": "17.0.1.0.1",
+    "version": "17.0.1.0.2",
     "summary": "Channel / Category / Sub-Category classification with SO & Invoice cascade",
     "author": "INOM ERP",
     "license": "LGPL-3",

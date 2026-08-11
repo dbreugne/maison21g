@@ -78,6 +78,12 @@ class PurchaseOrder(models.Model):
         compute="_compute_custom_sale_id",
         store=True,
     )
+    customer_id = fields.Many2one(
+        'res.partner',
+        string="Customer",
+        related="custom_sale_id.partner_id",
+        store=True,
+    )
 
     @api.depends("order_line.custom_sale_id")
     def _compute_custom_sale_id(self):

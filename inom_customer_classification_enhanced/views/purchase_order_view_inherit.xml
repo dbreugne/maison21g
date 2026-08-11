@@ -20,6 +20,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="custom_sale_id" optional="show"/>
+                <field name="customer_id" optional="show"/>
             </xpath>
         </field>
     </record>
@@ -31,6 +32,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="custom_sale_id" optional="show"/>
+                <field name="customer_id" optional="show"/>
             </xpath>
         </field>
     </record>
@@ -42,10 +44,13 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="custom_sale_id"/>
+                <field name="customer_id"/>
             </xpath>
             <xpath expr="//group/filter[@name='vendor']" position="after">
                 <filter string="Sale Order" name="custom_sale_id" domain="[]"
                         context="{'group_by': 'custom_sale_id'}"/>
+                <filter string="Customer" name="customer_id" domain="[]"
+                        context="{'group_by': 'customer_id'}"/>
             </xpath>
         </field>
     </record>
@@ -57,10 +62,13 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="custom_sale_id"/>
+                <field name="customer_id"/>
             </xpath>
             <xpath expr="//group/filter[@name='vendor']" position="after">
                 <filter string="Sale Order" name="custom_sale_id" domain="[]"
                         context="{'group_by': 'custom_sale_id'}"/>
+                <filter string="Customer" name="customer_id" domain="[]"
+                        context="{'group_by': 'customer_id'}"/>
             </xpath>
         </field>
     </record>
