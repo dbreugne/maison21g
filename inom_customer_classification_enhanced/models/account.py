@@ -69,6 +69,23 @@ class AccountMoveLine(models.Model):
 
 
 
+class PurchaseOrder(models.Model):
+    _inherit = "purchase.order"
+
+    custom_sale_id = fields.Many2one(
+        'sale.order',
+        string="Sale Order",
+        compute="_compute_custom_sale_id",
+        store=True,
+    )
+
+    @api.depends("order_line.custom_sale_id")
+    def _compute_custom_sale_id(self):
+        for order in self:
+            sale = order.order_line.filtered(lambda l: l.custom_sale_id)[:1].custom_sale_id
+            order.custom_sale_id = sale.id if sale else False
+
+
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
     custom_sale_id = fields.Many2one('sale.order',string="Sale Order")
