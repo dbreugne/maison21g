@@ -6,9 +6,9 @@
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='order_line']//tree/field[@name='product_qty']" position="before">
-                <field name="custom_sale_id"/>
+                <field name="custom_sale_id" widget="many2many_tags"/>
                 <field name="hq_category_id"  invisible="1"/>
-                <field name="customer_id"  domain="[('customer_rank','=',1)]"  />
+                <field name="customer_id" widget="many2many_tags" domain="[('customer_rank','=',1)]"  />
             </xpath>
         </field>
     </record>
@@ -19,8 +19,8 @@
         <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="custom_sale_id" optional="show"/>
-                <field name="customer_id" optional="show"/>
+                <field name="custom_sale_id" widget="many2many_tags" optional="show"/>
+                <field name="customer_id" widget="many2many_tags" optional="show"/>
             </xpath>
         </field>
     </record>
@@ -31,8 +31,8 @@
         <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="custom_sale_id" optional="show"/>
-                <field name="customer_id" optional="show"/>
+                <field name="custom_sale_id" widget="many2many_tags" optional="show"/>
+                <field name="customer_id" widget="many2many_tags" optional="show"/>
             </xpath>
         </field>
     </record>

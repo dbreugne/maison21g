@@ -61,42 +61,77 @@ class AccountMove(models.Model):
     #         self.category_id = self.partner_id.custom_category_id
     #         self.subcategory_id = self.partner_id.subcategory_id
 
+
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
-    custom_sale_id = fields.Many2one('sale.order',string="Sale Order")
+    custom_sale_id = fields.Many2many(
+        'sale.order',
+        'aml_custom_sale_order_rel',
+        'move_line_id',
+        'sale_order_id',
+        string="Sale Order",
+    )
     hq_category_id = fields.Many2one("inom.hq.category",string="Category")
-    customer_id = fields.Many2one("res.partner", string="Customer/Patient")
+    customer_id = fields.Many2many(
+        "res.partner",
+        'aml_customer_partner_rel',
+        'move_line_id',
+        'partner_id',
+        string="Customer/Patient",
+    )
 
 
 
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
-    custom_sale_id = fields.Many2one(
+    custom_sale_id = fields.Many2many(
         'sale.order',
+        'purchase_order_custom_sale_order_rel',
+        'purchase_order_id',
+        'sale_order_id',
         string="Sale Order",
         compute="_compute_custom_sale_id",
         store=True,
     )
-    customer_id = fields.Many2one(
+    customer_id = fields.Many2many(
         'res.partner',
+        'purchase_order_customer_partner_rel',
+        'purchase_order_id',
+        'partner_id',
         string="Customer",
-        related="custom_sale_id.partner_id",
+        compute="_compute_customer_id",
         store=True,
     )
 
     @api.depends("order_line.custom_sale_id")
     def _compute_custom_sale_id(self):
         for order in self:
-            sale = order.order_line.filtered(lambda l: l.custom_sale_id)[:1].custom_sale_id
-            order.custom_sale_id = sale.id if sale else False
+            order.custom_sale_id = order.order_line.custom_sale_id
+
+    @api.depends("custom_sale_id.partner_id")
+    def _compute_customer_id(self):
+        for order in self:
+            order.customer_id = order.custom_sale_id.partner_id
 
 
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
-    custom_sale_id = fields.Many2one('sale.order',string="Sale Order")
+    custom_sale_id = fields.Many2many(
+        'sale.order',
+        'purchase_order_line_custom_sale_order_rel',
+        'purchase_order_line_id',
+        'sale_order_id',
+        string="Sale Order",
+    )
     hq_category_id = fields.Many2one("inom.hq.category",string="Category")
-    customer_id = fields.Many2one("res.partner", string="Customer/Patient")
+    customer_id = fields.Many2many(
+        "res.partner",
+        'purchase_order_line_customer_partner_rel',
+        'purchase_order_line_id',
+        'partner_id',
+        string="Customer/Patient",
+    )
 
 
     @api.onchange("custom_sale_id")
@@ -104,16 +139,15 @@ class PurchaseOrderLine(models.Model):
         for rec in self:
             if rec.custom_sale_id:
                 # rec.hq_category_id = rec.partner_id.hq_category_id
-                rec.customer_id = rec.custom_sale_id.partner_id.id
-                
+                rec.customer_id = rec.custom_sale_id.partner_id
 
 
 
 
     def _prepare_account_move_line(self, move=False):
         values = super()._prepare_account_move_line(move=move)
-        values['custom_sale_id']=self.custom_sale_id.id
-        
+        values['custom_sale_id']=[(6, 0, self.custom_sale_id.ids)]
+
         values['hq_category_id']=self.hq_category_id.id
-        values['customer_id']=self.customer_id.id
+        values['customer_id']=[(6, 0, self.customer_id.ids)]
         return values
